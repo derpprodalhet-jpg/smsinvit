@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { SmsRedeemPanel } from './components/sms-redeem-panel';
 import { InvitationRedeemPanel } from './components/invitation-redeem-panel';
+import { SupportGroupEntry } from './components/support-group-entry';
 import { RedeemIntro } from './components/redeem-intro';
 import { apiFetch } from './lib/api';
 import './styles.css';
@@ -110,6 +111,7 @@ function App() {
           </details>
         )}
       </main>
+      <SupportGroupEntry />
     </>
   );
 }

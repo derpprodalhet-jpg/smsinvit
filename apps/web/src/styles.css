@@ -70,4 +70,20 @@ input[type="checkbox"] { accent-color: var(--color-brand); }
   .service-panel { padding:20px; }
 }
 @media (max-width:380px) { .redeem-header nav { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+
+/* 右下角交流群入口：常驻但不遮挡内容，弹窗展示二维码。 */
+.support-entry { position:fixed; right:18px; bottom:18px; z-index:40; border:1px solid var(--color-border); border-radius:999px; background:var(--color-card); color:var(--color-ink); font-size:13px; font-weight:600; line-height:1; padding:12px 16px; box-shadow:var(--shadow-card); cursor:pointer; }
+.support-entry:hover { border-color:var(--color-brand); color:var(--color-brand); }
+.support-backdrop { position:fixed; inset:0; z-index:50; display:flex; align-items:center; justify-content:center; padding:20px; background:rgba(4,7,11,.72); }
+.support-dialog { width:100%; max-width:340px; max-height:calc(100vh - 40px); overflow:auto; border:1px solid var(--color-border); border-radius:16px; background:var(--color-card); padding:20px; text-align:center; box-shadow:0 24px 60px rgba(0,0,0,.45); }
+.support-dialog-title { font-size:16px; font-weight:700; }
+.support-dialog-hint { margin-top:6px; font-size:12px; color:var(--color-muted); }
+.support-qr { display:block; width:100%; max-width:260px; height:auto; margin:14px auto 0; border-radius:12px; background:#fff; }
+.support-handle { margin-top:12px; font-family:ui-monospace,SFMono-Regular,monospace; font-size:13px; overflow-wrap:anywhere; }
+.support-handle a { color:var(--color-brand); text-decoration:underline; text-underline-offset:2px; }
+.support-actions { display:flex; gap:8px; margin-top:16px; }
+.support-primary,.support-secondary { flex:1 1 0; border-radius:10px; font-size:13px; font-weight:600; padding:10px 12px; text-align:center; }
+.support-primary { background:var(--color-brand); color:var(--color-on-brand); }
+.support-secondary { border:1px solid var(--color-border); color:var(--color-ink); background:transparent; cursor:pointer; }
+
 @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:.01ms !important; transition-duration:.01ms !important; scroll-behavior:auto !important; } }

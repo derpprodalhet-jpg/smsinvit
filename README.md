@@ -171,6 +171,14 @@ ruff check apps/api/smsinvit apps/api/tests scripts
 
 需要真实 MySQL 的用例默认跳过，提供 `data/test-private/mysql.json` 才会连一次性库。
 
+## 交流与支持
+
+遇到问题、想交流用法或反馈 bug，扫码进群（Telegram）：**[@LINGGCARDSUPPORT](https://t.me/lingcardsupport)**
+
+<img src="apps/web/public/support-qr.png" alt="交流群二维码" width="240">
+
+前台右下角也常驻「交流群」入口，点开就是这张二维码，用户不用离开兑换页面。
+
 ## 许可
 
 [MIT](LICENSE)。第三方组件与来源见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。

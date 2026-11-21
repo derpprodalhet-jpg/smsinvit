@@ -93,11 +93,16 @@ def main():
     static.mkdir(exist_ok=True)
     for name, target in {'index.html': ROOT / 'apps/web/dist/index.html', 'assets': ROOT / 'apps/web/dist/assets',
                          'favicon.svg': ROOT / 'apps/web/dist/favicon.svg', 'brand-mark.svg': ROOT / 'apps/web/dist/brand-mark.svg',
+                         'support-qr.png': ROOT / 'apps/web/dist/support-qr.png',
                          'admin': ROOT / 'apps/admin/dist'}.items():
         link = static / name
         if link.is_symlink():link.unlink()
         if target.is_dir():shutil.copytree(target, link, dirs_exist_ok=True)
-        else:shutil.copy2(target, link)
+        else:
+            # copy2 preserves the source mode bits; a read-only source would leave a
+            # read-only destination that the next start cannot overwrite.
+            if link.exists():link.unlink()
+            shutil.copyfile(target, link)
     config = Config({'smsinvit.inventory-encryption-key': keys['encryption'],
                      'smsinvit.inventory-fingerprint-key': keys['fingerprint'], 'smsinvit.jwt-secret': keys['jwt'],
                      'runtime.secure_cookies': False, 'runtime.totp_enabled': False,

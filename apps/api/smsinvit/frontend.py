@@ -8,7 +8,7 @@ from fastapi.responses import FileResponse, HTMLResponse, RedirectResponse
 from .errors import Error
 
 PUBLIC_PAGES = {'', 'supprot_sim', 'supprot_codex', 'invitation'}
-RESERVED = PUBLIC_PAGES | {'api', 'assets', 'health', 'favicon.svg', 'brand-mark.svg'}
+RESERVED = PUBLIC_PAGES | {'api', 'assets', 'health', 'favicon.svg', 'brand-mark.svg', 'support-qr.png'}
 
 
 def admin_path(config):
@@ -92,7 +92,7 @@ def register_frontend(app, config, base):
         target = safe_target(root, path)
         if target == admin_root or admin_root in target.parents:
             missing()
-        if path.startswith('assets/') or path in ('favicon.svg', 'brand-mark.svg'):
+        if path.startswith('assets/') or path in ('favicon.svg', 'brand-mark.svg', 'support-qr.png'):
             if target.is_file():
                 return FileResponse(target)
             missing()

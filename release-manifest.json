@@ -19,10 +19,10 @@
       "sha256": "c043a3fc85f17fe1d1e4198de8387969cb1d2bc6dd921f3c16444579fc797aa4"
     },
     {
-      "bytes": 10051,
+      "bytes": 10395,
       "mode": "0o644",
       "path": "README.md",
-      "sha256": "90049267ac064c64f8f5b6fc81cb3b221335644283583652b1f1b187fe5e239e"
+      "sha256": "3824972078c862062536e9e01a2a97085d534ff8001243e147d1dd7c476217b6"
     },
     {
       "bytes": 1582,
@@ -811,10 +811,10 @@
       "sha256": "a04ff7655c8f646464e0156d14e4d35b9d63d26438d07bc9614bb0acefbd316e"
     },
     {
-      "bytes": 4463,
+      "bytes": 4499,
       "mode": "0o644",
       "path": "apps/api/smsinvit/frontend.py",
-      "sha256": "92e8c50c8f187692922f77ae62aae9c1e1039b2df968d43c196bc133aac2a224"
+      "sha256": "034adca6203ed0baee2eee96ebb7bd782d6e8bb5ecd538ec7fded2fe8b19d48f"
     },
     {
       "bytes": 39,
@@ -1531,6 +1531,12 @@
       "sha256": "9ebbe4957ec24caccb43f18ec185848bd627791a753f0f36956ba7f98f686c31"
     },
     {
+      "bytes": 34752,
+      "mode": "0o644",
+      "path": "apps/web/public/support-qr.png",
+      "sha256": "a7f2d3a6fa532f07e54add2be75e799248457b8cf5b129f578432f05221c3eed"
+    },
+    {
       "bytes": 1147,
       "mode": "0o644",
       "path": "apps/web/src/components/error-with-request-id.tsx",
@@ -1559,6 +1565,12 @@
       "mode": "0o644",
       "path": "apps/web/src/components/sms-redeem-panel.tsx",
       "sha256": "7464a083bb8782d454c05071f1bd2cc87c83fc2ebd5e254146e91521b02a027b"
+    },
+    {
+      "bytes": 2077,
+      "mode": "0o644",
+      "path": "apps/web/src/components/support-group-entry.tsx",
+      "sha256": "cd89c6cafae1c8449f529be6e6fb252601defd336c7c3cffda12631cf031a3dd"
     },
     {
       "bytes": 7152,
@@ -1597,16 +1609,16 @@
       "sha256": "5ec4c1ac36c185bc78ad72cbfe32865b81383bf565ebf784d89705145f851907"
     },
     {
-      "bytes": 4971,
+      "bytes": 5069,
       "mode": "0o644",
       "path": "apps/web/src/main.tsx",
-      "sha256": "955444020e70971a5eaf321711b443fa8de926b4fef35af1211439924b4a80bf"
+      "sha256": "49700c81db0eebb66ecab924c6ecdafffe28c2f4d044e5824a13f98c23095184"
     },
     {
-      "bytes": 5454,
+      "bytes": 7252,
       "mode": "0o644",
       "path": "apps/web/src/styles.css",
-      "sha256": "d834701120b3b79eb703d5ead1f096c61739b0bcf93dc9d067f9d97a29a130da"
+      "sha256": "d447055b4811c0012dafc67e11ef73514a875f649fbff55d40ee476236409f53"
     },
     {
       "bytes": 82,
@@ -1829,6 +1841,24 @@
       "mode": "0o644",
       "path": "docs/screenshots/local-sms-page.png",
       "sha256": "0657e6969e531687f541537a6c31aa41f987e91a3b386375ab2db0fc2972deed"
+    },
+    {
+      "bytes": 33155,
+      "mode": "0o644",
+      "path": "docs/screenshots/support-entry-closed.png",
+      "sha256": "3298fcd93dabeba29971834e0b410a4ecfc6bf15a4a7f6c4d57b37228f19bb47"
+    },
+    {
+      "bytes": 66445,
+      "mode": "0o644",
+      "path": "docs/screenshots/support-entry-dialog-375.png",
+      "sha256": "16a525fe587a5e9936cdd6d2c6048c74fba2ffa91e2e0a77d3d7316b3caf0976"
+    },
+    {
+      "bytes": 86226,
+      "mode": "0o644",
+      "path": "docs/screenshots/support-entry-dialog.png",
+      "sha256": "5c3191cd69cf9adc1598b88b577d2fcc0626e1cf897a2df3bf0463244586f0de"
     },
     {
       "bytes": 1039,
@@ -2089,10 +2119,10 @@
       "sha256": "82524a9e9c8f8697e37cbdaaac30f8b5adc84bea9b3ba03d1ece36d9822a89c4"
     },
     {
-      "bytes": 9643,
+      "bytes": 9943,
       "mode": "0o644",
       "path": "scripts/local_preview.py",
-      "sha256": "807e899bd9d1aaaa1520fe5b290b10e188b35d6bc674f245c7b67852276aacf4"
+      "sha256": "215f592de9996686dcc3d498643908e4516014c827016ede7f46802fee9cdeb4"
     },
     {
       "bytes": 17081,
