@@ -19,10 +19,10 @@
       "sha256": "c043a3fc85f17fe1d1e4198de8387969cb1d2bc6dd921f3c16444579fc797aa4"
     },
     {
-      "bytes": 9294,
+      "bytes": 7059,
       "mode": "0o644",
       "path": "README.md",
-      "sha256": "284063ba1a82f28b568803827d7c557ed0e5dd4ca37f6b5ec29feac97348da6d"
+      "sha256": "3d4065e5795e6ea91f11c162cfd29673922c738faf9a867dcac60c91de0f428d"
     },
     {
       "bytes": 1582,
@@ -1711,10 +1711,10 @@
       "sha256": "944a640746f830cb880caad36127559fb866c3bf06e4e9a48e4b78c1a70f54cd"
     },
     {
-      "bytes": 12419,
+      "bytes": 12042,
       "mode": "0o644",
       "path": "deploy/README.md",
-      "sha256": "8552ad858b4dd6acb4db9b1027172de7591122d5e86aa195deb27d4915dffb06"
+      "sha256": "d4aedd1304ceb5f50d1f6b01678802a2bbb29a1d6885af9626e44fbdf2651187"
     },
     {
       "bytes": 539,
@@ -1807,16 +1807,10 @@
       "sha256": "80547a6b190d6e2f03dc6f913cc453991e7401652d23329d44855734709d3df3"
     },
     {
-      "bytes": 8620,
-      "mode": "0o644",
-      "path": "docs/CHANGELOG-2026-11-21-module-removal.md",
-      "sha256": "b22a1b8815fba462234a9678af37e3f74291de12c6703b2832f25d57bdaa3eea"
-    },
-    {
-      "bytes": 7132,
+      "bytes": 7081,
       "mode": "0o644",
       "path": "docs/local-run.md",
-      "sha256": "4e4f6459da23ebaec339c2a669ee0050f2779f0f783640dbe2477f9705667749"
+      "sha256": "9e5450d0adaa96fce681f9a8b374d39a51b5b3e16b8fb3a6c230741c079a6c5d"
     },
     {
       "bytes": 260559,
