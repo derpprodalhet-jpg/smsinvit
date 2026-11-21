@@ -1,0 +1,30 @@
+# Copy to private/runtime.yaml, chmod 0600, and supply retained migration secrets.
+# Placeholders only. Background workers are disabled; synchronous redemption
+# endpoints remain active when the API is reachable. Publish the proxy last.
+MYSQL_HOST: mysql
+MYSQL_PORT: 3306
+MYSQL_DATABASE: smsinvit
+MYSQL_USER: smsinvit_runtime
+MYSQL_PASSWORD: CHANGE_ME_RUNTIME_DATABASE_PASSWORD
+MYSQL_TLS_MODE: VERIFY_IDENTITY
+MYSQL_SSL_CA: /run/secrets/mysql-ca.pem
+smsinvit:
+  # Deployment-only. SMSINVIT_ADMIN_PATH takes precedence when supplied.
+  admin-path: /admin/
+  inventory-encryption-key: CHANGE_ME_RETAIN_THE_EXISTING_ENCRYPTION_KEY
+  inventory-fingerprint-key: CHANGE_ME_RETAIN_THE_EXISTING_FINGERPRINT_KEY
+  jwt-secret: CHANGE_ME_RETAIN_THE_EXISTING_JWT_SECRET
+  worker-enabled: false
+  # 账号工厂（补号）默认关闭。它与邀请执行是两个独立开关：只开补号
+  # （SMSINVIT_INVITATION_POOL_ENABLED=true）也能启动执行进程并自动补池，
+  # 此时邀请执行仍保持关闭、用户点不了「开始」。开启前确认代理池与邮箱库存。
+  invitation-pool-enabled: false
+  security:
+    trusted-proxies: 172.31.77.10/32
+runtime:
+  public_api_base: https://redeem.example.com
+  cors_origins: https://redeem.example.com
+  secure_cookies: true
+  security_hsts_enabled: true
+# Two services (接码 / Codex 邀请) retain their separate database-backed administrative settings.
+# After explicit migration and verification, worker-enabled may be set true.

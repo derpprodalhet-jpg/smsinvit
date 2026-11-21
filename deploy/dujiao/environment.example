@@ -1,0 +1,5 @@
+DUJIAO_IMAGE=dujiao-next:v1.0.0-python-amd64-local
+REDIS_IMAGE=dujiao-redis:v1.0.0-python-amd64-local
+CADDY_IMAGE=smsinvit-caddy:v1.0.0-python-amd64-local
+SHOP_DOMAIN=shop.example.com
+ACME_EMAIL=operator@example.com

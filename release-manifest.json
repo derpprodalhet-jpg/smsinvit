@@ -1,0 +1,2682 @@
+{
+  "files": [
+    {
+      "bytes": 700,
+      "mode": "0o644",
+      "path": ".dockerignore",
+      "sha256": "4a35738a4a9cbd8585651a858bfecda28071e77bdbf0897ecf99867092710431"
+    },
+    {
+      "bytes": 553,
+      "mode": "0o644",
+      "path": ".gitignore",
+      "sha256": "abeec4fba2bcb2574be09f7b290201b48860a866b81efe8943208d64f7c3eaac"
+    },
+    {
+      "bytes": 106,
+      "mode": "0o644",
+      "path": ".prettierrc",
+      "sha256": "c043a3fc85f17fe1d1e4198de8387969cb1d2bc6dd921f3c16444579fc797aa4"
+    },
+    {
+      "bytes": 9294,
+      "mode": "0o644",
+      "path": "README.md",
+      "sha256": "284063ba1a82f28b568803827d7c557ed0e5dd4ca37f6b5ec29feac97348da6d"
+    },
+    {
+      "bytes": 1582,
+      "mode": "0o644",
+      "path": "THIRD_PARTY_NOTICES.md",
+      "sha256": "69635a0b325fedf4f758d94d27089cf2551760943c0fd5fd05147b0c3135fe7f"
+    },
+    {
+      "bytes": 312,
+      "mode": "0o644",
+      "path": "apps/admin/index.html",
+      "sha256": "283efb35e074d0c7d54655f2aedf96c13e523027b52b02c2c9942d5169cf724e"
+    },
+    {
+      "bytes": 879,
+      "mode": "0o644",
+      "path": "apps/admin/package.json",
+      "sha256": "1827481b5e831fecb29d227f5d0173281da74a2eb69e60c289baa7fd43e00222"
+    },
+    {
+      "bytes": 83,
+      "mode": "0o644",
+      "path": "apps/admin/postcss.config.js",
+      "sha256": "fa650b380adfabb151a0b352f7135e107e6352345f899060f1c5c231228f94bf"
+    },
+    {
+      "bytes": 3472,
+      "mode": "0o644",
+      "path": "apps/admin/src/components/admin-bot-guard.tsx",
+      "sha256": "48a2a8202935f332959536769c722a88d781deae624d049fa9c0f54cdc7f3996"
+    },
+    {
+      "bytes": 3206,
+      "mode": "0o644",
+      "path": "apps/admin/src/components/admin-detail-drawer.tsx",
+      "sha256": "99524774da7539367f14000cda7797a9578c26baaa471876ddf08331f074feec"
+    },
+    {
+      "bytes": 2659,
+      "mode": "0o644",
+      "path": "apps/admin/src/components/admin-feedback.tsx",
+      "sha256": "659269ef1d8119d6fe02c0b3ad5ad5fcfde9910500801bf1a7a312075e7ea290"
+    },
+    {
+      "bytes": 2163,
+      "mode": "0o644",
+      "path": "apps/admin/src/components/admin-metric-card.tsx",
+      "sha256": "0b62657a85544aef93ccfd3c7fb88be5cca03ffc0570240b6e21822e836592b5"
+    },
+    {
+      "bytes": 787,
+      "mode": "0o644",
+      "path": "apps/admin/src/components/admin-page.tsx",
+      "sha256": "21cf3f79e76c5fa9bf905aa49ec6049bb081db5b8246d4d3cd730ef689e69494"
+    },
+    {
+      "bytes": 14375,
+      "mode": "0o644",
+      "path": "apps/admin/src/components/admin-shell.tsx",
+      "sha256": "dfc0f75b8b398e3aca6aba9073c368c44646f3f04583f8dec9d2dbfbd036c798"
+    },
+    {
+      "bytes": 1978,
+      "mode": "0o644",
+      "path": "apps/admin/src/components/invitation-phone-status.tsx",
+      "sha256": "24498f581822ab739ba96df9a46a1ac063bfa58b94c518b58b717c56681e7317"
+    },
+    {
+      "bytes": 2141,
+      "mode": "0o644",
+      "path": "apps/admin/src/components/invitation-run-panel.tsx",
+      "sha256": "9b7876d61913ad31522cf490db87493028051d8ebf18bfc15985fa83c1ad1e9c"
+    },
+    {
+      "bytes": 4635,
+      "mode": "0o644",
+      "path": "apps/admin/src/components/invitation-status.tsx",
+      "sha256": "820eb87fe01f03b80e6b4066aa89df26f7a66eb78cb49fe54291b835cb66d78a"
+    },
+    {
+      "bytes": 10267,
+      "mode": "0o644",
+      "path": "apps/admin/src/components/module-cdk-page.tsx",
+      "sha256": "f801660273afe1529adac9266ad4a6c4c9adfa2ea0f0f2b239de5e7c49cc0abf"
+    },
+    {
+      "bytes": 7527,
+      "mode": "0o644",
+      "path": "apps/admin/src/components/settings-workspace.tsx",
+      "sha256": "43bd9f627ab6f43f747e196a55e4ff550dbb91516b60e0afd5d2413efa950e12"
+    },
+    {
+      "bytes": 4926,
+      "mode": "0o644",
+      "path": "apps/admin/src/components/sms-line-check-status.tsx",
+      "sha256": "f002ad73ea28d7cca159f11214305831325b3886528fc15603924049e9e33fc1"
+    },
+    {
+      "bytes": 4379,
+      "mode": "0o644",
+      "path": "apps/admin/src/components/stats-cards-ledger.tsx",
+      "sha256": "21314dc453e7b01b6c4b77a61d39414605adff3a89177d0726a6f4f7d016083b"
+    },
+    {
+      "bytes": 3500,
+      "mode": "0o644",
+      "path": "apps/admin/src/components/stats-costs-table.tsx",
+      "sha256": "b169bd1ef67bb77d612b9a4e13e494cf64fe60a99025757f48fc7de2fa64370a"
+    },
+    {
+      "bytes": 1506,
+      "mode": "0o644",
+      "path": "apps/admin/src/components/stats-pending-cards.tsx",
+      "sha256": "d98d8221aac9b7bb90bd33d715944e83e292044e43fa220c5663daf321220b35"
+    },
+    {
+      "bytes": 7219,
+      "mode": "0o644",
+      "path": "apps/admin/src/components/turnstile-widget.tsx",
+      "sha256": "4517537ef3ad0663f8db3a96aff264db2e7e724d24298d143a44fb1573c3e6a6"
+    },
+    {
+      "bytes": 830,
+      "mode": "0o644",
+      "path": "apps/admin/src/lib/admin-api.ts",
+      "sha256": "cabcd442fb6331632a458d0084e7f57439ffbfc504e86e925985923a2a99aa2d"
+    },
+    {
+      "bytes": 1614,
+      "mode": "0o644",
+      "path": "apps/admin/src/lib/admin-auth-context.tsx",
+      "sha256": "c47bd144f54ed93f130ae64c7e2f91d78da171c5b4ec5a518aaec7dec30a5b7d"
+    },
+    {
+      "bytes": 1250,
+      "mode": "0o644",
+      "path": "apps/admin/src/lib/antd-provider.tsx",
+      "sha256": "3b149f9483b6356d61e8760dd0edd5f41119f76973a07721ea1e78cdf080acac"
+    },
+    {
+      "bytes": 6960,
+      "mode": "0o644",
+      "path": "apps/admin/src/lib/api.ts",
+      "sha256": "f227ac3ba1e8ea0ebb7e61e1526298db69cf4d7943554fbb3a25c9bc6501b2ef"
+    },
+    {
+      "bytes": 3622,
+      "mode": "0o644",
+      "path": "apps/admin/src/lib/auth.ts",
+      "sha256": "0e6f1643a04b2aba781c2e1c275844456e2a5cb9d02cef306b2939ae23d58c3e"
+    },
+    {
+      "bytes": 1833,
+      "mode": "0o644",
+      "path": "apps/admin/src/lib/format-datetime.ts",
+      "sha256": "c634b334264fddf62e99651f21d86f60c0250b408bb3172cd7878041f578b715"
+    },
+    {
+      "bytes": 2970,
+      "mode": "0o644",
+      "path": "apps/admin/src/lib/invitation-api.ts",
+      "sha256": "6ea5404033884a143b8110e18d0baca3c002fcaf63b62cdf20480bdb53dacb2c"
+    },
+    {
+      "bytes": 2227,
+      "mode": "0o644",
+      "path": "apps/admin/src/lib/invitation-runtime.tsx",
+      "sha256": "1cd46a9f19d53cd63c130dc7383bb5c709514f542ea3109232bb5d1931c45907"
+    },
+    {
+      "bytes": 5149,
+      "mode": "0o644",
+      "path": "apps/admin/src/lib/invitation.ts",
+      "sha256": "25f790a63f42d08c30285f2dabe255e2c4cfb71d4a62643d78f2247bd1fa483c"
+    },
+    {
+      "bytes": 1767,
+      "mode": "0o644",
+      "path": "apps/admin/src/lib/labels.ts",
+      "sha256": "dc8607cec660cbb7adb3a67811bb2088c065499cd8d996585801ac734594f6d9"
+    },
+    {
+      "bytes": 1419,
+      "mode": "0o644",
+      "path": "apps/admin/src/lib/money.ts",
+      "sha256": "9397baba26ac4e93c0b7daa7f0e152854905e5e28318f85c1e4e7dcb2b11b693"
+    },
+    {
+      "bytes": 2531,
+      "mode": "0o644",
+      "path": "apps/admin/src/lib/navigation.tsx",
+      "sha256": "efef56aacf8101ad13789493d55ae5fd38dd749107e6427dedf85e907f47168e"
+    },
+    {
+      "bytes": 2377,
+      "mode": "0o644",
+      "path": "apps/admin/src/lib/pro-table-query.ts",
+      "sha256": "26ea01c25af6dac46eaada43a19de4b1853394c21abc0c963378be2377cc4827"
+    },
+    {
+      "bytes": 975,
+      "mode": "0o644",
+      "path": "apps/admin/src/lib/redeem-inventory.ts",
+      "sha256": "7dd8e439d9f572c3d6d8c672b04c32758c987d297642c427e16c841b6227b44b"
+    },
+    {
+      "bytes": 1158,
+      "mode": "0o644",
+      "path": "apps/admin/src/lib/settings-values.ts",
+      "sha256": "7d88ca721f0ada8f8f9d6c36f3093c2e481511219befcb54fde48f7d1ce830c9"
+    },
+    {
+      "bytes": 8324,
+      "mode": "0o644",
+      "path": "apps/admin/src/lib/stats-overview.ts",
+      "sha256": "73bbcb625d1d66cebe5da48eec49e2ece6ee9c55c778e0cb2e2b2bda30f35a3b"
+    },
+    {
+      "bytes": 2499,
+      "mode": "0o644",
+      "path": "apps/admin/src/lib/use-invitation-query.ts",
+      "sha256": "d1334d50c584c6d171d3b485d74e43a7d48c577065220727dbb3892c06eb8a5b"
+    },
+    {
+      "bytes": 1884,
+      "mode": "0o644",
+      "path": "apps/admin/src/lib/zh-label.ts",
+      "sha256": "a8c1dce7ce05f126e72858f7386adf6e94be36686da4126f8506598ae3049d52"
+    },
+    {
+      "bytes": 15669,
+      "mode": "0o644",
+      "path": "apps/admin/src/lib/zh-maps.ts",
+      "sha256": "268256e2f6a4e41f36c4ef3e166779a6cbc0816b088b267a8fe9d13144e6ac41"
+    },
+    {
+      "bytes": 976,
+      "mode": "0o644",
+      "path": "apps/admin/src/lib/zh-text.ts",
+      "sha256": "abf68ad1d341342fa811dbb82d255f578e935ab0998544cda1c91fe281a469c6"
+    },
+    {
+      "bytes": 2853,
+      "mode": "0o644",
+      "path": "apps/admin/src/main.tsx",
+      "sha256": "e0d60ed44fa60b2bde3ce9140453f89102c3f5d338dba418897c7d7421d82285"
+    },
+    {
+      "bytes": 6564,
+      "mode": "0o644",
+      "path": "apps/admin/src/pages/audit/page.tsx",
+      "sha256": "47aca9db888002fe08784d2fa603e21aa724283e68d6a2a156e1d5895fa7f3f8"
+    },
+    {
+      "bytes": 5296,
+      "mode": "0o644",
+      "path": "apps/admin/src/pages/batches/model.ts",
+      "sha256": "70e18f2fe159b6a54de3e64ba01966969438a9a13eefcad4025552c9674c4a8b"
+    },
+    {
+      "bytes": 27417,
+      "mode": "0o644",
+      "path": "apps/admin/src/pages/batches/page.tsx",
+      "sha256": "647732bf9f5aa5fe119bbe8acdeca1909caa004cd3513fbcc4b02a6b70eaab00"
+    },
+    {
+      "bytes": 6717,
+      "mode": "0o644",
+      "path": "apps/admin/src/pages/globals.css",
+      "sha256": "6ed9149f447d30b2ada8202f5a420acbcf2ee27e9199aeb819f54a754752b641"
+    },
+    {
+      "bytes": 1138,
+      "mode": "0o644",
+      "path": "apps/admin/src/pages/invitation/cdk/model.ts",
+      "sha256": "7d684d02062116af5cd6a5300692148a0004788eaf20b00b8efedf75f2c5e5f8"
+    },
+    {
+      "bytes": 29827,
+      "mode": "0o644",
+      "path": "apps/admin/src/pages/invitation/cdk/page.tsx",
+      "sha256": "bd67ac07b7e61f4a8a25738c88275d44df0f322f291cd152f09bec688c2529c2"
+    },
+    {
+      "bytes": 854,
+      "mode": "0o644",
+      "path": "apps/admin/src/pages/invitation/mail-accounts/model.ts",
+      "sha256": "f8cc531f84a42925428de398d9cfb14c67f04030f501bb85cbf479c827509278"
+    },
+    {
+      "bytes": 20893,
+      "mode": "0o644",
+      "path": "apps/admin/src/pages/invitation/mail-accounts/page.tsx",
+      "sha256": "7693517d960580c6335d102b7a47ac165271b61d8c1902e58a91b7675f4651c8"
+    },
+    {
+      "bytes": 2580,
+      "mode": "0o644",
+      "path": "apps/admin/src/pages/invitation/maintenance.ts",
+      "sha256": "21c1da4ef1dfb71fff40e0698d292e6feb2ae3fe24d9bf061c4f8e3f9f4bae4d"
+    },
+    {
+      "bytes": 16072,
+      "mode": "0o644",
+      "path": "apps/admin/src/pages/invitation/page.tsx",
+      "sha256": "d5b917fa385aafc98301ceb85118c8b3cd104a245a5728d77b92ca304be16428"
+    },
+    {
+      "bytes": 35136,
+      "mode": "0o644",
+      "path": "apps/admin/src/pages/invitation/proxies/page.tsx",
+      "sha256": "843a3d5421cb4c9c8a9bf591b80501d2a0e5a86a6d818af8c2d6f25582ebda82"
+    },
+    {
+      "bytes": 2683,
+      "mode": "0o644",
+      "path": "apps/admin/src/pages/invitation/proxies/proxy-values.ts",
+      "sha256": "17f98369ed1ec5cfd7536c14e4bffa419fd9eabc088b1f84e52967bc38cc10fe"
+    },
+    {
+      "bytes": 13417,
+      "mode": "0o644",
+      "path": "apps/admin/src/pages/invitation/register/page.tsx",
+      "sha256": "1274c7c6bb0f317cf775909f9c3d3c44902c66325edc413854da10ee65c0a562"
+    },
+    {
+      "bytes": 2580,
+      "mode": "0o644",
+      "path": "apps/admin/src/pages/invitation/register/preferences.ts",
+      "sha256": "20dcbd66dc0b91b53c3fb0a884ee29fbec996cf57521c3df19032c28de2e7aa3"
+    },
+    {
+      "bytes": 3120,
+      "mode": "0o644",
+      "path": "apps/admin/src/pages/invitation/registered/model.ts",
+      "sha256": "bc225c60897c0c1145152af22c24629d55ed404236f6743c4808df39d652bb8c"
+    },
+    {
+      "bytes": 31610,
+      "mode": "0o644",
+      "path": "apps/admin/src/pages/invitation/registered/page.tsx",
+      "sha256": "563a092d884f4b260d95fa90e13ec43271ff5fbbcf367fa59f3441ba3a7b42cc"
+    },
+    {
+      "bytes": 1394,
+      "mode": "0o644",
+      "path": "apps/admin/src/pages/invitation/runs/cdk-sync.tsx",
+      "sha256": "71345c34daf1b42bae17c296f3caa1a8b3a81db0c2ea908c62a07c79ad9dca57"
+    },
+    {
+      "bytes": 43841,
+      "mode": "0o644",
+      "path": "apps/admin/src/pages/invitation/runs/page.tsx",
+      "sha256": "bd8afec8c664305fccf202814416475508b522099c28d6bc0116972cd12014a9"
+    },
+    {
+      "bytes": 547,
+      "mode": "0o644",
+      "path": "apps/admin/src/pages/invitation/runs/permit-release.ts",
+      "sha256": "85ddbf1146909f2cb967b89c8af21e2442f7ae80d1e4e86a600eafe09ff68803"
+    },
+    {
+      "bytes": 22921,
+      "mode": "0o644",
+      "path": "apps/admin/src/pages/invitation/settings/config-editor.tsx",
+      "sha256": "916d91b5f7c8c0d5f1f38c626a89c3699f83ac882eb020b341d0705f34f89016"
+    },
+    {
+      "bytes": 11020,
+      "mode": "0o644",
+      "path": "apps/admin/src/pages/invitation/settings/config-values.ts",
+      "sha256": "ec7061b10ac82a62a8ee27567a63b08404852f33804c7a81ff38d680814913c3"
+    },
+    {
+      "bytes": 6981,
+      "mode": "0o644",
+      "path": "apps/admin/src/pages/invitation/settings/diagnostics.tsx",
+      "sha256": "d8f8ef115a6cf1c01d6395803d59af8da71790046e5b6ab8d2b26f742b206aca"
+    },
+    {
+      "bytes": 20653,
+      "mode": "0o644",
+      "path": "apps/admin/src/pages/invitation/settings/page.tsx",
+      "sha256": "be451ab88ae88b607d779209ae1ed704c986415efb5616437aa3c85197146a5e"
+    },
+    {
+      "bytes": 20988,
+      "mode": "0o644",
+      "path": "apps/admin/src/pages/invitation/sms-prices/page.tsx",
+      "sha256": "599acbdba07a2e1b311d7dacaf03e10179a966e1d0434d57fc8a3f6a099e16c5"
+    },
+    {
+      "bytes": 8603,
+      "mode": "0o644",
+      "path": "apps/admin/src/pages/jobs/page.tsx",
+      "sha256": "effb1e7ac9f3d5e9d02d71c01d5109bd99906fd3160e7cdc8ba4d22a1ee77baa"
+    },
+    {
+      "bytes": 6860,
+      "mode": "0o644",
+      "path": "apps/admin/src/pages/login/page.tsx",
+      "sha256": "f1086858772cdbbb45b5b715067ba86ab4e728e68ca38c387be4893daab65d10"
+    },
+    {
+      "bytes": 9318,
+      "mode": "0o644",
+      "path": "apps/admin/src/pages/notification-jobs/page.tsx",
+      "sha256": "24f4ad362f246224cf15e2f7cf7681e5d7a6f06690acb6b95841505132ac275d"
+    },
+    {
+      "bytes": 3228,
+      "mode": "0o644",
+      "path": "apps/admin/src/pages/page.tsx",
+      "sha256": "43e9571912de3a2ba6ce50f2405cdf44722bfbb320ac528b3107f68dab8dd303"
+    },
+    {
+      "bytes": 13983,
+      "mode": "0o644",
+      "path": "apps/admin/src/pages/plans/page.tsx",
+      "sha256": "409ddb063d49189e336856acb5a9dff6ebf1876614df50136c6a6cf9caa32403"
+    },
+    {
+      "bytes": 12296,
+      "mode": "0o644",
+      "path": "apps/admin/src/pages/schedulers/page.tsx",
+      "sha256": "605d1dae3ed7e76b4bd7f6eb3a09d54fa1185c734d888d8157609eb84cb8b84e"
+    },
+    {
+      "bytes": 5880,
+      "mode": "0o644",
+      "path": "apps/admin/src/pages/security/ip-bans/page.tsx",
+      "sha256": "408818d6d90837f90fd84c29a2368f1c95a0a6ab86792c396c30a57658295633"
+    },
+    {
+      "bytes": 11058,
+      "mode": "0o644",
+      "path": "apps/admin/src/pages/security/page.tsx",
+      "sha256": "3de451e84666e81f7fd08adc26b999531d0c4db79b7830be50635852d02203b8"
+    },
+    {
+      "bytes": 173,
+      "mode": "0o644",
+      "path": "apps/admin/src/pages/site/notifications/page.tsx",
+      "sha256": "f2881a13aa53db4b1f7bdb1945e801a0615b3e53f3c8a6d2e08abd1075e9661a"
+    },
+    {
+      "bytes": 3460,
+      "mode": "0o644",
+      "path": "apps/admin/src/pages/sms/cdk/page.tsx",
+      "sha256": "fd9d90e0041b1b1c19ff70f3f39848c279adfb18e5c33c9b5979d3d3dcf6d99a"
+    },
+    {
+      "bytes": 4836,
+      "mode": "0o644",
+      "path": "apps/admin/src/pages/sms/page.tsx",
+      "sha256": "738d76c6161db6e64f0ac17afc415e7563469ad54e5ffaf3fdba532c52e47851"
+    },
+    {
+      "bytes": 20204,
+      "mode": "0o644",
+      "path": "apps/admin/src/pages/sms/redeems/page.tsx",
+      "sha256": "659a9fa2cdc6a2037a23e90726f24fc0929bf49557d8ffad08e7b82ace5da652"
+    },
+    {
+      "bytes": 26088,
+      "mode": "0o644",
+      "path": "apps/admin/src/pages/sms/settings/page.tsx",
+      "sha256": "35f50e8327b88bd8d44c3675dc997d2e4413fe5c0bb2d70f92b53df266da1493"
+    },
+    {
+      "bytes": 7846,
+      "mode": "0o644",
+      "path": "apps/admin/src/pages/staff/page.tsx",
+      "sha256": "74b67d0ded5ef1fb0d5cb4c82114e2a03a3f13e5df7e3ebb9769162ef815cb8d"
+    },
+    {
+      "bytes": 82,
+      "mode": "0o644",
+      "path": "apps/admin/tailwind.config.js",
+      "sha256": "bb948a9b55626638c18cb576bb26486f958bd9d83bfbbf694bac6f4c41f6d7c6"
+    },
+    {
+      "bytes": 25251,
+      "mode": "0o644",
+      "path": "apps/admin/tests/admin-browser.mjs",
+      "sha256": "3ddd28ec508212c1a9e04bf24d542d908b4e1e43a52cf9177f6284d1c86f4888"
+    },
+    {
+      "bytes": 11074,
+      "mode": "0o644",
+      "path": "apps/admin/tests/admin-shell-icons-and-proxy-lock.test.mjs",
+      "sha256": "35e2fc07965717b6e39abfd6bd9984a0feb7cf4f8274c6beeab3f2c5c2645542"
+    },
+    {
+      "bytes": 269,
+      "mode": "0o644",
+      "path": "apps/admin/tests/api.test.mjs",
+      "sha256": "b6f755886e671877a0d47dc9123990d7180ff0bbd161c1bd36b260106869f29c"
+    },
+    {
+      "bytes": 6909,
+      "mode": "0o644",
+      "path": "apps/admin/tests/batches-unassigned.test.mjs",
+      "sha256": "eb0a4419ceb874912a51d7d371a8b2a439b1edeff04e8ac328848f9053ba19ff"
+    },
+    {
+      "bytes": 7350,
+      "mode": "0o644",
+      "path": "apps/admin/tests/invitation-account-details-browser.mjs",
+      "sha256": "6069d4b970410879063d88e54bc6d8e1cee7f37aabdc6f0e8d818ce7d777f8b4"
+    },
+    {
+      "bytes": 8636,
+      "mode": "0o644",
+      "path": "apps/admin/tests/invitation-account-workflows.test.mjs",
+      "sha256": "cef086a86322263dd1b07b81428b47549943e127aaea5a742134d16e69027042"
+    },
+    {
+      "bytes": 5263,
+      "mode": "0o644",
+      "path": "apps/admin/tests/invitation-api.test.mjs",
+      "sha256": "5826cb02f082936b49cf1867c0373ead94125168c5473e03bfec04311f68e13a"
+    },
+    {
+      "bytes": 10278,
+      "mode": "0o644",
+      "path": "apps/admin/tests/invitation-executor.test.mjs",
+      "sha256": "2fce9c4fb39b937a114677b36cc9fb8d2236f53eaf9081fcc53093a832992bbf"
+    },
+    {
+      "bytes": 28572,
+      "mode": "0o644",
+      "path": "apps/admin/tests/invitation-pool.test.mjs",
+      "sha256": "be62ee2718f0107332699fff7929801e47807b7a1511a81d5e0e7bbb25783905"
+    },
+    {
+      "bytes": 14857,
+      "mode": "0o644",
+      "path": "apps/admin/tests/invitation-settings-editor.test.mjs",
+      "sha256": "24600a19759bce02c77a43e8e43904d4cf36f56a5259cad4c256dfe1e520e75d"
+    },
+    {
+      "bytes": 8386,
+      "mode": "0o644",
+      "path": "apps/admin/tests/invitation-settings-proxies-values.test.mjs",
+      "sha256": "48c5a6295f649b5aa10b429295f9549fc446f09f98c40abfa7a9ea39ca15fc9b"
+    },
+    {
+      "bytes": 7235,
+      "mode": "0o644",
+      "path": "apps/admin/tests/invitation-sms-status.test.mjs",
+      "sha256": "024630f90de12bdbf91d2c6ae58838245129d2621281bf3b92d3cde196a62ca8"
+    },
+    {
+      "bytes": 10810,
+      "mode": "0o644",
+      "path": "apps/admin/tests/invitation.test.mjs",
+      "sha256": "a98cccc71e6f3ac6a407adf4368803046a158f35d66c642498e1695e22f08891"
+    },
+    {
+      "bytes": 10070,
+      "mode": "0o644",
+      "path": "apps/admin/tests/labels.test.mjs",
+      "sha256": "eaac64ff87f572853da9be20e5637ca1a5a5571146bebcf5f1e7c9d3435fdf82"
+    },
+    {
+      "bytes": 2230,
+      "mode": "0o644",
+      "path": "apps/admin/tests/module-cdk-pages.test.mjs",
+      "sha256": "787d67fa8798b375aab9b0e567e107d00a69f060687027cfd04fef58a5036a9a"
+    },
+    {
+      "bytes": 4199,
+      "mode": "0o644",
+      "path": "apps/admin/tests/navigation.test.mjs",
+      "sha256": "af9e625081d0055f47d249f9943f50ab2ba00ffe315f270e0e82be1d0cdda008"
+    },
+    {
+      "bytes": 11727,
+      "mode": "0o644",
+      "path": "apps/admin/tests/no-raw-enum-fallback.test.mjs",
+      "sha256": "7149a64b90468f27f286427354d64e1f742d33c21bfaef4693c970e8e5562c0d"
+    },
+    {
+      "bytes": 16031,
+      "mode": "0o644",
+      "path": "apps/admin/tests/no-shared-action-loading.test.mjs",
+      "sha256": "ddca388a2d81926fe74af9a2491c63668ef681ae5bcf787df6ef5dca5e7722e0"
+    },
+    {
+      "bytes": 5964,
+      "mode": "0o644",
+      "path": "apps/admin/tests/settings-values.test.mjs",
+      "sha256": "e1efada2574cf951c5a2225c705d3c5a5bb7cd4c07f1a48713c4161e9eee1d4b"
+    },
+    {
+      "bytes": 5573,
+      "mode": "0o644",
+      "path": "apps/admin/tests/sms-area-management-browser.mjs",
+      "sha256": "b58f59241f7f38fc34a2beee3f5cc909a13a298566f34cbd420d1d18ff2466e7"
+    },
+    {
+      "bytes": 5044,
+      "mode": "0o644",
+      "path": "apps/admin/tests/sms-line-monitor-browser.mjs",
+      "sha256": "8a6b4d9a090dc6df37261a678a594170f8a6830b44dde6e91c5d677004a0852a"
+    },
+    {
+      "bytes": 5591,
+      "mode": "0o644",
+      "path": "apps/admin/tests/support/api-client-contract-tests.mjs",
+      "sha256": "498dd3fdfbc699861aec887d63268c22957f7d1ca65833db89bc37cec00ba894"
+    },
+    {
+      "bytes": 19410,
+      "mode": "0o644",
+      "path": "apps/admin/tests/support/turnstile-contract-tests.mjs",
+      "sha256": "dd6812246de2ef5a83eafe68c77991614821400872d63dc56d1bd1a25808ed3e"
+    },
+    {
+      "bytes": 165,
+      "mode": "0o644",
+      "path": "apps/admin/tests/turnstile.test.mjs",
+      "sha256": "58c70440509894d80a8ff41231f1caceed488ff33a42d19d74cf7ccf26778c18"
+    },
+    {
+      "bytes": 18336,
+      "mode": "0o644",
+      "path": "apps/admin/tests/workbench-blocks.test.mjs",
+      "sha256": "814159125e0e42b06179f515028feb2da006932e4b794346122d4c1198c8cfdc"
+    },
+    {
+      "bytes": 262,
+      "mode": "0o644",
+      "path": "apps/admin/tsconfig.json",
+      "sha256": "cc46164c81d9b31b1cacad2f31a5f6c455d6733703a6a571d73d3d0c38869923"
+    },
+    {
+      "bytes": 1511,
+      "mode": "0o644",
+      "path": "apps/admin/vite.config.ts",
+      "sha256": "962d45fa8fd85efd49b2f78e5f52272de81b9da4d32cc0219f19345e3ee9a611"
+    },
+    {
+      "bytes": 1190,
+      "mode": "0o644",
+      "path": "apps/api/pyproject.toml",
+      "sha256": "4c7d69b5612599b69f67efe491a478c47f8ba0431318404993e9efaa1d76a9c5"
+    },
+    {
+      "bytes": 1818,
+      "mode": "0o644",
+      "path": "apps/api/requirements-dev.lock",
+      "sha256": "87cf85bfafbe728e8a33f07d3a2158acf178edaf30a5029de9144545a734cc19"
+    },
+    {
+      "bytes": 120758,
+      "mode": "0o644",
+      "path": "apps/api/requirements-test.lock",
+      "sha256": "2a3f2106ab40e085cd04b71c19715f2294519665f60ecbc44e4f471a13d60f2e"
+    },
+    {
+      "bytes": 103207,
+      "mode": "0o644",
+      "path": "apps/api/requirements.lock",
+      "sha256": "073e4206e366377b5934dd663c65fd0bf5179e0ded138464545cf131315b2d5c"
+    },
+    {
+      "bytes": 0,
+      "mode": "0o644",
+      "path": "apps/api/smsinvit/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 247,
+      "mode": "0o644",
+      "path": "apps/api/smsinvit/__main__.py",
+      "sha256": "c15d720f62333bd30d0fd710cc181a5792509742492f9f28046f100e1bba70b1"
+    },
+    {
+      "bytes": 22418,
+      "mode": "0o644",
+      "path": "apps/api/smsinvit/app.py",
+      "sha256": "8fd703a6e23b9225ab434ad27a48d4396f40dbed1931dcea2fee15f8d36b4de0"
+    },
+    {
+      "bytes": 0,
+      "mode": "0o644",
+      "path": "apps/api/smsinvit/common/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 2017,
+      "mode": "0o644",
+      "path": "apps/api/smsinvit/common/audit.py",
+      "sha256": "d2e19747657c1ee50f7b50b2419eee9f8a441feaa4ca200246674bef357a7c2c"
+    },
+    {
+      "bytes": 25397,
+      "mode": "0o644",
+      "path": "apps/api/smsinvit/common/auth.py",
+      "sha256": "bc6eb0d9ab2025adbd3444d3234e9c6a538d65328d531e919ca0d76dc7e6f4b8"
+    },
+    {
+      "bytes": 7367,
+      "mode": "0o644",
+      "path": "apps/api/smsinvit/common/catalog.py",
+      "sha256": "b7a8f0db02a74279b4a66c355d815063cbfbf21538c90843d9cddd0d1a32ccd7"
+    },
+    {
+      "bytes": 3566,
+      "mode": "0o644",
+      "path": "apps/api/smsinvit/common/cdk.py",
+      "sha256": "d25e132b6c5f4395998c3fa1d2caece75912237d03552a35a6a7b699ed12a167"
+    },
+    {
+      "bytes": 15207,
+      "mode": "0o644",
+      "path": "apps/api/smsinvit/common/inventory.py",
+      "sha256": "752fe2ebd45232c246250475cb92e9c363668002e20b35b575547e4397233690"
+    },
+    {
+      "bytes": 13111,
+      "mode": "0o644",
+      "path": "apps/api/smsinvit/common/jobs.py",
+      "sha256": "3796919fd08e8421297999e2fdb4f3fd007b0e3c15be44020936496ee827cd83"
+    },
+    {
+      "bytes": 3789,
+      "mode": "0o644",
+      "path": "apps/api/smsinvit/common/mapper.py",
+      "sha256": "4e9f56ae713ecbb3b3b4046ad9f5de2e8c4ea2b3da12c45283472cc2917236ab"
+    },
+    {
+      "bytes": 67781,
+      "mode": "0o644",
+      "path": "apps/api/smsinvit/common/mapper_sql.json",
+      "sha256": "b81399126cab3962d96b5e5f5ae885c9fa2cf2afdc6b8fee5eb13b3e28bde7f2"
+    },
+    {
+      "bytes": 17335,
+      "mode": "0o644",
+      "path": "apps/api/smsinvit/common/notifications.py",
+      "sha256": "7d020cdf5f3f6dfd1bb55b5da71b4d52b3d3749dee8d43c8e1986ab324cc71b9"
+    },
+    {
+      "bytes": 6584,
+      "mode": "0o644",
+      "path": "apps/api/smsinvit/common/ops.py",
+      "sha256": "a15ad4ad71197431de6522de4efa843cf9d903b4c52f0ab5a849bc9108daa040"
+    },
+    {
+      "bytes": 5389,
+      "mode": "0o644",
+      "path": "apps/api/smsinvit/common/runtime_catalog.json",
+      "sha256": "10ffbaa4367720793db85dca0681a8ea35ff027e4c9c1789612945ea39206ac1"
+    },
+    {
+      "bytes": 7748,
+      "mode": "0o644",
+      "path": "apps/api/smsinvit/common/settings.py",
+      "sha256": "a350c953035f4b45ffc099c5302afaa5792e290ce6f8c2dc4e0dcb6be251579a"
+    },
+    {
+      "bytes": 6401,
+      "mode": "0o644",
+      "path": "apps/api/smsinvit/common/staff.py",
+      "sha256": "e285bb46bfd6a40e6658ae345bc98a362deb879656db968fd024614c99d9028f"
+    },
+    {
+      "bytes": 8233,
+      "mode": "0o644",
+      "path": "apps/api/smsinvit/config.py",
+      "sha256": "a5dd792398ac515fc3e0fcaa530894003c2cff7a4bb4893aa63344f5e2998748"
+    },
+    {
+      "bytes": 7431,
+      "mode": "0o644",
+      "path": "apps/api/smsinvit/db.py",
+      "sha256": "f7009dda18bef2d60fc9f65d4321f4618e57d134af1334c66275bb51d393d52b"
+    },
+    {
+      "bytes": 1373,
+      "mode": "0o644",
+      "path": "apps/api/smsinvit/errors.py",
+      "sha256": "a04ff7655c8f646464e0156d14e4d35b9d63d26438d07bc9614bb0acefbd316e"
+    },
+    {
+      "bytes": 4463,
+      "mode": "0o644",
+      "path": "apps/api/smsinvit/frontend.py",
+      "sha256": "92e8c50c8f187692922f77ae62aae9c1e1039b2df968d43c196bc133aac2a224"
+    },
+    {
+      "bytes": 39,
+      "mode": "0o644",
+      "path": "apps/api/smsinvit/invitation/__init__.py",
+      "sha256": "54ed5638e7f911f81f85610791cafe6c1fef4c922c5983c1e41555e87487b681"
+    },
+    {
+      "bytes": 5155,
+      "mode": "0o644",
+      "path": "apps/api/smsinvit/invitation/dispatch.py",
+      "sha256": "8fb6d71084a781ebb22d14f0f2b98469dfb84064900e5943f72eaab5b07e8b4b"
+    },
+    {
+      "bytes": 1217,
+      "mode": "0o644",
+      "path": "apps/api/smsinvit/invitation/imap.py",
+      "sha256": "927ef0817ba41ab6b8c104a4dcd8237ca3da2bc6a0c929a3edb381f714c37747"
+    },
+    {
+      "bytes": 1367,
+      "mode": "0o644",
+      "path": "apps/api/smsinvit/invitation/legacy_router.py",
+      "sha256": "a5c446d9e0f5d3f9cca73de3592bba4f87eff392856d1338bc1425fef114b9c2"
+    },
+    {
+      "bytes": 18834,
+      "mode": "0o644",
+      "path": "apps/api/smsinvit/invitation/manual_sync.py",
+      "sha256": "c1431c0b4805c8616dbc3810384b5b6d4ede91d3045b60770448f63372711b6c"
+    },
+    {
+      "bytes": 12107,
+      "mode": "0o644",
+      "path": "apps/api/smsinvit/invitation/mysql.py",
+      "sha256": "3a08a2a23a30e78d22226fd42248eb86ad3779d677d8dba3879f181b1d538e32"
+    },
+    {
+      "bytes": 856,
+      "mode": "0o644",
+      "path": "apps/api/smsinvit/invitation/oauth.py",
+      "sha256": "598acb6f6d3861e6967ce538879813215a849ef2f4ce90f920a95643fdadf009"
+    },
+    {
+      "bytes": 15062,
+      "mode": "0o644",
+      "path": "apps/api/smsinvit/invitation/permits.py",
+      "sha256": "37c31f80867f0aaff53dbbe92883aad0bc45f7f8b8f68e0c3e9222b3973ba387"
+    },
+    {
+      "bytes": 8807,
+      "mode": "0o644",
+      "path": "apps/api/smsinvit/invitation/phone_details.py",
+      "sha256": "bc56fdbfd12457e26fe89047ae1afaaf7268a4cc8850eaa736d8002d31f6f63c"
+    },
+    {
+      "bytes": 24817,
+      "mode": "0o644",
+      "path": "apps/api/smsinvit/invitation/pool.py",
+      "sha256": "a08bb4bf252b81dfddc0226b91d3548c560613fa13c6e0730a04626049dce3dc"
+    },
+    {
+      "bytes": 13065,
+      "mode": "0o644",
+      "path": "apps/api/smsinvit/invitation/process.py",
+      "sha256": "880c3650c83279ae320b4eda0ccc06e20e5ccea2d20749821be67e8148899830"
+    },
+    {
+      "bytes": 26976,
+      "mode": "0o644",
+      "path": "apps/api/smsinvit/invitation/redeem_attempts.py",
+      "sha256": "9e22ac4ec85015ab277e34c97b1d41516951896c91f737c54d9a98e8a3ed690e"
+    },
+    {
+      "bytes": 414,
+      "mode": "0o644",
+      "path": "apps/api/smsinvit/invitation/request_context.py",
+      "sha256": "53a365fbf6292e59f93fff67ce9c53a94dc97363a9ad8420cb9de912ff5ffa67"
+    },
+    {
+      "bytes": 24290,
+      "mode": "0o644",
+      "path": "apps/api/smsinvit/invitation/router.py",
+      "sha256": "5102515ea3a51c645d5bf6fcd15a203d855b220f8fd6b02d6a639cc3f3e0e9ab"
+    },
+    {
+      "bytes": 9821,
+      "mode": "0o644",
+      "path": "apps/api/smsinvit/invitation/runtime.py",
+      "sha256": "ff25bb263e741ff9817e6297318480a44425247dd104aeef1346bd8a04b051df"
+    },
+    {
+      "bytes": 16053,
+      "mode": "0o644",
+      "path": "apps/api/smsinvit/invitation/safety.py",
+      "sha256": "187cb345f5ee633fc54dfc595b293866bc2fc1baa1eb16036f43194957e7651a"
+    },
+    {
+      "bytes": 45147,
+      "mode": "0o644",
+      "path": "apps/api/smsinvit/invitation/service.py",
+      "sha256": "a006abeba735e8da8fac1c9f938d5cc01f7e88ad369845b24a31d8f46a3a21a9"
+    },
+    {
+      "bytes": 9270,
+      "mode": "0o644",
+      "path": "apps/api/smsinvit/invitation/sms_state.py",
+      "sha256": "8ac9de07f4e975622e633db58f8c7257abe996963650a4b739570838c403ba84"
+    },
+    {
+      "bytes": 2133,
+      "mode": "0o644",
+      "path": "apps/api/smsinvit/invitation/urlclient.py",
+      "sha256": "46dd5ffdba0d90086fdc8eced923085b2454d709f7b4c1f2557a136c3abd04f9"
+    },
+    {
+      "bytes": 6180,
+      "mode": "0o644",
+      "path": "apps/api/smsinvit/public_limits.py",
+      "sha256": "d38f2d50d64fc2138ba77128fa5d65e1377d1c31f2b7bae6e869dda945a220f3"
+    },
+    {
+      "bytes": 23388,
+      "mode": "0o644",
+      "path": "apps/api/smsinvit/security.py",
+      "sha256": "788bbdc7ca471e825430fb016ff428773442559c7c4b26574a13937b0e2d89d0"
+    },
+    {
+      "bytes": 91,
+      "mode": "0o644",
+      "path": "apps/api/smsinvit/sms/__init__.py",
+      "sha256": "52d6e5d03ca7b42a699d6108bc177575a34f9a7eb6d7b2b3bac363586644bea4"
+    },
+    {
+      "bytes": 8837,
+      "mode": "0o644",
+      "path": "apps/api/smsinvit/sms/client.py",
+      "sha256": "8c070dcd9c2a259b55a6f34ebe9e54dee7733dc8329df35d2d3e47cd46dec01a"
+    },
+    {
+      "bytes": 2010,
+      "mode": "0o644",
+      "path": "apps/api/smsinvit/sms/defaults.json",
+      "sha256": "e8a5b7c80b36fba50b087737ec098035a4ab72e070dbd940d39b56dc1855a566"
+    },
+    {
+      "bytes": 627,
+      "mode": "0o644",
+      "path": "apps/api/smsinvit/sms/dto_fields.json",
+      "sha256": "eb85566b393f1a3bc325aa638869645031322f1e02f1b2af73686359ad0cbe45"
+    },
+    {
+      "bytes": 3184,
+      "mode": "0o644",
+      "path": "apps/api/smsinvit/sms/line_monitor.py",
+      "sha256": "f9743011f362538c388accba1813b97a6e2b80cecf6173b25cd40a3862b4a9c6"
+    },
+    {
+      "bytes": 6188,
+      "mode": "0o644",
+      "path": "apps/api/smsinvit/sms/line_type.py",
+      "sha256": "001ca68a8c2ead9d5b3c9acb105df2dbf58d771c8e87e5b68ec5009db2eed6a0"
+    },
+    {
+      "bytes": 23451,
+      "mode": "0o644",
+      "path": "apps/api/smsinvit/sms/queries.json",
+      "sha256": "b3b337efb4d0d85d9ded8a65298e5a33378652c0ef9450535ccead8c0ab8a3df"
+    },
+    {
+      "bytes": 8619,
+      "mode": "0o644",
+      "path": "apps/api/smsinvit/sms/routes.py",
+      "sha256": "aee5d9b4022fa236887fb8a275e42b506e0f46b1aaf2ddecc4f69185268c632a"
+    },
+    {
+      "bytes": 45108,
+      "mode": "0o644",
+      "path": "apps/api/smsinvit/sms/service.py",
+      "sha256": "3df1d771e6b3d8ad31445730c3d91f2f329ccb73cea9333ff3065fa1b4d1471b"
+    },
+    {
+      "bytes": 7688,
+      "mode": "0o644",
+      "path": "apps/api/smsinvit/sms/support.py",
+      "sha256": "ecac51a3ae72d6181c44d4fb3fa03de4b229f0e386d953699b369dce6219140d"
+    },
+    {
+      "bytes": 39,
+      "mode": "0o644",
+      "path": "apps/api/tests/conftest.py",
+      "sha256": "1c11cda3b4aea5d684964e4d145c5ca1c5292887fbff08a6932cc824be140e29"
+    },
+    {
+      "bytes": 2808,
+      "mode": "0o644",
+      "path": "apps/api/tests/invitation_sms_sqlite.py",
+      "sha256": "2e391e8a4757c81d659fe70cf5f5acc332980add9df8596f5085237b15db03c0"
+    },
+    {
+      "bytes": 2926,
+      "mode": "0o644",
+      "path": "apps/api/tests/stats_sqlite.py",
+      "sha256": "8cae89e4596dc9aa306d7e6e17353d0f40e987b9a6f12879bbbd242f9550a7c2"
+    },
+    {
+      "bytes": 21142,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_admin_cdk_detail_and_stop.py",
+      "sha256": "c8037a0d3d40830596953b634d3fe2cb77215711ba266daca2dc9540b803832e"
+    },
+    {
+      "bytes": 4531,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_admin_entry.py",
+      "sha256": "9f754efcb41d3f87337e65c579efadbca5240f0343eaa1e735ce1943f7d55ec4"
+    },
+    {
+      "bytes": 14566,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_admin_ip_ban.py",
+      "sha256": "5383bec6e35f880543f9c29800d1be3101104e75557b6fb437f816c0f6bbb49e"
+    },
+    {
+      "bytes": 3860,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_captcha_single_use.py",
+      "sha256": "4160f252a381b2f1c58d79ee6d3e2c81109cb218151b83c6968cd0670492e78c"
+    },
+    {
+      "bytes": 15848,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_common_mysql.py",
+      "sha256": "18227a7d22175c38665e6d25b1a1d5221c5ecaa80141125e0a56259d6772747e"
+    },
+    {
+      "bytes": 2007,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_common_outbound.py",
+      "sha256": "dc45c07b887821975e5de70c80d8ee873fd400031444da69f44335969f59e864"
+    },
+    {
+      "bytes": 2057,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_common_scheduler.py",
+      "sha256": "1cf32dc81b938e7e676402df9f4d526da318df7b2807dce34cb4a6a162680027"
+    },
+    {
+      "bytes": 20877,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_common_security.py",
+      "sha256": "852904b5f31e37046192269212c16825b0869ee5572d1816787c98b8cdba755b"
+    },
+    {
+      "bytes": 2891,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_common_transactions.py",
+      "sha256": "3b7f04e963a507cf3fac3bac2c4d8d12eaadae59c75ad3c5e2e1024a0ec0f544"
+    },
+    {
+      "bytes": 8766,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_final_failure_mysql.py",
+      "sha256": "95869215b37bf61b42b9640e2b7827d74bb819c908ab922def061eb490d670bf"
+    },
+    {
+      "bytes": 15553,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_inventory_batch_dujiao.py",
+      "sha256": "1b15dc0f4020ea8c691b7804911afcc1f22deb082e3dc57d0820eb9f5533b19d"
+    },
+    {
+      "bytes": 17874,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_inventory_unassigned_batch.py",
+      "sha256": "48b164f1d529aef42321a4b8277f88da6b3fe4628b8004411677d238d60d7265"
+    },
+    {
+      "bytes": 32111,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_invitation_account_pool_sql.py",
+      "sha256": "fbcd0e312a387fdb1e34e117414142986e1915a5160ada11393cf417972487c0"
+    },
+    {
+      "bytes": 31372,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_invitation_boundaries.py",
+      "sha256": "01a083f8383cb3bdfb0131e31d9cf2f2bb6ce4f1ca8556014dbfc99150b42ba1"
+    },
+    {
+      "bytes": 9123,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_invitation_cf_mail.py",
+      "sha256": "c42b6d10808c8152023ecca9417f95bd94028a82a1f420505413e1b424bc3949"
+    },
+    {
+      "bytes": 10118,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_invitation_codex_cli_fallback.py",
+      "sha256": "ac4ee9b4be222dd9d8f21ad7a1060e42febc83dcc01efe45863bcb29d00a6d89"
+    },
+    {
+      "bytes": 11749,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_invitation_codex_cli_timing.py",
+      "sha256": "5c7289b69d732739667accd654241c66e9e4ce7b7102fa8366167fa1158ebf10"
+    },
+    {
+      "bytes": 6264,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_invitation_codex_consent.py",
+      "sha256": "1e9a5c19c5e39d94f1667245365901e35e2d1d6465b07f5ebacefce3dc48f868"
+    },
+    {
+      "bytes": 26706,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_invitation_codex_resume.py",
+      "sha256": "f4579eb5a01090c7458beeaf48e6c827b7ab3b6c416134b5c9d2c3da57f81217"
+    },
+    {
+      "bytes": 8438,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_invitation_codex_turn.py",
+      "sha256": "d9e064a950ce666e2e006ae9503596c387cd2cdc5ddccdc8dd6f9738639b90ce"
+    },
+    {
+      "bytes": 4643,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_invitation_completion_notifications.py",
+      "sha256": "a1885a94864566d540089f312077b2d810590b4f9ad9b7c2abf7b1c0aa4295b3"
+    },
+    {
+      "bytes": 11799,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_invitation_credential_accumulation.py",
+      "sha256": "8e76f89036e44a2d19d37469d104cfcbcd37aebfe89e6cc89e5a56eaaa97fc73"
+    },
+    {
+      "bytes": 8448,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_invitation_executor.py",
+      "sha256": "30e64c3e5703e9bf13e5b363947cbd350dee6204214c0937bb2be2b038399944"
+    },
+    {
+      "bytes": 8844,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_invitation_executor_lock.py",
+      "sha256": "7e61aa39b83aa4c96c0bd669e2c35ec190e32fbf28b8e2b59fcd77b88d3a96f6"
+    },
+    {
+      "bytes": 2812,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_invitation_inventory_alignment.py",
+      "sha256": "825c5063ba148e7f3a20b5f8899503c3c9cc2d72dec34703ee35efe76951415f"
+    },
+    {
+      "bytes": 8168,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_invitation_invite_direct.py",
+      "sha256": "be18da6c1fc8f327e6bbec5c2a6556640439e19f26e4de6df40f1187b6d13bdc"
+    },
+    {
+      "bytes": 13209,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_invitation_jar_and_pow.py",
+      "sha256": "188ad32327f9dfc941400f00b49168efff18e7536aa4b2cc00ca4e9ec5ffee53"
+    },
+    {
+      "bytes": 21611,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_invitation_manual_sync.py",
+      "sha256": "06fe25e1d34e3963ede52dc0ce418af3c164f3332d8513d31fab3f797b884c04"
+    },
+    {
+      "bytes": 62615,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_invitation_mysql.py",
+      "sha256": "47b46fcf61dd0f9ae40d423aa9dadb258243b611e749b2c65775c4171e55c8ed"
+    },
+    {
+      "bytes": 3789,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_invitation_native_pages.py",
+      "sha256": "9ddc88bf83af50a139b93369118cda208268692e812d87bd56515916a26713d1"
+    },
+    {
+      "bytes": 10059,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_invitation_network.py",
+      "sha256": "6ab0dbd291f3ad41f690d7c776d2dcf1f56b5ca5ba49459af69c5aaa9061ceb0"
+    },
+    {
+      "bytes": 6662,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_invitation_notifications_mysql.py",
+      "sha256": "75f18443ad01590bdcd3c27007eea037666fca585e296e1e9ae4ac41cbec04a4"
+    },
+    {
+      "bytes": 8008,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_invitation_permit_families.py",
+      "sha256": "3102549a5d3af2bc444c1b59cd80a4089775ff5ffbfab3339ef8e1cf05e553af"
+    },
+    {
+      "bytes": 5949,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_invitation_permit_reclaim.py",
+      "sha256": "0a01ad0b5cebe5237d089f1263098070f61598e0540b0a5b9e0b4e06c0ef23a0"
+    },
+    {
+      "bytes": 12068,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_invitation_permits.py",
+      "sha256": "935b0ee195c9668a2cb634bd4eeda3dab977ced656f46b0effca37dda10fa507"
+    },
+    {
+      "bytes": 11235,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_invitation_phone_details.py",
+      "sha256": "b6f86bdd10b2035df2d997c9553c319f86689bc1efbf955bf7b6abaa67e0eeed"
+    },
+    {
+      "bytes": 32098,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_invitation_pool.py",
+      "sha256": "ebcd97b22d6a47ab0dd4bd2b9c4632149ac6203a0daabb084f39f5ad86b575cf"
+    },
+    {
+      "bytes": 23723,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_invitation_process.py",
+      "sha256": "a1313dffce9c9bd32511fba70d4455447d939e9e28c1fbc3f09715b4c3a2aad5"
+    },
+    {
+      "bytes": 4107,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_invitation_proxy_check.py",
+      "sha256": "b10abdab047a098cf371edfcdb6563c40142976a23015c334915bb056cb94fe4"
+    },
+    {
+      "bytes": 7923,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_invitation_proxy_manual.py",
+      "sha256": "44c0ec3726d00388ad273b3e626cc23cb94deb443abd2c85a683d934eb3082c4"
+    },
+    {
+      "bytes": 12452,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_invitation_proxy_socks5.py",
+      "sha256": "788edad2edae6f11df63b9edcdddb925d2b75e138990a8a9602d843db7b03b1e"
+    },
+    {
+      "bytes": 3862,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_invitation_proxy_visibility.py",
+      "sha256": "2abe14359718fc0d89e978184f27082cdcaadd5a07b57a3d14229b40edd8e1fe"
+    },
+    {
+      "bytes": 18101,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_invitation_queue_dispatch.py",
+      "sha256": "094ce14a935fff98a496c2dd5d24b90bde063eab34f6ec048954304fd4e15ae6"
+    },
+    {
+      "bytes": 28837,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_invitation_redemption_attempts.py",
+      "sha256": "c06279be07b31be97e3e0b746ebd0fcb52ac2cd21af0883396234d9b2041f2a8"
+    },
+    {
+      "bytes": 7659,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_invitation_registration_concurrency.py",
+      "sha256": "3c0b1ad365b60e9c17a6dfac4d388385f4dd0f1791737dad045bd3195725dbb7"
+    },
+    {
+      "bytes": 11488,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_invitation_registration_details.py",
+      "sha256": "82fa873e47a53290c8abd365c03269f46c06447231cfc2d916512feff497b620"
+    },
+    {
+      "bytes": 5977,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_invitation_run_progress.py",
+      "sha256": "c0146b7552ca15de06fd40538fba6192e622a76bd79429626830cc46b3ef5ea7"
+    },
+    {
+      "bytes": 6257,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_invitation_sms_balance.py",
+      "sha256": "85883a14a91a17fc79eab1d7f3bf87291d436d5246d88d13a7ae97e9bce7b4ec"
+    },
+    {
+      "bytes": 9227,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_invitation_sms_cost.py",
+      "sha256": "eb702cb26eeef476efdef577a80d91ca7f109163752f3be131477fd473b68447"
+    },
+    {
+      "bytes": 6352,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_invitation_sms_logging.py",
+      "sha256": "17b277c46ceb9aaff69c2f3c823c2e2c5dd6c0035d13db902794362cf446a71d"
+    },
+    {
+      "bytes": 16767,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_invitation_sms_once.py",
+      "sha256": "c6894caabfea0acbca1dcabb1370f18a92494189f4e676e07243637a9046ad37"
+    },
+    {
+      "bytes": 3549,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_invitation_sms_platform_scope.py",
+      "sha256": "b4a21a522baf303e7474e072107bc54e5cbaa8cc78fd8d8f3769a502563b2364"
+    },
+    {
+      "bytes": 10110,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_invitation_sms_price_refresh.py",
+      "sha256": "212b00cca46bd1395e6ad7e99d1dd01160fe36e4e82ed9fe574fc5cb20058f2e"
+    },
+    {
+      "bytes": 14006,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_invitation_sms_state.py",
+      "sha256": "29a96023b4115eacfe024695e7ef1ec19f65aa0053c0a74e64218f8585ec2279"
+    },
+    {
+      "bytes": 10438,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_invitation_startup.py",
+      "sha256": "42bc716be45e34271d4c4076de4ded33878a99201a7a6d5cc8d5c9e0b2fac5a5"
+    },
+    {
+      "bytes": 13193,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_invitation_task_hold_review.py",
+      "sha256": "77064c511fabf6984655bfeef2367863893b5775e3b23aa5199165206c2c2c4a"
+    },
+    {
+      "bytes": 1379,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_invitation_token_refresh_proxy.py",
+      "sha256": "9fd0a84ea85daeb3ca3c7a6277ebd9b1b7c74c193bec8cb235a36ec584f5e026"
+    },
+    {
+      "bytes": 12618,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_invitation_worker_health.py",
+      "sha256": "ef3ffcbfebe9ec960e44e3b5997172cca8417db06f7bf8e476f11eb04a79dc57"
+    },
+    {
+      "bytes": 17909,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_java_auth_migration.py",
+      "sha256": "b620ba6464f52de3c956cad0ef17ccd577738c6b842a42f01c7170b04bd459eb"
+    },
+    {
+      "bytes": 6279,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_notifications.py",
+      "sha256": "f4d42090f82b5ccde2516e2b67393ba58b8ec7180b9a3eff9020c7f1b623c08c"
+    },
+    {
+      "bytes": 9193,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_public_limits.py",
+      "sha256": "7f895910e91bf05334e75744f98c14e3509395157966a362cc66256d992f55f7"
+    },
+    {
+      "bytes": 3830,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_public_progress.py",
+      "sha256": "342b135a389b21512292e38b1289907c6f647c97a6cae574823c7bb7cce562c8"
+    },
+    {
+      "bytes": 1619,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_removed_x_module.py",
+      "sha256": "19c7a9b82cbb9afa7a5692b3607f35144738a04d84d782716ae950090d973af8"
+    },
+    {
+      "bytes": 4412,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_sandbox_seccomp.py",
+      "sha256": "7fcc4aa6c613a844e16357e100f2b2887a1003979b7fd05d69d793bf331ef2a2"
+    },
+    {
+      "bytes": 2989,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_security_audit_coverage.py",
+      "sha256": "833c124ecf6e6175aabaf7bc7b699537c0a19d3efb3421d12c20e1fbc8289e84"
+    },
+    {
+      "bytes": 2996,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_security_audit_p0.py",
+      "sha256": "6eb6ffb858be1e7b0ee9bae28535a1071bbf4675801f19f84d14292520afc6a0"
+    },
+    {
+      "bytes": 2941,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_security_boundary_hardening.py",
+      "sha256": "57a43c68591074bbd32d8528854fbf2b7a91f5dc95911172b57b2dd20ca284e1"
+    },
+    {
+      "bytes": 3334,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_security_mysql_leases.py",
+      "sha256": "d51efd3bbe4792cfdd16c79987802e9d432ef04ac6e3eb95d2c44b1d52a89984"
+    },
+    {
+      "bytes": 8781,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_settings_runtime_save.py",
+      "sha256": "6c42fd77804bd1113757cb1d67957fe18dc27c45e88a547ee717c7e1028848ac"
+    },
+    {
+      "bytes": 8665,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_sms_deadline_recovery.py",
+      "sha256": "d30963eb6ff56b4f8c68565f3a76664473f62bce951f695390cc2a3f8649e1e4"
+    },
+    {
+      "bytes": 2371,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_sms_delivery_diagnostics.py",
+      "sha256": "563e6f726e1bd1fe6d0556949e9529077527a494e4e90ed741753d807939e5f1"
+    },
+    {
+      "bytes": 6051,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_sms_free_line_type.py",
+      "sha256": "c5a0a2a45d121e8fa487f9de08a860f946821422fbba3d64b2cdea31d74151a8"
+    },
+    {
+      "bytes": 18201,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_sms_gpt_alignment.py",
+      "sha256": "5fb1fd99029dd1098586e433de15f0911d17bbaf3ab7942672708bfccca3d969"
+    },
+    {
+      "bytes": 24865,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_sms_gpt_migration.py",
+      "sha256": "f965aeccc0680b735fbf80b8c76b6396bb3ac49357bd956bb1097d09d8f8dfa9"
+    },
+    {
+      "bytes": 32728,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_sms_gpt_mysql.py",
+      "sha256": "b2be4632327d854f3b93ceee17fef538a7603fd9e49dd3c5a8e6a7094aa414bf"
+    },
+    {
+      "bytes": 4440,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_sms_gpt_protocol.py",
+      "sha256": "1b3c6e0af9dc93f18fa731ecd1baffa64e0abd0e780086baa61a79c9d85d43f2"
+    },
+    {
+      "bytes": 3675,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_sms_gpt_security.py",
+      "sha256": "df9ce998255bdc9a33efdba00b25191ca24cefe170a978f2339bf8df9c727366"
+    },
+    {
+      "bytes": 11890,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_sms_gpt_state.py",
+      "sha256": "a416032cca894f36dcc73af39d10dbb8110f8c8b6f507a214611dc8fa6e7efb4"
+    },
+    {
+      "bytes": 5207,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_sms_retry_exclusions.py",
+      "sha256": "548e133fbba15cc657e17d763745b26898c6325373892f2c44e7397f53d10238"
+    },
+    {
+      "bytes": 18134,
+      "mode": "0o644",
+      "path": "apps/api/tests/test_stats_overview.py",
+      "sha256": "c3d9875dfd9656c2b5d6167a2ff3f66b37c59224da5f46dfc15988605cea93cd"
+    },
+    {
+      "bytes": 303,
+      "mode": "0o644",
+      "path": "apps/web/index.html",
+      "sha256": "14ccd5c8de9c9be21264fde8b951dda609943dc6d4118526e6bc8a67be3a2b69"
+    },
+    {
+      "bytes": 749,
+      "mode": "0o644",
+      "path": "apps/web/package.json",
+      "sha256": "e0e2be7e51ac49b4fc5e8f8f4410f695715dc2799acfc50604c2d74862c12d99"
+    },
+    {
+      "bytes": 83,
+      "mode": "0o644",
+      "path": "apps/web/postcss.config.js",
+      "sha256": "fa650b380adfabb151a0b352f7135e107e6352345f899060f1c5c231228f94bf"
+    },
+    {
+      "bytes": 171968,
+      "mode": "0o644",
+      "path": "apps/web/public/brand-mark.svg",
+      "sha256": "272de35f53fa52ecc650b4d5a8e2793218cc9950cfdea8d28601457ff2fda1c2"
+    },
+    {
+      "bytes": 317,
+      "mode": "0o644",
+      "path": "apps/web/public/favicon.svg",
+      "sha256": "9ebbe4957ec24caccb43f18ec185848bd627791a753f0f36956ba7f98f686c31"
+    },
+    {
+      "bytes": 1147,
+      "mode": "0o644",
+      "path": "apps/web/src/components/error-with-request-id.tsx",
+      "sha256": "18280052a5668647458e596cffb5c8a0779ddf1241cf7c0b73d8e9fa2c7688e5"
+    },
+    {
+      "bytes": 56890,
+      "mode": "0o644",
+      "path": "apps/web/src/components/invitation-redeem-panel.tsx",
+      "sha256": "549593cc24785b2311226416b1be46566e1be99ef9e4a5d91e799d4f2720aa7c"
+    },
+    {
+      "bytes": 5196,
+      "mode": "0o644",
+      "path": "apps/web/src/components/numeric-progress.tsx",
+      "sha256": "70d9bb82d0288dfebf6c1ae32d36d7799e537adb65997b5ac92301d59068ed4d"
+    },
+    {
+      "bytes": 1545,
+      "mode": "0o644",
+      "path": "apps/web/src/components/redeem-intro.tsx",
+      "sha256": "3557c22faf64adb11784979d9703c72535623c840cc60f4dfb50ce9d4efbb705"
+    },
+    {
+      "bytes": 38575,
+      "mode": "0o644",
+      "path": "apps/web/src/components/sms-redeem-panel.tsx",
+      "sha256": "7464a083bb8782d454c05071f1bd2cc87c83fc2ebd5e254146e91521b02a027b"
+    },
+    {
+      "bytes": 7152,
+      "mode": "0o644",
+      "path": "apps/web/src/lib/api.ts",
+      "sha256": "c1bd1a67da9209c2174533f4557263f70f2c26957061726438bfabc9629b96c5"
+    },
+    {
+      "bytes": 1978,
+      "mode": "0o644",
+      "path": "apps/web/src/lib/dialog-focus.ts",
+      "sha256": "8229dc76fb6a1b8d3c532af2fc9435386c070b244b5b60dceebdf1f480fd13c5"
+    },
+    {
+      "bytes": 8438,
+      "mode": "0o644",
+      "path": "apps/web/src/lib/invitation-recovery.ts",
+      "sha256": "5f2343323bdeb1d484d8f66e635d85ad1d4417b822defffbfb9e4cc9bae55c4c"
+    },
+    {
+      "bytes": 5825,
+      "mode": "0o644",
+      "path": "apps/web/src/lib/invitation.ts",
+      "sha256": "86af561ac8f2fa9fe9361863c10ea9c1a439c57152bcda717f128f8a61f20fb1"
+    },
+    {
+      "bytes": 4018,
+      "mode": "0o644",
+      "path": "apps/web/src/lib/recovery-rules.ts",
+      "sha256": "4249091f3f5255aec1100f0bd93b2c4abcc0f65596107d41dc8594f79937bb2c"
+    },
+    {
+      "bytes": 3358,
+      "mode": "0o644",
+      "path": "apps/web/src/lib/user-error.ts",
+      "sha256": "5ec4c1ac36c185bc78ad72cbfe32865b81383bf565ebf784d89705145f851907"
+    },
+    {
+      "bytes": 4971,
+      "mode": "0o644",
+      "path": "apps/web/src/main.tsx",
+      "sha256": "955444020e70971a5eaf321711b443fa8de926b4fef35af1211439924b4a80bf"
+    },
+    {
+      "bytes": 5454,
+      "mode": "0o644",
+      "path": "apps/web/src/styles.css",
+      "sha256": "d834701120b3b79eb703d5ead1f096c61739b0bcf93dc9d067f9d97a29a130da"
+    },
+    {
+      "bytes": 82,
+      "mode": "0o644",
+      "path": "apps/web/tailwind.config.js",
+      "sha256": "bb948a9b55626638c18cb576bb26486f958bd9d83bfbbf694bac6f4c41f6d7c6"
+    },
+    {
+      "bytes": 14305,
+      "mode": "0o644",
+      "path": "apps/web/tests/api.test.mjs",
+      "sha256": "a17f864d79d3d2b4eb366ef9d9fe6973b7db48ab453409f79a7fa730a15a34d9"
+    },
+    {
+      "bytes": 578,
+      "mode": "0o644",
+      "path": "apps/web/tests/components.mjs",
+      "sha256": "9666f98e28477cacee42e9de93786c01c7b9bc62c4130355e9e82aa3ae5cceb6"
+    },
+    {
+      "bytes": 32672,
+      "mode": "0o644",
+      "path": "apps/web/tests/invitation-browser.mjs",
+      "sha256": "df98edb2c3dcf684996a4e3b52335cba70a9859cd57cb8b1f398a5baa2f8a5d8"
+    },
+    {
+      "bytes": 10194,
+      "mode": "0o644",
+      "path": "apps/web/tests/invitation-recovery.test.mjs",
+      "sha256": "685a40b303a0f947307dd7de88cb2972674dc70f073e5cc61a0a7a2ad84f2e2d"
+    },
+    {
+      "bytes": 71992,
+      "mode": "0o644",
+      "path": "apps/web/tests/invitation.test.mjs",
+      "sha256": "c27b60b043da7135ae0fba03356004d5b8a9a2d497487a3ccd2ffe0fed83f0d0"
+    },
+    {
+      "bytes": 1120,
+      "mode": "0o644",
+      "path": "apps/web/tests/numeric-progress.test.mjs",
+      "sha256": "1e2422bae90d5ff86245f6f7bc10e08c90b8d3947f57aa424ff2ed20445d50d2"
+    },
+    {
+      "bytes": 11352,
+      "mode": "0o644",
+      "path": "apps/web/tests/polling-recovery.test.mjs",
+      "sha256": "8f2652af5d61408ca96891f16a70cdae002b5d85537cbdd2e08d6d99bd503755"
+    },
+    {
+      "bytes": 8217,
+      "mode": "0o644",
+      "path": "apps/web/tests/public-pages-browser.mjs",
+      "sha256": "937566b404ab5f7e4a582514b3af4e04c5c081293d277d430e02fb709dcbc98e"
+    },
+    {
+      "bytes": 2996,
+      "mode": "0o644",
+      "path": "apps/web/tests/recovery-rules.test.mjs",
+      "sha256": "cb5e07d48c1d9a6b7399f7c38a24f19b57be2e68fc1ef7a623cfe5e80e05c427"
+    },
+    {
+      "bytes": 4613,
+      "mode": "0o644",
+      "path": "apps/web/tests/redeem-intro.test.mjs",
+      "sha256": "b3112e2d1258599a5b07235c4dfebbe7bc64b47d58e6780d29a421b837af8535"
+    },
+    {
+      "bytes": 5750,
+      "mode": "0o644",
+      "path": "apps/web/tests/sms-delivery-browser.mjs",
+      "sha256": "f615d094da115f2fb8c15c70e09360a9d65f00c9daca8356be5a81da21dc79ae"
+    },
+    {
+      "bytes": 4612,
+      "mode": "0o644",
+      "path": "apps/web/tests/sms-retry-browser.mjs",
+      "sha256": "2ec457f1fe5631041a9260a804f61a4809c163a4deacf1d5fc0740b5cbb14807"
+    },
+    {
+      "bytes": 5930,
+      "mode": "0o644",
+      "path": "apps/web/tests/user-error.test.mjs",
+      "sha256": "905bce9eedfecdeb0d7c350577157b6c2d575fc8332cb21f3dd32a9227ca7295"
+    },
+    {
+      "bytes": 262,
+      "mode": "0o644",
+      "path": "apps/web/tsconfig.json",
+      "sha256": "cc46164c81d9b31b1cacad2f31a5f6c455d6733703a6a571d73d3d0c38869923"
+    },
+    {
+      "bytes": 637,
+      "mode": "0o644",
+      "path": "apps/web/vite.config.ts",
+      "sha256": "3223b99bc90a1e075c23984aa6da824ffdb0cf4b60e3b543f5fe82dcb3f0e1ad"
+    },
+    {
+      "bytes": 3650,
+      "mode": "0o644",
+      "path": "deploy/Dockerfile",
+      "sha256": "944a640746f830cb880caad36127559fb866c3bf06e4e9a48e4b78c1a70f54cd"
+    },
+    {
+      "bytes": 12419,
+      "mode": "0o644",
+      "path": "deploy/README.md",
+      "sha256": "8552ad858b4dd6acb4db9b1027172de7591122d5e86aa195deb27d4915dffb06"
+    },
+    {
+      "bytes": 539,
+      "mode": "0o644",
+      "path": "deploy/dujiao/Caddyfile",
+      "sha256": "14f6ae762594ec02df6f348d0857acd4ece50e01c9b88290bae2379c05db3b62"
+    },
+    {
+      "bytes": 4724,
+      "mode": "0o644",
+      "path": "deploy/dujiao/README.md",
+      "sha256": "d467ff276820f0b52fb5ad7e18f9a028382b64807a51b0659ff15ce1dfcb51e1"
+    },
+    {
+      "bytes": 2557,
+      "mode": "0o644",
+      "path": "deploy/dujiao/compose.yml",
+      "sha256": "fdde5283a0d552289dcf609bf75eaeb80ad1d0a30bf014eb8cc48709c122ca03"
+    },
+    {
+      "bytes": 216,
+      "mode": "0o644",
+      "path": "deploy/dujiao/environment.example",
+      "sha256": "8487c7304deac93bcd765a4be7d9e2ee6d92dd2ed5058a9a913879fab3137938"
+    },
+    {
+      "bytes": 2910,
+      "mode": "0o644",
+      "path": "deploy/images.lock.json",
+      "sha256": "03545b583133af1ca5495b062ae925072955b891d23e82d3b3fc0c5634d556b1"
+    },
+    {
+      "bytes": 1029,
+      "mode": "0o644",
+      "path": "deploy/local/Dockerfile",
+      "sha256": "9346db1a400d5f0fe448934c4e5ba666b43b32383aa63ea035d677cf7a8673bf"
+    },
+    {
+      "bytes": 4603,
+      "mode": "0o644",
+      "path": "deploy/local/compose.yml",
+      "sha256": "665e1bf556b75333da08b23ab0ffa9a6a0daf6480dc044503e3367190f6420c8"
+    },
+    {
+      "bytes": 49500,
+      "mode": "0o644",
+      "path": "deploy/maintenance-requirements.lock",
+      "sha256": "fb8092736c2d4db5f0450e8e46c26f453167b925c1566b05614264d40a0af8a9"
+    },
+    {
+      "bytes": 1352,
+      "mode": "0o644",
+      "path": "deploy/smsinvit/Caddyfile",
+      "sha256": "d852cc28b25ee428d7b26512b88f196d352b59fd799682fae9b9fa3212480af2"
+    },
+    {
+      "bytes": 310,
+      "mode": "0o644",
+      "path": "deploy/smsinvit/compose.ca.yml",
+      "sha256": "b62d4478e311d9f77b91aca415b6886f66bd64fdb6c5246db1dc4439c654bccd"
+    },
+    {
+      "bytes": 4759,
+      "mode": "0o644",
+      "path": "deploy/smsinvit/compose.yml",
+      "sha256": "48fc1c36ac1fdc03daa6297b6c8961c7973259d53f8a6304ad02c8eedde91453"
+    },
+    {
+      "bytes": 713,
+      "mode": "0o644",
+      "path": "deploy/smsinvit/environment.example",
+      "sha256": "ca60c93ea665444ad8dab99d9b8ac9c6b8fc3d1fdad793dc19b1c1daf378a68d"
+    },
+    {
+      "bytes": 1495,
+      "mode": "0o644",
+      "path": "deploy/smsinvit/runtime.example.yaml",
+      "sha256": "d8d9b97b21068d93bb267e3f3879a2514a30ff0757e3089b138ab5bb5978afaa"
+    },
+    {
+      "bytes": 1404,
+      "mode": "0o644",
+      "path": "deploy/support/packages.lock.json",
+      "sha256": "a8b8919258b3ceb44b798322fa7eb34c76eead38d0dfb1dd29df96f57e435f01"
+    },
+    {
+      "bytes": 29622,
+      "mode": "0o644",
+      "path": "deploy/tool-requirements.lock",
+      "sha256": "80547a6b190d6e2f03dc6f913cc453991e7401652d23329d44855734709d3df3"
+    },
+    {
+      "bytes": 8620,
+      "mode": "0o644",
+      "path": "docs/CHANGELOG-2026-11-21-module-removal.md",
+      "sha256": "b22a1b8815fba462234a9678af37e3f74291de12c6703b2832f25d57bdaa3eea"
+    },
+    {
+      "bytes": 7132,
+      "mode": "0o644",
+      "path": "docs/local-run.md",
+      "sha256": "4e4f6459da23ebaec339c2a669ee0050f2779f0f783640dbe2477f9705667749"
+    },
+    {
+      "bytes": 260559,
+      "mode": "0o644",
+      "path": "docs/screenshots/local-admin-login.png",
+      "sha256": "5160c26d8d2e3e5445998a365f1cb74e52e05ff29e6c1f12e7ecfdb6f043f7b5"
+    },
+    {
+      "bytes": 43157,
+      "mode": "0o644",
+      "path": "docs/screenshots/local-codex-page.png",
+      "sha256": "be69584d64e89c8531fbb173ea0294efff94421be7ccce2d7bffcaf6aebf836f"
+    },
+    {
+      "bytes": 28810,
+      "mode": "0o644",
+      "path": "docs/screenshots/local-sms-page.png",
+      "sha256": "0657e6969e531687f541537a6c31aa41f987e91a3b386375ab2db0fc2972deed"
+    },
+    {
+      "bytes": 1039,
+      "mode": "0o644",
+      "path": "eslint.config.mjs",
+      "sha256": "3a13a3ffe2d13daa32eab3efc2289efd052f03ff7437e82f4d7cca1fba889abe"
+    },
+    {
+      "bytes": 848,
+      "mode": "0o644",
+      "path": "migrations/V10__invitation_redemption_attempts.sql",
+      "sha256": "f3d70ab6271de9accfdf0e9b26aab2a74f2c69ece44d485398d01a3f75771869"
+    },
+    {
+      "bytes": 1919,
+      "mode": "0o644",
+      "path": "migrations/V11__proxy_dual_409_locks.sql",
+      "sha256": "ff2dee324ec7b4c4558f7c7ac25e838f9be45a8cc65b4f6909b7221b6eb106c7"
+    },
+    {
+      "bytes": 519,
+      "mode": "0o644",
+      "path": "migrations/V12__invitation_run_stage.sql",
+      "sha256": "cfad130869429c7a0ccefccececeab0599af15cf6ce4abc7e6c84b8609a8c463"
+    },
+    {
+      "bytes": 543,
+      "mode": "0o644",
+      "path": "migrations/V13__account_phone_binding.sql",
+      "sha256": "37ce6b7766b5de05f422156563fa5192c2efb62a2f738d1b5c5c79c3d732a7fb"
+    },
+    {
+      "bytes": 262,
+      "mode": "0o644",
+      "path": "migrations/V14__account_used_proxy.sql",
+      "sha256": "d87729660be06b719276ef7f533662f3ffeee654967897e99112fdc0525fe498"
+    },
+    {
+      "bytes": 1025,
+      "mode": "0o644",
+      "path": "migrations/V17__invitation_task_hold_review.sql",
+      "sha256": "00f16fa259942caaa95b30d9cf7f2bd830492ed280c6a50a0b61a45e4a9745bd"
+    },
+    {
+      "bytes": 974,
+      "mode": "0o644",
+      "path": "migrations/V19__stats_cost_fields.sql",
+      "sha256": "726cadca6d7f159c1355951b7c47a3762a4287300464f43c2a4460bcb804f11c"
+    },
+    {
+      "bytes": 828,
+      "mode": "0o644",
+      "path": "migrations/V20__integrity_constraints.sql",
+      "sha256": "1affc3c4d6b7a694743af8ee215358f9bc73ed7b4b0aa1f1fd5a950eac1e4600"
+    },
+    {
+      "bytes": 2853,
+      "mode": "0o644",
+      "path": "migrations/V22__admin_ip_bans.sql",
+      "sha256": "dfbee38ad8a64e57e9ff7eb401cd522172418d9b7a59b38bf31957dc569be405"
+    },
+    {
+      "bytes": 467,
+      "mode": "0o644",
+      "path": "migrations/V25__sms_voip_area_exclusions.sql",
+      "sha256": "d276e4cf772d17eec592ea5286110efc9f69cbb6c989214c39be45a497845d73"
+    },
+    {
+      "bytes": 240,
+      "mode": "0o644",
+      "path": "migrations/V26__sms_area_exclusion_active.sql",
+      "sha256": "676cca789e78b474cef55050ca5c6dcbae7b304265849e7a286bbc602c6b6538"
+    },
+    {
+      "bytes": 8729,
+      "mode": "0o644",
+      "path": "migrations/V7__python_invitation.sql",
+      "sha256": "d483e9d1e89e3aa79356a26d98f86b34b5a77591c854487a7f288106ead5e8d8"
+    },
+    {
+      "bytes": 821,
+      "mode": "0o644",
+      "path": "migrations/V8__invitation_execution_permits.sql",
+      "sha256": "99171e6509fb6d0caeadcf40ebc6a5fba37c8c93d33bebb9b1d2de913afd8143"
+    },
+    {
+      "bytes": 1559,
+      "mode": "0o644",
+      "path": "migrations/V9__invitation_sms_and_manual_completion.sql",
+      "sha256": "3320ccbffdc4c49a2367eef222d34e45ddc97bad4282df06134b787dc9ade540"
+    },
+    {
+      "bytes": 20676,
+      "mode": "0o644",
+      "path": "migrations/legacy/V1__mysql_schema.sql",
+      "sha256": "79d52a7fbf06803bf799fe33f2ca17458123ff4ab4b9f0b3be2b0e3b76ca3188"
+    },
+    {
+      "bytes": 7814,
+      "mode": "0o644",
+      "path": "migrations/legacy/V2__invitation_module.sql",
+      "sha256": "843580221ddd55a77922a9b08f23c84988ecd5f95323b819d5ad7ae03d381970"
+    },
+    {
+      "bytes": 1347,
+      "mode": "0o644",
+      "path": "migrations/legacy/V3__invitation_legacy_import.sql",
+      "sha256": "71a2def1e995a762fc0b8a49a6eb3a8915e2af03d534fb68ec609a877fadf4fa"
+    },
+    {
+      "bytes": 1287,
+      "mode": "0o644",
+      "path": "migrations/legacy/V6__invitation_flow_completion.sql",
+      "sha256": "40081511cb82187e367ff0b2088f7dbc1241eb1bf6ebebb4bbafe09b0bd80504"
+    },
+    {
+      "bytes": 1386,
+      "mode": "0o644",
+      "path": "package.json",
+      "sha256": "a16c48d2599609cc949586fcc5ace4ecc7a54283e616126295a6782e5c612ff0"
+    },
+    {
+      "bytes": 456,
+      "mode": "0o644",
+      "path": "packages/errors/package.json",
+      "sha256": "c4e54d6829334e5f302a943086be663e596d8fab327495d8a48656c4963c9d40"
+    },
+    {
+      "bytes": 1090,
+      "mode": "0o644",
+      "path": "packages/errors/src/errors.test.ts",
+      "sha256": "716124e260081015c6ef9cb675556b55404d9cbcbddd3b514ede67e083406f00"
+    },
+    {
+      "bytes": 5054,
+      "mode": "0o644",
+      "path": "packages/errors/src/index.ts",
+      "sha256": "3b92d4858d04e4fc287b9ecfb500f2862cbfa9485838981ae171c0c0e6bfc32f"
+    },
+    {
+      "bytes": 12565,
+      "mode": "0o644",
+      "path": "packages/errors/src/user-messages.ts",
+      "sha256": "b2ff4c41deb47118d1357f622aba7f6eeeb3083f047f04de3cd8e4de967e2f04"
+    },
+    {
+      "bytes": 185,
+      "mode": "0o644",
+      "path": "packages/errors/tsconfig.json",
+      "sha256": "a9da63bcd95b384eecfac958de0cc9633d2c97dcf19b250d11483cc969b38a07"
+    },
+    {
+      "bytes": 689,
+      "mode": "0o644",
+      "path": "packages/tsconfig/base.json",
+      "sha256": "da03c0e0f452c047d43f2cfaed2da01fe0aa017c5e52726e778f0d3e951e8d3b"
+    },
+    {
+      "bytes": 129,
+      "mode": "0o644",
+      "path": "packages/tsconfig/package.json",
+      "sha256": "d12c608b828faec7122887d1c7f0ba9b89ad773b7116731bcd01d4d40bd8e2b1"
+    },
+    {
+      "bytes": 349,
+      "mode": "0o644",
+      "path": "packages/tsconfig/react.json",
+      "sha256": "4802216caea76771df67440e7cd06c3b8345b8cbc9a22a7be43808d6f6f4b67b"
+    },
+    {
+      "bytes": 721,
+      "mode": "0o644",
+      "path": "patches/braces@3.0.3.patch",
+      "sha256": "45eff76d202934b9cc1658f552dd814cb44b6978e02fd72329b25af977f63a10"
+    },
+    {
+      "bytes": 136175,
+      "mode": "0o644",
+      "path": "pnpm-lock.yaml",
+      "sha256": "78c5aa280af198698e21874d2bbd6e4d7fa4cbd50ba2a454ff7879a3a035123b"
+    },
+    {
+      "bytes": 40,
+      "mode": "0o644",
+      "path": "pnpm-workspace.yaml",
+      "sha256": "60ce4d1dbf137701a4683d171391c51662700c2f3e32a7caab8b2efc22540e65"
+    },
+    {
+      "bytes": 2148,
+      "mode": "0o644",
+      "path": "ruff.toml",
+      "sha256": "85e569debe50a5e586c161b1e6514ca34ec80e0b8fda4100a1f2064b1665d16c"
+    },
+    {
+      "bytes": 3816,
+      "mode": "0o644",
+      "path": "scripts/backup.py",
+      "sha256": "44a44411705097c3d26841f048599cf608b50fee18d6a1a3c8bb60d4b10ef200"
+    },
+    {
+      "bytes": 10303,
+      "mode": "0o644",
+      "path": "scripts/build_images.py",
+      "sha256": "c970c30e2dc474004f1037a1f0e82ff0482901a178805d65b3a360552bd77f63"
+    },
+    {
+      "bytes": 6865,
+      "mode": "0o644",
+      "path": "scripts/build_support_images.py",
+      "sha256": "20ad61969487b8f5aefab858a36dcb68ca9b61d660cdbacbc5d69ea9738865f2"
+    },
+    {
+      "bytes": 3091,
+      "mode": "0o644",
+      "path": "scripts/configure_site.py",
+      "sha256": "ed7f292cc6b7d16aa9fddd4d4bcc8b2f009c3350a7e465d344010ef9fb2034fb"
+    },
+    {
+      "bytes": 1099,
+      "mode": "0o644",
+      "path": "scripts/database_grants.sql.template",
+      "sha256": "e6e7b98c6fb09356f2fb20426df3693de21f60b1db2ae884b776824d19a74b45"
+    },
+    {
+      "bytes": 6618,
+      "mode": "0o644",
+      "path": "scripts/database_tools.py",
+      "sha256": "44ec3f6a4a1dbb6f5f4e2fc4567b61a0f4bc37823b0644ad77864a9cbdd13396"
+    },
+    {
+      "bytes": 7918,
+      "mode": "0o644",
+      "path": "scripts/deployment_release.py",
+      "sha256": "65aee0c88f44d225e771bd4e955faaae32c43ea79837aa29a30554bde96abcb3"
+    },
+    {
+      "bytes": 4238,
+      "mode": "0o644",
+      "path": "scripts/export_images.py",
+      "sha256": "92e91d153d0118074dc17eaef0b1994430be4f0af34e1dfd94b848fdba7f99b0"
+    },
+    {
+      "bytes": 5705,
+      "mode": "0o644",
+      "path": "scripts/fetch_trivy_db.py",
+      "sha256": "bd2dcab05bdf57327888767c9da9de2cf81d9f7c8204a26d18231a135c86a480"
+    },
+    {
+      "bytes": 19551,
+      "mode": "0o644",
+      "path": "scripts/import_invitation.py",
+      "sha256": "9e520650b76c797c4aceff36a35550505f340b6ef6a63df23b2156496172a756"
+    },
+    {
+      "bytes": 4724,
+      "mode": "0o644",
+      "path": "scripts/invitation_sms_history.py",
+      "sha256": "82524a9e9c8f8697e37cbdaaac30f8b5adc84bea9b3ba03d1ece36d9822a89c4"
+    },
+    {
+      "bytes": 9643,
+      "mode": "0o644",
+      "path": "scripts/local_preview.py",
+      "sha256": "807e899bd9d1aaaa1520fe5b290b10e188b35d6bc674f245c7b67852276aacf4"
+    },
+    {
+      "bytes": 17081,
+      "mode": "0o644",
+      "path": "scripts/measure_codex_turn.py",
+      "sha256": "708b6fab30da3f5381e63ca52ff3e74c4bb117cf7838a3d99af2dea16a20722e"
+    },
+    {
+      "bytes": 15600,
+      "mode": "0o644",
+      "path": "scripts/migrate.py",
+      "sha256": "7611b6d26ac31aa78d34a0f29536a392198d3f80390783c87b4feae1afd754b2"
+    },
+    {
+      "bytes": 7394,
+      "mode": "0o644",
+      "path": "scripts/prepare_deployment.py",
+      "sha256": "3bcb1c4bbe6dfc8ed56d4f3a99302efbf5a860a2130c8c4d7640b9471e506275"
+    },
+    {
+      "bytes": 2401,
+      "mode": "0o644",
+      "path": "scripts/prepare_dujiao.py",
+      "sha256": "2b3be6421b3ed7fbea09de66252816c1c5dd6a35ce78b6025258efddd16ff88a"
+    },
+    {
+      "bytes": 6320,
+      "mode": "0o644",
+      "path": "scripts/private_archive.py",
+      "sha256": "b7d3afc1b4ea6c5f8f3bb70ad982dec2dec238bb68784693a54ca99241a6af7f"
+    },
+    {
+      "bytes": 6238,
+      "mode": "0o644",
+      "path": "scripts/pull_verified.py",
+      "sha256": "65bcbe53e2ed5f62a282734abf86378af22730f0d857eb7b07aeee804a8699f1"
+    },
+    {
+      "bytes": 13403,
+      "mode": "0o644",
+      "path": "scripts/release.py",
+      "sha256": "4ca1003ff2c240e1e2bbc32dbe9cf6725c1b135283a02f24f327d1cabd5da20f"
+    },
+    {
+      "bytes": 3919,
+      "mode": "0o644",
+      "path": "scripts/restore.py",
+      "sha256": "b4abcdaf9ea6ac6fa72bc1a62635c5056f4639856a00326a7b614a198a12ca7a"
+    },
+    {
+      "bytes": 9267,
+      "mode": "0o644",
+      "path": "scripts/sandbox_exec.py",
+      "sha256": "2f0dd2f0cbac0286e75e45f76ec9bd4f15906a72eb31b2b52b7f80c3d73b03a8"
+    },
+    {
+      "bytes": 20126,
+      "mode": "0o644",
+      "path": "scripts/sandbox_network.py",
+      "sha256": "924356eabea417b9c6fd720ecd15b8c3db938fda0ab1aa73cb11cc39e2d3fa04"
+    },
+    {
+      "bytes": 9829,
+      "mode": "0o644",
+      "path": "scripts/sandbox_seccomp.py",
+      "sha256": "d0eb5417a6db5d572a706ee4cab0750d3919c72cfbb5291f9b99ba682a865cf3"
+    },
+    {
+      "bytes": 10154,
+      "mode": "0o644",
+      "path": "scripts/scan_image.py",
+      "sha256": "39c690e374013f4111eb8967db9e6503250c53deced118010dfeb6596a3611d7"
+    },
+    {
+      "bytes": 4253,
+      "mode": "0o644",
+      "path": "scripts/sqlite_snapshot.py",
+      "sha256": "2e7e3e58221e122ad07b4bb86255d3c382b9e9094010344e537c1de973182ec3"
+    },
+    {
+      "bytes": 6603,
+      "mode": "0o644",
+      "path": "scripts/tests/caddy_header_probe.py",
+      "sha256": "4404f1ed453bc10db082c1d10b7d09428014a9dd293f99244a6c86de49aaec5c"
+    },
+    {
+      "bytes": 10682,
+      "mode": "0o644",
+      "path": "scripts/tests/database_tls_identity_probe.py",
+      "sha256": "35f3be06e196c66a1e6dfa4bd1725bd68dc0dfeeb02a3c7b31ba713621d0f58e"
+    },
+    {
+      "bytes": 11229,
+      "mode": "0o644",
+      "path": "scripts/tests/dujiao_runtime_probe.py",
+      "sha256": "4b3bd90c8dc592df0c06b1f0bc06ea878577f1feb218f46545409acc7a4ee14c"
+    },
+    {
+      "bytes": 1691,
+      "mode": "0o644",
+      "path": "scripts/tests/inspect_runtime.py",
+      "sha256": "51405f713fd67b421485c61128c1e354d266b77912b45d7297598c67ed5f19ff"
+    },
+    {
+      "bytes": 8580,
+      "mode": "0o644",
+      "path": "scripts/tests/invitation_api_probe.py",
+      "sha256": "bcf47fe3e01e317e4a21cd5f1c788f6ac7f4f57eb38f9af71bb62919735bb389"
+    },
+    {
+      "bytes": 3832,
+      "mode": "0o644",
+      "path": "scripts/tests/migration_fixtures.py",
+      "sha256": "61267584b514dbac7347a0fe5532c6b62041b546831c7e492ded0bb9c28a6ba6"
+    },
+    {
+      "bytes": 2763,
+      "mode": "0o644",
+      "path": "scripts/tests/network_policy_probe.py",
+      "sha256": "37c61356636b47004c89d8959d8f08e7df408c40cd3b305abcabebf2a65ecc94"
+    },
+    {
+      "bytes": 5169,
+      "mode": "0o644",
+      "path": "scripts/tests/probe_deployment_package.py",
+      "sha256": "6ebf1fa629570bbda303c8fac2fdafc88bba642b6d87895a58f4978157b349c6"
+    },
+    {
+      "bytes": 4684,
+      "mode": "0o644",
+      "path": "scripts/tests/probe_dujiao_package.py",
+      "sha256": "5ef9778be476c9e18c1dd3ee4d1ea9ac817d25abe2192b28b7c8aa1d9cadb2e0"
+    },
+    {
+      "bytes": 9030,
+      "mode": "0o644",
+      "path": "scripts/tests/proxy_ca_snapshot_probe.py",
+      "sha256": "5b14a9bfe6a065e59d82d37bcb4fa29920d3bdd466953c769d4e1bf1b4ee2b0b"
+    },
+    {
+      "bytes": 3453,
+      "mode": "0o644",
+      "path": "scripts/tests/runtime_cve_probe.py",
+      "sha256": "629bc7b615060fb0c2fd0a7fc510f2962b3d8038d04ff2eff9f73139e252f381"
+    },
+    {
+      "bytes": 3103,
+      "mode": "0o644",
+      "path": "scripts/tests/sandbox_dns_probe.py",
+      "sha256": "5d31fedb9ad4828742c6373ba35b9c999065718fb3e2a6e68dfdec60bd9ed45f"
+    },
+    {
+      "bytes": 2238,
+      "mode": "0o644",
+      "path": "scripts/tests/sandbox_edges_probe.py",
+      "sha256": "d4675045b2937e560cdbd232e6c46f386aded95d04349dcf38fc8330dfb3efee"
+    },
+    {
+      "bytes": 11271,
+      "mode": "0o644",
+      "path": "scripts/tests/sandbox_network_probe.py",
+      "sha256": "31f1fc085a167f7635088ab6c31c7048e9b2eff4a0eaed976dc5fe082c7a4615"
+    },
+    {
+      "bytes": 4315,
+      "mode": "0o644",
+      "path": "scripts/tests/sandbox_probe.py",
+      "sha256": "26c7bf28bf6e2441cc82dfe701a00e6f1c0456138f4f4b62013177f0b9a1ac67"
+    },
+    {
+      "bytes": 5632,
+      "mode": "0o644",
+      "path": "scripts/tests/seccomp_probe.py",
+      "sha256": "4d25313143ca78ef707e725d1b4bed14c61d1c86e4794a23d9bb58ee3efefc0f"
+    },
+    {
+      "bytes": 5182,
+      "mode": "0o644",
+      "path": "scripts/tests/support_caddy_probe.py",
+      "sha256": "78a9f2e1d71da99bd008b8136ad90e817d9c5a9cd04dbe2b8f9f89c5796c97c4"
+    },
+    {
+      "bytes": 9920,
+      "mode": "0o644",
+      "path": "scripts/tests/support_mysql_probe.py",
+      "sha256": "379fdaf4808cc02a85fb4ea571a545192077b094e9caf6d58f7191a0b097bd74"
+    },
+    {
+      "bytes": 9399,
+      "mode": "0o644",
+      "path": "scripts/tests/test_invitation_sms_history.py",
+      "sha256": "417c1881ba491ce39e9cf1de0263e8f4b3d147e4423e8e3ae6306242d73ea57b"
+    },
+    {
+      "bytes": 3446,
+      "mode": "0o644",
+      "path": "scripts/tests/test_invitation_v17_migration.py",
+      "sha256": "19e998a1287f097700aae58e735f747e02fceaf7d60883bcca95f9edebe6a9b5"
+    },
+    {
+      "bytes": 3205,
+      "mode": "0o644",
+      "path": "scripts/tests/test_private_archive.py",
+      "sha256": "368a30504477849570843a5ccca8040d90ccd9642757cbe787176ba48dff77e6"
+    },
+    {
+      "bytes": 11529,
+      "mode": "0o644",
+      "path": "scripts/tests/test_release.py",
+      "sha256": "0508c9ed90916353e54f74ef1cef6ea227368cfeffeccbe33319f7afea22ecea"
+    },
+    {
+      "bytes": 7285,
+      "mode": "0o644",
+      "path": "scripts/tests/test_sandbox_network.py",
+      "sha256": "2e806b96347c483797d8abb82b95ff44452f0e608c0b23127e40019ad485ea5e"
+    },
+    {
+      "bytes": 1391,
+      "mode": "0o644",
+      "path": "scripts/tests/test_scan_image.py",
+      "sha256": "93df4acb28108582b5451ced49e3a277c7a17e04d13df51bccddd062e1770819"
+    },
+    {
+      "bytes": 6362,
+      "mode": "0o644",
+      "path": "scripts/tests/test_stats_v19_migration.py",
+      "sha256": "984c0b70c6e950df1ad59bf0d82ab01319a4c63c1ab906fe093fd5d0a5ae399e"
+    },
+    {
+      "bytes": 4648,
+      "mode": "0o644",
+      "path": "scripts/tests/tls_rejection_probe.py",
+      "sha256": "9ae8927e49eb4a2355762dad5408cca1c200988e664b72d1d5acd088cd5d15a8"
+    },
+    {
+      "bytes": 1428,
+      "mode": "0o644",
+      "path": "scripts/verify_dependency_patch.mjs",
+      "sha256": "473ea7ee40f22abc4a42fed3b8c758ac026d450074231daa0ede919defb56135"
+    },
+    {
+      "bytes": 1781,
+      "mode": "0o644",
+      "path": "scripts/verify_private_literals.py",
+      "sha256": "f9cb7c73c4a80504cc680d8bb17801859f2e87761c84d1d26a0aa351fe1fe864"
+    },
+    {
+      "bytes": 666,
+      "mode": "0o644",
+      "path": "turbo.json",
+      "sha256": "2fffeccaf05e41d70ce7f6bbe7f31f398d5e3b34eb0b9446de7f5da71f43dec3"
+    },
+    {
+      "bytes": 9659,
+      "mode": "0o644",
+      "path": "vendor/codex_invit/README.md",
+      "sha256": "97911e7c4a46dd5169b357fff4c622a0b0a907a25b93fd24517bc72ee30c13a0"
+    },
+    {
+      "bytes": 197687,
+      "mode": "0o644",
+      "path": "vendor/codex_invit/auth_flow.py",
+      "sha256": "4a11a94c738d7f501724fc452c25cd290989c1a4dd6bce52f1bc18a4a639ce30"
+    },
+    {
+      "bytes": 538,
+      "mode": "0o644",
+      "path": "vendor/codex_invit/config.py",
+      "sha256": "bf4d33ad4ba72d57826f91242c2b53287ce65368abb77fb7d358604bd2026fe5"
+    },
+    {
+      "bytes": 27164,
+      "mode": "0o644",
+      "path": "vendor/codex_invit/fingerprint.py",
+      "sha256": "db8387eb7acd897672b6301887bcaa0e6e15841d0e7a4d38ca7b25f194e492c4"
+    },
+    {
+      "bytes": 8514,
+      "mode": "0o644",
+      "path": "vendor/codex_invit/http_client.py",
+      "sha256": "cb4c8d8ad1563f691d8ec9a88c2d0353a88ea03d0c7d6965d348f66da4a44f78"
+    },
+    {
+      "bytes": 2150,
+      "mode": "0o644",
+      "path": "vendor/codex_invit/mail_providers/__init__.py",
+      "sha256": "d2475319253adea1bb9d2d3657456fc559fb8a3de95d68f0e60d7f3fb88ba65b"
+    },
+    {
+      "bytes": 39531,
+      "mode": "0o644",
+      "path": "vendor/codex_invit/mail_providers/base.py",
+      "sha256": "ec6cbbccdf541525ab5f0e3e1c946e6bbc44d73fe0fc31d54cb5d5fd2fc78198"
+    },
+    {
+      "bytes": 27217,
+      "mode": "0o644",
+      "path": "vendor/codex_invit/mail_providers/cf_temp.py",
+      "sha256": "c3e42b3fca8d33d584c912cb60ce120115225d792623bf7c62ed1b36cf8fed60"
+    },
+    {
+      "bytes": 38214,
+      "mode": "0o644",
+      "path": "vendor/codex_invit/mail_providers/icloud_relay.py",
+      "sha256": "f682f77c1c27400417d7ef848b3f73fc926e6c8a6a886cda3b8327f5f23c244f"
+    },
+    {
+      "bytes": 2922,
+      "mode": "0o644",
+      "path": "vendor/codex_invit/mail_providers/legacy_imap.py",
+      "sha256": "afcc82c8bb9aa20859db76a50b38fc8626aaba2d1c19fa64b14cd578a1340af6"
+    },
+    {
+      "bytes": 31902,
+      "mode": "0o644",
+      "path": "vendor/codex_invit/mail_providers/outlook.py",
+      "sha256": "3a2b8e17a2ea4f53dc273a3476540cb1f416b8b1c65f43b5afd5bd68e3859086"
+    },
+    {
+      "bytes": 20053,
+      "mode": "0o644",
+      "path": "vendor/codex_invit/openai_sentinel_quickjs.js",
+      "sha256": "7b3cea0ff8cc431322d73e671d6caf25b770da0bdec18152c0039d1aff3897a5"
+    },
+    {
+      "bytes": 296,
+      "mode": "0o644",
+      "path": "vendor/codex_invit/requirements.txt",
+      "sha256": "0b055f3b536ab8e26e40bec8645757b31c8003ae2afe64d2e34529cf7d424f78"
+    },
+    {
+      "bytes": 3496,
+      "mode": "0o644",
+      "path": "vendor/codex_invit/sentinel.py",
+      "sha256": "fdf67c905d0c03bdbe0dfc02b6095327d7e47ecfe832114fb1eb1a6be45af544"
+    },
+    {
+      "bytes": 14232,
+      "mode": "0o644",
+      "path": "vendor/codex_invit/sentinel_quickjs.py",
+      "sha256": "37b14afeb64e80c1dbf01b04481e9196b6334c5cd0928e52b7d0534614759f93"
+    },
+    {
+      "bytes": 44177,
+      "mode": "0o644",
+      "path": "vendor/codex_invit/sms_provider.py",
+      "sha256": "7c8d1000a602cad2de601f685fab5fb3e939f93839349a1828a8a0d96fb77d11"
+    },
+    {
+      "bytes": 1950,
+      "mode": "0o644",
+      "path": "vendor/codex_invit/start_admin.py",
+      "sha256": "284fae67f4d45557f1b9ed3b24848fe331d8252d4a7dc3a9258f84a7b4937c73"
+    },
+    {
+      "bytes": 2152,
+      "mode": "0o644",
+      "path": "vendor/codex_invit/start_user.py",
+      "sha256": "412dde6f685b7dda1db7c9c0aea1b7905bc56fe13072e539f489858bae228fe3"
+    },
+    {
+      "bytes": 0,
+      "mode": "0o644",
+      "path": "vendor/codex_invit/tests/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 1251,
+      "mode": "0o644",
+      "path": "vendor/codex_invit/tests/diagnose_proxy.py",
+      "sha256": "4e05d53ea02950736c5df1d3fd6df3a5a9e9e8ce4dbd1b4cc41e34cc9faf0fd8"
+    },
+    {
+      "bytes": 8676,
+      "mode": "0o644",
+      "path": "vendor/codex_invit/tests/e2e_api.py",
+      "sha256": "863e6012704f8045c8409ac0095dae1c1f31d94265c3aaf1ac203ae62c0e6d3b"
+    },
+    {
+      "bytes": 1637,
+      "mode": "0o644",
+      "path": "vendor/codex_invit/tests/run_all.py",
+      "sha256": "f81e2dcacc157adbaa1e5ab6ffead31123c554b03d15bc3c69b8093ab60f4a4b"
+    },
+    {
+      "bytes": 11564,
+      "mode": "0o644",
+      "path": "vendor/codex_invit/tests/test_codex_flow.py",
+      "sha256": "89d952131633231e6795e480ebd52d624b3b9f85a6809e5ef2f4ca7e3fce1fd0"
+    },
+    {
+      "bytes": 5494,
+      "mode": "0o644",
+      "path": "vendor/codex_invit/tests/test_db_migration.py",
+      "sha256": "96a404392a911f721242dd6dd3fb55440ba0286b2dbcb0eee9e5f74bb7482009"
+    },
+    {
+      "bytes": 8529,
+      "mode": "0o644",
+      "path": "vendor/codex_invit/tests/test_invite_and_cli.py",
+      "sha256": "3ffa5d5564514ff3bd0be138a0e7b703a78c6ddf499ff5d4afd87e1ea79768a8"
+    },
+    {
+      "bytes": 9083,
+      "mode": "0o644",
+      "path": "vendor/codex_invit/tests/test_mail_robust.py",
+      "sha256": "42460e1d8b0a92854bf6989349436643113e8ecc672ab1db7bf8d4ff74864474"
+    },
+    {
+      "bytes": 5665,
+      "mode": "0o644",
+      "path": "vendor/codex_invit/tests/test_proxy_pool.py",
+      "sha256": "9fa2ab20675108cf60a028c38b7f0c463af11034d52c2767229cc120792701ea"
+    },
+    {
+      "bytes": 6249,
+      "mode": "0o644",
+      "path": "vendor/codex_invit/tests/test_redeem_queue.py",
+      "sha256": "e6874de24686d9ede3b79ca957934928c16cd5431e0695097ff244d710454376"
+    },
+    {
+      "bytes": 7419,
+      "mode": "0o644",
+      "path": "vendor/codex_invit/tests/test_sms.py",
+      "sha256": "d3e22c4ef7f85dcba041b1e8546d567a67367202c8681d8ca390d804bea7452e"
+    },
+    {
+      "bytes": 20189,
+      "mode": "0o644",
+      "path": "vendor/codex_invit/tests/test_sms_otp_path.py",
+      "sha256": "37cf775f5d0bbdc8f86d7e3261c866ef1a51c88d32a2e23e17603c638a112af5"
+    },
+    {
+      "bytes": 18266,
+      "mode": "0o644",
+      "path": "vendor/codex_invit/tests/test_smspool.py",
+      "sha256": "f6049accf37077ab1c50d9a74c1b6843abb4cca03bcafefd5d0c57880eb02b60"
+    },
+    {
+      "bytes": 2646,
+      "mode": "0o644",
+      "path": "vendor/codex_invit/tests/util.py",
+      "sha256": "916e5dc3dbd9f692846b8d59e5fe6f54da7f9225348182150420033937057259"
+    },
+    {
+      "bytes": 28,
+      "mode": "0o644",
+      "path": "vendor/codex_invit/webui/__init__.py",
+      "sha256": "226993b9cb5d374eb8298e1a85983c77f0c0dcf0f5017a0609ba08682acf003c"
+    },
+    {
+      "bytes": 73632,
+      "mode": "0o644",
+      "path": "vendor/codex_invit/webui/app.py",
+      "sha256": "a115f0d5c305c56aad2d668ba3f1bbd74be75d2c7f587d7589c9cbedcff6f3bc"
+    },
+    {
+      "bytes": 16829,
+      "mode": "0o644",
+      "path": "vendor/codex_invit/webui/cdk.py",
+      "sha256": "b40507a3ce390c3c758e15ece08c995803930c252289ae54c72a50c4c274e315"
+    },
+    {
+      "bytes": 4483,
+      "mode": "0o644",
+      "path": "vendor/codex_invit/webui/cdk_formats.py",
+      "sha256": "852f36d5e81bd39b4e19cc33719b8d9f0ce99aefc9b4709c52ce2a72c45f93ee"
+    },
+    {
+      "bytes": 80976,
+      "mode": "0o644",
+      "path": "vendor/codex_invit/webui/codex_auth.py",
+      "sha256": "1a7a8b59b6726b86a1f8b6bebd1cbba71373f1fd64abf2cea2c778f22ba62c87"
+    },
+    {
+      "bytes": 11988,
+      "mode": "0o644",
+      "path": "vendor/codex_invit/webui/codex_cli.py",
+      "sha256": "1b59349fd50b7c91a0713aeec992d40aad2b2572e9816c87df026dc004d1dcad"
+    },
+    {
+      "bytes": 34851,
+      "mode": "0o644",
+      "path": "vendor/codex_invit/webui/codex_turn.py",
+      "sha256": "055f3e21c4678baa2bace8bdfd5849d4ebdabada009d7876aa622247bcfb47f8"
+    },
+    {
+      "bytes": 119252,
+      "mode": "0o644",
+      "path": "vendor/codex_invit/webui/db.py",
+      "sha256": "d7355911e6f70d6cc137314b116ddaf11e52500a27422319b7107be64f004639"
+    },
+    {
+      "bytes": 4805,
+      "mode": "0o644",
+      "path": "vendor/codex_invit/webui/export_formats.py",
+      "sha256": "2ef8089240b701e204900e0e041e60d00934119c3bae84c194a47234160ca7ae"
+    },
+    {
+      "bytes": 28308,
+      "mode": "0o644",
+      "path": "vendor/codex_invit/webui/exporter.py",
+      "sha256": "cef2942561d9ebc4275f6dc70f31d6af0ba77985e3785e01b1a3e51d7b9f87b0"
+    },
+    {
+      "bytes": 8850,
+      "mode": "0o644",
+      "path": "vendor/codex_invit/webui/invite_mail.py",
+      "sha256": "0e8ce54a8ca55e64acac9304f535a78c094b7cb4d809bd550803eb91d6066a9f"
+    },
+    {
+      "bytes": 4742,
+      "mode": "0o644",
+      "path": "vendor/codex_invit/webui/mail_alloc.py",
+      "sha256": "1c80fc20ba6944de6e59412f1dac57f6bfc880884fd4f9c8c220622d8a8a4600"
+    },
+    {
+      "bytes": 9308,
+      "mode": "0o644",
+      "path": "vendor/codex_invit/webui/proxy_diag.py",
+      "sha256": "6085f677c1bd7a0e6b8b58a72eeef8b74fb3c703b1c282544669ca0aedea6b65"
+    },
+    {
+      "bytes": 8773,
+      "mode": "0o644",
+      "path": "vendor/codex_invit/webui/proxy_pool.py",
+      "sha256": "75714c2f62e93e8b358c8e4b51f8c9315c94a6b1276bec81a5257870481c05c7"
+    },
+    {
+      "bytes": 6631,
+      "mode": "0o644",
+      "path": "vendor/codex_invit/webui/proxy_test.py",
+      "sha256": "6fa2d7dac134d63fef2e3b74454be37ba3ec00708a83fa162104d873995ae5e0"
+    },
+    {
+      "bytes": 42011,
+      "mode": "0o644",
+      "path": "vendor/codex_invit/webui/registrar.py",
+      "sha256": "4c032bc2b33443643c3e3aedd350f1e3bb9ebd6b9faac0bfb88ef540e2f9019a"
+    },
+    {
+      "bytes": 28477,
+      "mode": "0o644",
+      "path": "vendor/codex_invit/webui/sms_prices.py",
+      "sha256": "38c5b8fc44cfdde507b925cf14de50442e33cbbaa976a49278df8fb4f56b95a3"
+    },
+    {
+      "bytes": 6008,
+      "mode": "0o644",
+      "path": "vendor/codex_invit/webui/sms_refund.py",
+      "sha256": "7f756f4d4c55c161415d10f5f3283d55b3b4bcbde0db9064ae2bb3500b4defa8"
+    },
+    {
+      "bytes": 18097,
+      "mode": "0o644",
+      "path": "vendor/codex_invit/webui/two_factor.py",
+      "sha256": "8fa3507b65c827a54ba731dfda39d791081caca9d6a28ca29eb3a745ead04b17"
+    },
+    {
+      "bytes": 7796,
+      "mode": "0o644",
+      "path": "vendor/codex_invit/webui/user_app.py",
+      "sha256": "df73c9f7be1553d5448fd36c91d99cf9a5811853bffcc96faa91b34d002cfd55"
+    }
+  ],
+  "format": "smsinvit-source-release-v1",
+  "project": "smsinvit",
+  "securityScan": {
+    "rules": [
+      "private_key",
+      "aws_access_key",
+      "github_token",
+      "openai_secret_key",
+      "embedded_token"
+    ],
+    "runtimeDataIncluded": false,
+    "status": "passed"
+  },
+  "version": "v1.0.0-python"
+}

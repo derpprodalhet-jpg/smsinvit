@@ -1,0 +1,26 @@
+{
+    email {$ACME_EMAIL}
+    admin off
+    log default {
+        format filter {
+            wrap json
+            fields {
+                request>uri delete
+                request>headers delete
+                resp_headers delete
+            }
+        }
+    }
+}
+{$DOMAIN} {
+    encode zstd gzip
+    reverse_proxy shop:8080 {
+        header_up -Forwarded
+        header_up -X-Real-IP
+        header_up -X-Forwarded-Port
+    }
+    header {
+        Strict-Transport-Security "max-age=31536000; includeSubDomains"
+        -Server
+    }
+}

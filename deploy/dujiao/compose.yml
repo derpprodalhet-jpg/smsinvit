@@ -1,0 +1,87 @@
+# Deploy on the independent storefront server. No redeem database/network mounted.
+name: dujiao-storefront
+services:
+  shop:
+    image: ${DUJIAO_IMAGE:?Set the independently built storefront image}
+    restart: unless-stopped
+    user: "10001:10001"
+    command: ["./dujiao-next", "-mode", "all"]
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: [ALL]
+    environment:
+      SERVER_HOST: 0.0.0.0
+      SERVER_PORT: "8080"
+      SERVER_MODE: release
+      DATABASE_DRIVER: sqlite
+      DATABASE_DSN: /app/db/dujiao.db
+      REDIS_ENABLED: "true"
+      REDIS_HOST: redis
+      QUEUE_ENABLED: "true"
+      QUEUE_HOST: redis
+    volumes:
+      - ./private/config.yml:/app/config.yml:ro
+      - shop_database:/app/db
+      - shop_uploads:/app/uploads
+      - shop_logs:/app/logs
+    depends_on:
+      redis: {condition: service_healthy}
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:8080/health"]
+      interval: 30s
+      timeout: 5s
+      start_period: 60s
+      retries: 3
+    stop_grace_period: 45s
+    networks: [backend, edge]
+    logging: &logging
+      driver: json-file
+      options: {max-size: "10m", max-file: "3"}
+  redis:
+    image: ${REDIS_IMAGE:?Set the verified dujiao-redis support image}
+    restart: unless-stopped
+    user: "999:1000"
+    read_only: true
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: [ALL]
+    tmpfs: [/tmp]
+    command: ["redis-server", "--appendonly", "yes", "--appendfsync", "everysec"]
+    volumes: ["redis_data:/data"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    networks: [backend]
+    logging: *logging
+  proxy:
+    image: ${CADDY_IMAGE:?Set the verified unprivileged Caddy support image}
+    restart: unless-stopped
+    user: "10001:10001"
+    cap_drop: [ALL]
+    sysctls: {net.ipv4.ip_unprivileged_port_start: "0"}
+    environment:
+      DOMAIN: ${SHOP_DOMAIN:?Set the independent storefront domain}
+      ACME_EMAIL: ${ACME_EMAIL:?Set certificate contact email}
+    ports: ["80:80", "443:443", "443:443/udp"]
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    read_only: true
+    tmpfs: [/tmp]
+    security_opt: ["no-new-privileges:true"]
+    networks:
+      edge: {ipv4_address: 172.31.78.10}
+    logging: *logging
+networks:
+  backend: {internal: true}
+  edge:
+    ipam:
+      config: [{subnet: 172.31.78.0/24}]
+volumes:
+  shop_database:
+  shop_uploads:
+  shop_logs:
+  redis_data:
+  caddy_data:
+  caddy_config:

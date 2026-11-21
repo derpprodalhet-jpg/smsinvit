@@ -1,0 +1,32 @@
+# Images are normally built from release.py's fresh allowlisted context.
+**/.git
+**/.venv
+**/node_modules
+**/__pycache__
+**/*.pyc
+**/.env*
+**/*.db
+**/*.sqlite*
+**/*-wal
+**/*-shm
+**/*.log
+**/auth.json
+**/credentials.json
+**/private
+**/runtime
+**/data
+**/logs
+**/backups
+**/dist
+**/.turbo
+**/.pytest_cache
+**/.DS_Store
+artifacts
+# Invitation Python business modules remain; its former standalone UIs do not.
+vendor/codex_invit/webui/frontend
+vendor/codex_invit/webui/frontend_user
+vendor/codex_invit/webui/static
+vendor/codex_invit/webui/static_user
+# Exact source-page exception; runtime secrets remain excluded.
+!apps/admin/src/pages/settings/runtime/
+!apps/admin/src/pages/settings/runtime/page.tsx

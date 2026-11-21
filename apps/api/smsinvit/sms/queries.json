@@ -1,0 +1,394 @@
+{
+  "insertRedeemKey": {
+    "sql": "\n            INSERT INTO sms_redeem_keys(\n              id, inventory_item_id, sku_id, code_fingerprint, status,\n              sms_service, sms_country, sms_min_price, sms_max_price, sms_min_count,\n              sms_phone_exception, cdk_valid_days,\n              issued_at, expires_at, updated_at)\n            VALUES (#{id},#{inventoryItemId},#{skuId},#{fingerprint},'UNUSED',\n              #{service},#{country},#{min},#{max},#{minCount},#{phoneException},#{validDays},\n              NOW(3), DATE_ADD(NOW(3), INTERVAL #{validDays} DAY), NOW(3))\n            ON DUPLICATE KEY UPDATE `inventory_item_id`=`inventory_item_id`\n            ",
+    "params": [
+      "id",
+      "inventoryItemId",
+      "skuId",
+      "fingerprint",
+      "service",
+      "country",
+      "min",
+      "max",
+      "minCount",
+      "phoneException",
+      "validDays"
+    ],
+    "shape": "execute"
+  },
+  "findKeyByFingerprintForUpdate": {
+    "sql": "\n            SELECT k.id, k.inventory_item_id AS inventoryItemId, k.sku_id AS skuId, i.import_batch_id AS batchId,\n                   k.code_fingerprint AS codeFingerprint, k.status,\n                   k.sms_service AS smsService, k.sms_country AS smsCountry,\n                   k.sms_min_price AS smsMinPrice, k.sms_max_price AS smsMaxPrice,\n                   k.sms_min_count AS smsMinCount, k.sms_phone_exception AS smsPhoneException,\n                   k.cdk_valid_days AS cdkValidDays,\n                   k.issued_at AS issuedAt, k.expires_at AS expiresAt, k.used_at AS usedAt,\n                   k.failed_at AS failedAt, k.attempt_count AS attemptCount,\n                   k.last_error_code AS lastErrorCode, k.created_at AS createdAt, k.updated_at AS updatedAt,\n                   i.secret_ciphertext AS secretCiphertext, i.status AS inventoryStatus\n            FROM sms_redeem_keys k\n            JOIN inventory_items i ON i.id = k.inventory_item_id\n            WHERE k.code_fingerprint = #{fingerprint}\n            FOR UPDATE\n            ",
+    "params": [
+      "fingerprint"
+    ],
+    "shape": "all"
+  },
+  "isCdkAmbiguous": {
+    "sql": "\n            SELECT EXISTS(SELECT 1 FROM redeem_cdk_registry\n            WHERE business_kind='SMS_REDEEM' AND code_fingerprint=#{fingerprint} AND inventory_count > 1)\n            ",
+    "params": [
+      "fingerprint"
+    ],
+    "shape": "scalar"
+  },
+  "lockInventoryStatus": {
+    "sql": "SELECT status FROM inventory_items WHERE id=#{id} FOR UPDATE",
+    "params": [
+      "id"
+    ],
+    "shape": "scalar"
+  },
+  "findActiveSessionId": {
+    "sql": "\n            SELECT id FROM sms_sessions\n            WHERE redeem_key_id=#{keyId}\n              AND status IN ('PENDING_NUMBER','WAITING_CODE','ACQUIRE_UNKNOWN','CANCEL_PENDING')\n            ORDER BY attempt DESC LIMIT 1\n            ",
+    "params": [
+      "keyId"
+    ],
+    "shape": "scalar"
+  },
+  "markKeyFailed": {
+    "sql": "UPDATE sms_redeem_keys SET status='FAILED', failed_at=NOW(3), updated_at=NOW(3) WHERE id=#{id} AND status <> 'DISABLED'",
+    "params": [
+      "id"
+    ],
+    "shape": "execute"
+  },
+  "insertSession": {
+    "sql": "\n            INSERT INTO sms_sessions(id, redeem_key_id, attempt, status, updated_at)\n            VALUES (#{id},#{keyId},#{attempt},'PENDING_NUMBER', NOW(3))\n            ",
+    "params": [
+      "id",
+      "keyId",
+      "attempt"
+    ],
+    "shape": "execute"
+  },
+  "lockKey": {
+    "sql": "UPDATE sms_redeem_keys SET status='LOCKED', attempt_count=#{attempt}, updated_at=NOW(3) WHERE id=#{id} AND status <> 'DISABLED'",
+    "params": [
+      "id",
+      "attempt"
+    ],
+    "shape": "execute"
+  },
+  "markSessionUnavailable": {
+    "sql": "UPDATE sms_sessions SET status='UNAVAILABLE', completed_at=NOW(3), updated_at=NOW(3) WHERE id=#{id}",
+    "params": [
+      "id"
+    ],
+    "shape": "execute"
+  },
+  "startAcquisition": {
+    "sql": "\n            UPDATE sms_sessions SET acquisition_started_at=NOW(3), updated_at=NOW(3)\n            WHERE id=#{id} AND status='PENDING_NUMBER' AND acquisition_started_at IS NULL\n            ",
+    "params": [
+      "id"
+    ],
+    "shape": "execute"
+  },
+  "markStaleAcquisitionsUnknown": {
+    "sql": "\n            UPDATE sms_sessions SET status='ACQUIRE_UNKNOWN', updated_at=NOW(3)\n            WHERE status='PENDING_NUMBER' AND updated_at < DATE_SUB(NOW(3), INTERVAL 10 MINUTE)\n            ",
+    "params": [],
+    "shape": "execute"
+  },
+  "markSessionAcquireUnknown": {
+    "sql": "\n            UPDATE sms_sessions SET status='ACQUIRE_UNKNOWN', updated_at=NOW(3)\n            WHERE id=#{id} AND status='PENDING_NUMBER'\n            ",
+    "params": [
+      "id"
+    ],
+    "shape": "execute"
+  },
+  "markSessionCancelPending": {
+    "sql": "\n            UPDATE sms_sessions\n            SET status='CANCEL_PENDING',\n                activation_id=COALESCE(#{activationId}, activation_id),\n                phone=COALESCE(#{phone}, phone),\n                activation_cost=COALESCE(#{cost}, activation_cost),\n                cancel_refund_attempt=#{refundAttempt},\n                updated_at=NOW(3)\n            WHERE id=#{id}\n              AND status IN ('PENDING_NUMBER','ACQUIRE_UNKNOWN','WAITING_CODE')\n              AND (activation_id IS NULL OR activation_id = #{activationId})\n            ",
+    "params": [
+      "id",
+      "activationId",
+      "phone",
+      "cost",
+      "refundAttempt"
+    ],
+    "shape": "execute"
+  },
+  "rollbackAttempt": {
+    "sql": "\n            UPDATE sms_redeem_keys SET\n              status=(CASE WHEN status IN ('EXPIRED','USED','FAILED','DISABLED') THEN status\n                           WHEN attempt_count<=1 THEN 'UNUSED' ELSE 'LOCKED' END),\n              attempt_count=GREATEST(0, attempt_count-1), updated_at=NOW(3) WHERE id=#{id}\n            ",
+    "params": [
+      "id"
+    ],
+    "shape": "execute"
+  },
+  "markSessionWaitingCode": {
+    "sql": "\n            UPDATE sms_sessions SET activation_id=#{activationId}, phone=#{phone}, activation_cost=#{cost},\n              status='WAITING_CODE', cancel_refund_attempt=0, cancel_eligible_at=#{cancelEligibleAt},\n              number_expires_at=#{numberExpiresAt}, updated_at=NOW(3)\n            WHERE id=#{id} AND ((status IN ('PENDING_NUMBER','ACQUIRE_UNKNOWN') AND activation_id IS NULL) OR (status='CANCEL_PENDING' AND cancel_refund_attempt=1 AND activation_id=#{activationId}))\n            ",
+    "params": [
+      "id",
+      "activationId",
+      "phone",
+      "cost",
+      "cancelEligibleAt",
+      "numberExpiresAt"
+    ],
+    "shape": "execute"
+  },
+  "listPhones": {
+    "sql": "\n            SELECT phone FROM sms_sessions\n            WHERE redeem_key_id=#{keyId} AND phone IS NOT NULL AND phone <> ''\n            ORDER BY attempt ASC\n            ",
+    "params": [
+      "keyId"
+    ],
+    "shape": "column"
+  },
+  "listSessionSummaries": {
+    "sql": "\n            SELECT attempt, phone, status, activation_cost AS activationCost,\n                   sms_code AS smsCode, CAST(sms_codes AS CHAR) AS smsCodes,\n                   sms_text AS smsText, next_sms_code AS nextSmsCode\n            FROM sms_sessions\n            WHERE redeem_key_id=#{keyId}\n            ORDER BY attempt ASC\n            ",
+    "params": [
+      "keyId"
+    ],
+    "shape": "all"
+  },
+  "findLatestSuccessSessionId": {
+    "sql": "\n            SELECT id FROM sms_sessions\n            WHERE redeem_key_id=#{keyId} AND status='SUCCESS'\n            ORDER BY attempt DESC LIMIT 1\n            ",
+    "params": [
+      "keyId"
+    ],
+    "shape": "scalar"
+  },
+  "findLatestSessionWithPhoneId": {
+    "sql": "\n            SELECT id FROM sms_sessions\n            WHERE redeem_key_id=#{keyId} AND phone IS NOT NULL AND phone <> ''\n            ORDER BY attempt DESC LIMIT 1\n            ",
+    "params": [
+      "keyId"
+    ],
+    "shape": "scalar"
+  },
+  "listActiveSessionsForKey": {
+    "sql": "\n            SELECT id, activation_id AS activationId, status FROM sms_sessions\n            WHERE redeem_key_id=#{keyId}\n              AND status IN ('PENDING_NUMBER','WAITING_CODE','ACQUIRE_UNKNOWN','CANCEL_PENDING')\n            ",
+    "params": [
+      "keyId"
+    ],
+    "shape": "all"
+  },
+  "findSessionForUpdate": {
+    "sql": "SELECT \n            id, redeem_key_id AS redeemKeyId, attempt, activation_id AS activationId, phone,\n            activation_cost AS activationCost, status, sms_code AS smsCode,\n            acquisition_started_at AS acquisitionStartedAt, cancel_refund_attempt AS cancelRefundAttempt,\n            CAST(sms_codes AS CHAR) AS smsCodes, sms_text AS smsText,\n            next_sms_code AS nextSmsCode, next_listen_until AS nextListenUntil,\n            provider_finalized_at AS providerFinalizedAt,\n            cancel_eligible_at AS cancelEligibleAt,\n            number_expires_at AS numberExpiresAt, completed_at AS completedAt,\n            created_at AS createdAt, updated_at AS updatedAt\n             FROM sms_sessions WHERE id=#{id} FOR UPDATE",
+    "params": [
+      "id"
+    ],
+    "shape": "one"
+  },
+  "findSessionById": {
+    "sql": "SELECT \n            id, redeem_key_id AS redeemKeyId, attempt, activation_id AS activationId, phone,\n            activation_cost AS activationCost, status, sms_code AS smsCode,\n            acquisition_started_at AS acquisitionStartedAt, cancel_refund_attempt AS cancelRefundAttempt,\n            CAST(sms_codes AS CHAR) AS smsCodes, sms_text AS smsText,\n            next_sms_code AS nextSmsCode, next_listen_until AS nextListenUntil,\n            provider_finalized_at AS providerFinalizedAt,\n            cancel_eligible_at AS cancelEligibleAt,\n            number_expires_at AS numberExpiresAt, completed_at AS completedAt,\n            created_at AS createdAt, updated_at AS updatedAt\n             FROM sms_sessions WHERE id=#{id}",
+    "params": [
+      "id"
+    ],
+    "shape": "one"
+  },
+  "findReusableSessionId": {
+    "sql": "\n            SELECT id FROM sms_sessions\n            WHERE redeem_key_id=#{keyId} AND attempt=#{attempt}\n              AND status IN ('UNAVAILABLE','CANCELLED','FAILED')\n            LIMIT 1\n            ",
+    "params": [
+      "keyId",
+      "attempt"
+    ],
+    "shape": "scalar"
+  },
+  "resetSessionPending": {
+    "sql": "\n            UPDATE sms_sessions SET status='PENDING_NUMBER', activation_id=NULL, phone=NULL,\n              activation_cost=NULL, sms_code=NULL, sms_codes=NULL, sms_text=NULL, next_sms_code=NULL,\n              next_listen_until=NULL, provider_finalized_at=NULL,\n              cancel_eligible_at=NULL, number_expires_at=NULL, completed_at=NULL, updated_at=NOW(3)\n              , acquisition_started_at=NULL, cancel_refund_attempt=FALSE\n            WHERE id=#{id}\n            ",
+    "params": [
+      "id"
+    ],
+    "shape": "execute"
+  },
+  "findKeyForUpdate": {
+    "sql": "SELECT \n            id, inventory_item_id AS inventoryItemId, sku_id AS skuId,\n            (SELECT import_batch_id FROM inventory_items WHERE inventory_items.id = sms_redeem_keys.inventory_item_id) AS batchId,\n            code_fingerprint AS codeFingerprint, status,\n            sms_service AS smsService, sms_country AS smsCountry,\n            sms_min_price AS smsMinPrice, sms_max_price AS smsMaxPrice,\n            sms_min_count AS smsMinCount, sms_phone_exception AS smsPhoneException,\n            cdk_valid_days AS cdkValidDays,\n            issued_at AS issuedAt, expires_at AS expiresAt, used_at AS usedAt, failed_at AS failedAt,\n            attempt_count AS attemptCount, last_error_code AS lastErrorCode,\n            created_at AS createdAt, updated_at AS updatedAt\n             FROM sms_redeem_keys WHERE id=#{id} FOR UPDATE",
+    "params": [
+      "id"
+    ],
+    "shape": "one"
+  },
+  "findKeyById": {
+    "sql": "SELECT \n            id, inventory_item_id AS inventoryItemId, sku_id AS skuId,\n            (SELECT import_batch_id FROM inventory_items WHERE inventory_items.id = sms_redeem_keys.inventory_item_id) AS batchId,\n            code_fingerprint AS codeFingerprint, status,\n            sms_service AS smsService, sms_country AS smsCountry,\n            sms_min_price AS smsMinPrice, sms_max_price AS smsMaxPrice,\n            sms_min_count AS smsMinCount, sms_phone_exception AS smsPhoneException,\n            cdk_valid_days AS cdkValidDays,\n            issued_at AS issuedAt, expires_at AS expiresAt, used_at AS usedAt, failed_at AS failedAt,\n            attempt_count AS attemptCount, last_error_code AS lastErrorCode,\n            created_at AS createdAt, updated_at AS updatedAt\n             FROM sms_redeem_keys WHERE id=#{id}",
+    "params": [
+      "id"
+    ],
+    "shape": "one"
+  },
+  "markSessionCancelled": {
+    "sql": "UPDATE sms_sessions SET status='CANCELLED', completed_at=NOW(3), updated_at=NOW(3) WHERE id=#{id}",
+    "params": [
+      "id"
+    ],
+    "shape": "execute"
+  },
+  "findSessionIdByActivationForUpdate": {
+    "sql": "\n            SELECT id FROM sms_sessions\n            WHERE activation_id=#{activationId} AND (status IN ('WAITING_CODE','SUCCESS')\n              OR (status='CANCEL_PENDING' AND NOT cancel_refund_attempt))\n            ORDER BY created_at DESC LIMIT 1 FOR UPDATE\n            ",
+    "params": [
+      "activationId"
+    ],
+    "shape": "scalar"
+  },
+  "markSessionSuccess": {
+    "sql": "\n            UPDATE sms_sessions SET status='SUCCESS', sms_code=#{code}, sms_text=#{text},\n              sms_codes=CAST(#{codesJson} AS JSON), next_sms_code=NULL, next_listen_until=NULL,\n              completed_at=NOW(3), updated_at=NOW(3)\n            WHERE id=#{id} AND (status='WAITING_CODE' OR (status='CANCEL_PENDING' AND NOT cancel_refund_attempt))\n            ",
+    "params": [
+      "id",
+      "code",
+      "text",
+      "codesJson"
+    ],
+    "shape": "execute"
+  },
+  "markKeyUsed": {
+    "sql": "\n            UPDATE sms_redeem_keys\n            SET status='USED', used_at=COALESCE(used_at, NOW(3)), updated_at=NOW(3)\n            WHERE id=#{id} AND status='LOCKED'\n            ",
+    "params": [
+      "id"
+    ],
+    "shape": "execute"
+  },
+  "startNextListen": {
+    "sql": "\n            UPDATE sms_sessions SET next_listen_until=#{until},\n              number_expires_at=GREATEST(COALESCE(number_expires_at, #{until}), #{until}),\n              updated_at=NOW(3)\n            WHERE id=#{id}\n            ",
+    "params": [
+      "id",
+      "until"
+    ],
+    "shape": "execute"
+  },
+  "appendSmsCode": {
+    "sql": "\n            UPDATE sms_sessions SET sms_code=#{code}, sms_text=#{text},\n              sms_codes=CAST(#{codesJson} AS JSON), next_sms_code=NULL, next_listen_until=NULL,\n              updated_at=NOW(3)\n            WHERE id=#{id}\n            ",
+    "params": [
+      "id",
+      "code",
+      "text",
+      "codesJson"
+    ],
+    "shape": "execute"
+  },
+  "markProviderFinalized": {
+    "sql": "\n            UPDATE sms_sessions SET next_listen_until=NULL, provider_finalized_at=NOW(3), updated_at=NOW(3)\n            WHERE id=#{id}\n            ",
+    "params": [
+      "id"
+    ],
+    "shape": "execute"
+  },
+  "clearNextListen": {
+    "sql": "\n            UPDATE sms_sessions SET next_listen_until=NULL, updated_at=NOW(3)\n            WHERE id=#{id}\n            ",
+    "params": [
+      "id"
+    ],
+    "shape": "execute"
+  },
+  "findRedeemKeyId": {
+    "sql": "SELECT redeem_key_id FROM sms_sessions WHERE id=#{id}",
+    "params": [
+      "id"
+    ],
+    "shape": "scalar"
+  },
+  "sessionView": {
+    "sql": "\n            SELECT s.id, s.redeem_key_id AS redeemKeyId, s.attempt, s.phone, s.status, s.cancel_refund_attempt AS cancelRefundAttempt,\n                   s.sms_code AS smsCode, CAST(s.sms_codes AS CHAR) AS smsCodes,\n                   s.next_sms_code AS nextSmsCode,\n                   s.next_listen_until AS nextListenUntil,\n                   s.provider_finalized_at AS providerFinalizedAt,\n                   s.cancel_eligible_at AS cancelEligibleAt,\n                   s.number_expires_at AS numberExpiresAt, s.completed_at AS completedAt,\n                   s.created_at AS createdAt, s.updated_at AS updatedAt,\n                   k.status AS keyStatus, k.attempt_count AS attemptCount,\n                   k.expires_at AS keyExpiresAt,\n                   k.sms_service AS smsService, k.sms_country AS smsCountry\n            FROM sms_sessions s\n            JOIN sms_redeem_keys k ON k.id = s.redeem_key_id\n            WHERE s.id=#{id}\n            ",
+    "params": [
+      "id"
+    ],
+    "shape": "one"
+  },
+  "listExpiredKeyIds": {
+    "sql": "SELECT id FROM sms_redeem_keys WHERE status IN ('UNUSED','LOCKED') AND expires_at <= NOW(3) LIMIT 200",
+    "params": [],
+    "shape": "column"
+  },
+  "listTimedOutWaiting": {
+    "sql": "\n            SELECT id, redeem_key_id AS redeemKeyId FROM sms_sessions\n            WHERE status='WAITING_CODE' AND number_expires_at IS NOT NULL AND number_expires_at <= NOW(3)\n            ORDER BY number_expires_at LIMIT 50\n            ",
+    "params": [],
+    "shape": "all"
+  },
+  "listTimedOutSuccess": {
+    "sql": "\n            SELECT id, activation_id AS activationId FROM sms_sessions\n            WHERE status='SUCCESS' AND provider_finalized_at IS NULL\n              AND ((number_expires_at IS NOT NULL AND number_expires_at <= NOW(3))\n                OR (next_listen_until IS NOT NULL AND next_listen_until <= NOW(3)))\n            ORDER BY COALESCE(next_listen_until,number_expires_at) LIMIT 50\n            ",
+    "params": [],
+    "shape": "all"
+  },
+  "listCancelPending": {
+    "sql": "\n            SELECT id, redeem_key_id AS redeemKeyId, activation_id AS activationId\n            FROM sms_sessions\n            WHERE status='CANCEL_PENDING' AND activation_id IS NOT NULL AND activation_id <> ''\n            ORDER BY updated_at ASC LIMIT 50\n            ",
+    "params": [],
+    "shape": "all"
+  },
+  "markKeyExpired": {
+    "sql": "UPDATE sms_redeem_keys SET status='EXPIRED', updated_at=NOW(3) WHERE id=#{id} AND status IN ('UNUSED','LOCKED')",
+    "params": [
+      "id"
+    ],
+    "shape": "execute"
+  },
+  "insertEvent": {
+    "sql": "\n            INSERT INTO sms_events(id, redeem_key_id, session_id, event_type, detail_json)\n            VALUES (#{id},#{keyId},#{sessionId},#{type},#{detailJson})\n            ",
+    "params": [
+      "id",
+      "keyId",
+      "sessionId",
+      "type",
+      "detailJson"
+    ],
+    "shape": "execute"
+  },
+  "countKeysByStatus": {
+    "sql": "SELECT status, count(*) AS cnt FROM sms_redeem_keys GROUP BY status",
+    "params": [],
+    "shape": "all"
+  },
+  "countUsedToday": {
+    "sql": "SELECT count(*) FROM sms_redeem_keys WHERE status='USED' AND DATE(used_at) = CURRENT_DATE",
+    "params": [],
+    "shape": "scalar"
+  },
+  "countFailedToday": {
+    "sql": "SELECT count(*) FROM sms_redeem_keys WHERE status='FAILED' AND DATE(failed_at) = CURRENT_DATE",
+    "params": [],
+    "shape": "scalar"
+  },
+  "countRedeems": {
+    "sql": "\n            <script>\n            SELECT count(*) FROM sms_redeem_keys k\n            WHERE (#{filter}='' OR k.status=#{filter})\n            <if test=\"sessionStatus != null and sessionStatus != ''\">\n              AND (SELECT s.status FROM sms_sessions s WHERE s.redeem_key_id=k.id ORDER BY s.attempt DESC LIMIT 1)\n                  = #{sessionStatus}\n            </if>\n            <if test=\"cdkFp != null and cdkFp != ''\">\n              AND k.code_fingerprint = #{cdkFp}\n            </if>\n            </script>\n            ",
+    "params": [
+      "filter",
+      "sessionStatus",
+      "cdkFp"
+    ],
+    "shape": "scalar"
+  },
+  "pageRedeems": {
+    "sql": "\n            <script>\n            SELECT k.id, k.status, k.attempt_count AS attemptCount, k.sms_service AS smsService,\n                   k.sms_country AS smsCountry, k.issued_at AS issuedAt, k.expires_at AS expiresAt,\n                   k.used_at AS usedAt, k.failed_at AS failedAt, i.import_batch_id AS batchId,\n                   i.id AS inventoryItemId, sk.name AS skuName,\n                   k.last_error_code AS lastErrorCode,\n                   k.code_fingerprint AS codeFingerprint,\n                   (SELECT s.phone FROM sms_sessions s WHERE s.redeem_key_id=k.id ORDER BY s.attempt DESC LIMIT 1) AS lastPhone,\n                   (SELECT s.status FROM sms_sessions s WHERE s.redeem_key_id=k.id ORDER BY s.attempt DESC LIMIT 1) AS lastSessionStatus,\n                   (SELECT s.sms_code FROM sms_sessions s\n                    WHERE s.redeem_key_id=k.id AND s.sms_code IS NOT NULL AND s.sms_code != ''\n                    ORDER BY s.attempt DESC LIMIT 1) AS lastSmsCode,\n                   (SELECT s.sms_text FROM sms_sessions s\n                    WHERE s.redeem_key_id=k.id AND s.sms_code IS NOT NULL AND s.sms_code != ''\n                    ORDER BY s.attempt DESC LIMIT 1) AS lastSmsText,\n                   (SELECT s.next_sms_code FROM sms_sessions s\n                    WHERE s.redeem_key_id=k.id ORDER BY s.attempt DESC LIMIT 1) AS nextSmsCode,\n                   (SELECT MIN(s.created_at) FROM sms_sessions s WHERE s.redeem_key_id=k.id) AS firstUsedAt\n            FROM sms_redeem_keys k\n            JOIN inventory_items i ON i.id = k.inventory_item_id\n            LEFT JOIN skus sk ON sk.id = i.sku_id\n            WHERE (#{filter}='' OR k.status=#{filter})\n            <if test=\"sessionStatus != null and sessionStatus != ''\">\n              AND (SELECT s.status FROM sms_sessions s WHERE s.redeem_key_id=k.id ORDER BY s.attempt DESC LIMIT 1)\n                  = #{sessionStatus}\n            </if>\n            <if test=\"cdkFp != null and cdkFp != ''\">\n              AND k.code_fingerprint = #{cdkFp}\n            </if>\n            ORDER BY k.created_at DESC\n            LIMIT #{limit} OFFSET #{offset}\n            </script>\n            ",
+    "params": [
+      "filter",
+      "sessionStatus",
+      "cdkFp",
+      "limit",
+      "offset"
+    ],
+    "shape": "all"
+  },
+  "listDisplayPhones": {
+    "sql": "SELECT phone FROM sms_sessions WHERE redeem_key_id=#{keyId} AND phone IS NOT NULL AND cancel_refund_attempt=0 ORDER BY attempt",
+    "params": [
+      "keyId"
+    ],
+    "shape": "column"
+  },
+  "listAutoExcludedAreas": {
+    "sql": "SELECT prefix FROM sms_voip_area_exclusions WHERE active=1 ORDER BY prefix",
+    "params": [],
+    "shape": "column"
+  },
+  "addAutoExcludedArea": {
+    "sql": "INSERT INTO sms_voip_area_exclusions(prefix,line_type) VALUES(#{prefix},#{lineType}) ON DUPLICATE KEY UPDATE active=1,detection_count=detection_count+1,line_type=VALUES(line_type),updated_at=NOW(3)",
+    "params": [
+      "prefix",
+      "lineType"
+    ],
+    "shape": "execute"
+  },
+  "autoExcludedAreas": {
+    "sql": "SELECT prefix,line_type AS lineType,detection_count AS detectionCount,created_at AS createdAt,updated_at AS updatedAt FROM sms_voip_area_exclusions WHERE active=1 ORDER BY prefix",
+    "params": [],
+    "shape": "all"
+  },
+  "addManualExcludedArea": {
+    "sql": "INSERT INTO sms_voip_area_exclusions(prefix,line_type,detection_count,active) VALUES(#{prefix},'manual',0,1) ON DUPLICATE KEY UPDATE active=1,updated_at=NOW(3)",
+    "params": [
+      "prefix"
+    ],
+    "shape": "execute"
+  },
+  "deleteExcludedArea": {
+    "sql": "INSERT INTO sms_voip_area_exclusions(prefix,line_type,detection_count,active) VALUES(#{prefix},'manual',0,0) ON DUPLICATE KEY UPDATE active=0,updated_at=NOW(3)",
+    "params": [
+      "prefix"
+    ],
+    "shape": "execute"
+  }
+}

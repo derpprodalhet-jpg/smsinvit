@@ -1,0 +1,53 @@
+{
+    email {$ACME_EMAIL}
+    admin off
+    servers {
+        timeouts {
+            read_header 10s
+            read_body 30s
+            idle 2m
+        }
+        max_header_size 32KB
+    }
+    log default {
+        format filter {
+            wrap json
+            fields {
+                request>uri delete
+                request>headers delete
+                resp_headers delete
+            }
+        }
+    }
+}
+{$DOMAIN} {
+    encode zstd gzip
+    request_body {
+        max_size 1MB
+    }
+    reverse_proxy api:3005 {
+        header_up -Forwarded
+        header_up -X-Real-IP
+        header_up -X-Forwarded-Port
+    }
+    header {
+        Strict-Transport-Security "max-age=31536000; includeSubDomains"
+        ?X-Content-Type-Options nosniff
+        ?X-Frame-Options DENY
+        ?Referrer-Policy no-referrer
+        ?Cache-Control no-store
+        -Server
+    }
+    handle_errors {
+        header {
+            Strict-Transport-Security "max-age=31536000; includeSubDomains"
+            X-Content-Type-Options nosniff
+            X-Frame-Options DENY
+            Referrer-Policy no-referrer
+            Cache-Control no-store
+            Content-Security-Policy "default-src 'none'; frame-ancestors 'none'; base-uri 'none'"
+            -Server
+        }
+        respond "服务暂时不可用，请稍后重试。" {err.status_code}
+    }
+}

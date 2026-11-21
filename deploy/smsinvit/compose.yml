@@ -1,0 +1,125 @@
+name: smsinvit-redeem
+services:
+  maintenance:
+    profiles: [maintenance]
+    image: ${SMSINVIT_IMAGE:?Set a verified smsinvit-python image tag or digest}
+    user: "10001:10001"
+    entrypoint: [python]
+    command: [scripts/migrate.py, --credentials-file, /run/secrets/migration.json]
+    read_only: true
+    volumes:
+      - ./private/migration.json:/run/secrets/migration.json:ro
+      - ./private/mysql-tls/ca.pem:/run/secrets/mysql-ca.pem:ro
+    tmpfs: [/tmp]
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: [ALL]
+    networks: [backend]
+  api:
+    image: ${SMSINVIT_IMAGE:?Set a verified smsinvit-python image tag or digest}
+    restart: unless-stopped
+    init: true
+    pids_limit: 512
+    # API 与邀请/补号子进程共享这一个限额。4 GiB 是并发 3 + 自动补号同跑时的
+    # 待验证起点，最终值以真机压测峰值定稿。
+    mem_limit: 4g
+    read_only: true
+    user: "10001:10001"
+    environment:
+      SMSINVIT_CONFIG_FILE: /run/secrets/runtime.yaml
+      SMSINVIT_BIND_HOST: 0.0.0.0
+      PORT: "3005"
+      SMSINVIT_ADMIN_PATH: ${SMSINVIT_ADMIN_PATH:-/admin/}
+      SMSINVIT_INVITATION_DATA_DIR: /app/runtime/invitation
+      SMSINVIT_INVITATION_BINARY_ROOTS: /opt/codex,/opt/smsinvit-bin
+      SMSINVIT_INVITATION_ALLOWED_HOSTS: ${SMSINVIT_INVITATION_ALLOWED_HOSTS:-}
+      SMSINVIT_INVITATION_PROXY_HOSTS: ${SMSINVIT_INVITATION_PROXY_HOSTS:-}
+      SMSINVIT_SUPPLIER_ALLOWED_HOSTS: ${SMSINVIT_SUPPLIER_ALLOWED_HOSTS:-}
+    volumes:
+      - ./private/runtime.yaml:/run/secrets/runtime.yaml:ro
+      - ./private/mysql-tls/ca.pem:/run/secrets/mysql-ca.pem:ro
+      - invitation_runtime:/app/runtime
+    tmpfs:
+      # /tmp 不放大：codex-homes 本身是 RAM 盘，两个 tmpfs 加在一起都吃内存预算。
+      - /tmp:rw,nosuid,nodev,size=256m,mode=1777
+      # CLI 的 CODEX_HOME/TMPDIR 都落在这里；96m 在并发 3 时会成为瓶颈。
+      - /app/runtime/invitation/codex-homes:rw,nosuid,nodev,size=512m,mode=0700,uid=10001,gid=10001
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: [ALL]
+    depends_on:
+      mysql: {condition: service_healthy}
+    stop_grace_period: 120s
+    networks: [backend, edge]
+    logging: &logging
+      driver: json-file
+      options: {max-size: "10m", max-file: "3"}
+  mysql:
+    image: ${MYSQL_IMAGE:?Set the verified smsinvit-mysql support image}
+    restart: unless-stopped
+    user: "999:999"
+    read_only: true
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: [ALL]
+    tmpfs:
+      - /tmp:rw,nosuid,nodev,size=256m,mode=1777
+      - /var/run/mysqld:rw,nosuid,nodev,size=16m,mode=0755,uid=999,gid=999
+    environment:
+      MYSQL_DATABASE: smsinvit
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql-root-password
+    # Host maintenance tools use TLS through loopback; never a public DB port.
+    ports: ["127.0.0.1:${MYSQL_MAINTENANCE_PORT:-3306}:3306"]
+    command:
+      - --require-secure-transport=ON
+      - --ssl-ca=/run/mysql-tls/ca.pem
+      - --ssl-cert=/run/mysql-tls/server.pem
+      - --ssl-key=/run/mysql-tls/server-key.pem
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./private/mysql-root-password:/run/secrets/mysql-root-password:ro
+      - ./private/mysql-tls:/run/mysql-tls:ro
+      - ./private/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      # No password in health command, argv, logs, or Docker inspect.
+      test: ["CMD", "mysqladmin", "--protocol=TCP", "--host=127.0.0.1", "--ssl-mode=VERIFY_IDENTITY", "--ssl-ca=/run/mysql-tls/ca.pem", "ping", "--silent"]
+      interval: 10s
+      timeout: 5s
+      start_period: 60s
+      retries: 10
+    networks:
+      backend: {}
+      maintenance: {gw_priority: 1}
+    logging: *logging
+  proxy:
+    image: ${CADDY_IMAGE:?Set the verified unprivileged Caddy support image}
+    restart: unless-stopped
+    user: "10001:10001"
+    cap_drop: [ALL]
+    sysctls: {net.ipv4.ip_unprivileged_port_start: "0"}
+    environment:
+      DOMAIN: ${SMSINVIT_DOMAIN:?Set the independent redeem domain}
+      ACME_EMAIL: ${ACME_EMAIL:?Set certificate contact email}
+    ports: ["80:80", "443:443", "443:443/udp"]
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    read_only: true
+    tmpfs: [/tmp]
+    security_opt: ["no-new-privileges:true"]
+    depends_on: [api]
+    networks:
+      edge: {ipv4_address: 172.31.77.10}
+    logging: *logging
+networks:
+  backend: {internal: true}
+  # Only MySQL joins this bridge, allowing the loopback maintenance port.
+  maintenance: {}
+  edge:
+    ipam:
+      config: [{subnet: 172.31.77.0/24}]
+volumes:
+  mysql_data:
+  invitation_runtime:
+  caddy_data:
+  caddy_config:

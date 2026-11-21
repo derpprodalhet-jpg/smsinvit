@@ -1,0 +1,42 @@
+{
+  "name": "smsinvit-redeem",
+  "version": "1.0.0",
+  "private": true,
+  "packageManager": "pnpm@10.24.0",
+  "scripts": {
+    "dev": "pnpm build:shared && turbo run dev",
+    "build": "turbo run build --filter=@smsinvit/web --filter=@smsinvit/admin",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test --filter=@smsinvit/web --filter=@smsinvit/admin --filter=@smsinvit/errors",
+    "test:unit": "turbo run test:unit",
+    "test:integration": "turbo run test:integration",
+    "dev:api": "PYTHONPATH=apps/api python -m smsinvit",
+    "build:api": "python -m compileall -q apps/api/smsinvit",
+    "lint:py": "ruff check apps/api/smsinvit apps/api/tests scripts",
+    "test:api": "PYTHONPATH=apps/api python -m pytest apps/api/tests",
+    "build:shared": "pnpm --filter \"./packages/*\" -r build"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^22.20.3",
+    "eslint": "^10.10.0",
+    "globals": "^17.12.0",
+    "prettier": "^3.5.3",
+    "turbo": "^2.4.4",
+    "typescript": "^5.8.2",
+    "typescript-eslint": "^8.70.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "path-to-regexp": "8.4.0",
+      "vite": "7.3.5",
+      "esbuild": "0.28.1",
+      "source-map-js": "1.2.2",
+      "postcss-selector-parser": "7.1.6"
+    },
+    "patchedDependencies": {
+      "braces@3.0.3": "patches/braces@3.0.3.patch"
+    }
+  }
+}

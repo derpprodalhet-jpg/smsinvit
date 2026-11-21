@@ -1,0 +1,1638 @@
+{
+  "HealthMapper": {
+    "ping": {
+      "sql": "SELECT 1",
+      "params": [],
+      "return": "Integer",
+      "operation": "Select"
+    },
+    "workerAlive": {
+      "sql": "SELECT EXISTS(\n              SELECT 1 FROM worker_heartbeats\n              WHERE last_seen_at > DATE_SUB(NOW(3), INTERVAL 45 SECOND)\n            )",
+      "params": [],
+      "return": "Boolean",
+      "operation": "Select"
+    }
+  },
+  "AdminUserMapper": {
+    "searchCount": {
+      "sql": "<script>\n            SELECT COUNT(*) FROM admin_users u\n            WHERE u.deleted_at IS NULL\n            <if test=\"q != null and q != ''\">\n              AND (u.username LIKE #{q} OR u.email LIKE #{q} OR u.display_name LIKE #{q})\n            </if>\n            <if test=\"status != null and status != ''\">AND u.status = #{status}</if>\n            <if test=\"createdFrom != null\">AND u.created_at &gt;= #{createdFrom}</if>\n            <if test=\"createdTo != null\">AND u.created_at &lt; #{createdTo}</if>\n            </script>",
+      "params": [
+        "q",
+        "status",
+        "createdFrom",
+        "createdTo"
+      ],
+      "return": "long",
+      "operation": "Select"
+    },
+    "searchPage": {
+      "sql": "<script>\n            SELECT u.id, u.username, u.email, u.display_name AS displayName, u.status,\n                   u.last_login_at AS lastLoginAt, u.created_at AS createdAt,\n                   CAST((SELECT COALESCE(JSON_ARRAYAGG(r.code), JSON_ARRAY())\n                         FROM admin_user_roles aur JOIN roles r ON r.id = aur.role_id\n                         WHERE aur.admin_user_id = u.id) AS CHAR) AS rolesJson\n            FROM admin_users u\n            WHERE u.deleted_at IS NULL\n            <if test=\"q != null and q != ''\">\n              AND (u.username LIKE #{q} OR u.email LIKE #{q} OR u.display_name LIKE #{q})\n            </if>\n            <if test=\"status != null and status != ''\">AND u.status = #{status}</if>\n            <if test=\"createdFrom != null\">AND u.created_at &gt;= #{createdFrom}</if>\n            <if test=\"createdTo != null\">AND u.created_at &lt; #{createdTo}</if>\n            ORDER BY u.created_at DESC, u.id\n            LIMIT #{limit} OFFSET #{offset}\n            </script>",
+      "params": [
+        "q",
+        "status",
+        "createdFrom",
+        "createdTo",
+        "limit",
+        "offset"
+      ],
+      "return": "List<Map<String, Object>>",
+      "operation": "Select"
+    },
+    "findDetail": {
+      "sql": "SELECT u.id, u.username, u.email, u.display_name AS displayName, u.status,\n                   u.last_login_at AS lastLoginAt, u.created_at AS createdAt,\n                   CAST((SELECT COALESCE(JSON_ARRAYAGG(r.code), JSON_ARRAY())\n                         FROM admin_user_roles aur JOIN roles r ON r.id = aur.role_id\n                         WHERE aur.admin_user_id = u.id) AS CHAR) AS rolesJson\n            FROM admin_users u WHERE u.id = #{id} AND u.deleted_at IS NULL",
+      "params": [
+        "id"
+      ],
+      "return": "Map<String, Object>",
+      "operation": "Select"
+    },
+    "findIdForUpdate": {
+      "sql": "SELECT id FROM admin_users WHERE id = #{id} AND deleted_at IS NULL FOR UPDATE",
+      "params": [
+        "id"
+      ],
+      "return": "String",
+      "operation": "Select"
+    },
+    "existsByUsernameOrEmail": {
+      "sql": "SELECT EXISTS(\n              SELECT 1 FROM admin_users WHERE (username = #{username} OR email = #{email}) AND deleted_at IS NULL\n            )",
+      "params": [
+        "username",
+        "email"
+      ],
+      "return": "boolean",
+      "operation": "Select"
+    },
+    "isSuperAdmin": {
+      "sql": "SELECT EXISTS(\n              SELECT 1 FROM admin_user_roles aur JOIN roles r ON r.id = aur.role_id\n              WHERE aur.admin_user_id = #{id} AND r.code = 'SUPER_ADMIN'\n            )",
+      "params": [
+        "id"
+      ],
+      "return": "boolean",
+      "operation": "Select"
+    },
+    "findAdminRoleId": {
+      "sql": "SELECT id FROM roles WHERE code = 'ADMIN'",
+      "params": [],
+      "return": "String",
+      "operation": "Select"
+    },
+    "insertStaff": {
+      "sql": "INSERT INTO admin_users(id, username, email, password_hash, display_name, updated_at)\n            VALUES (#{id}, #{username}, #{email}, #{passwordHash}, #{displayName}, NOW(3))",
+      "params": [
+        "id",
+        "username",
+        "email",
+        "passwordHash",
+        "displayName"
+      ],
+      "return": "int",
+      "operation": "Insert"
+    },
+    "insertRole": {
+      "sql": "INSERT INTO admin_user_roles(id, admin_user_id, role_id, created_by)\n            VALUES (#{id}, #{adminUserId}, #{roleId}, #{createdBy})",
+      "params": [
+        "id",
+        "adminUserId",
+        "roleId",
+        "createdBy"
+      ],
+      "return": "int",
+      "operation": "Insert"
+    },
+    "updateStatus": {
+      "sql": "UPDATE admin_users SET status = #{status}, updated_at = NOW(3) WHERE id = #{id}",
+      "params": [
+        "id",
+        "status"
+      ],
+      "return": "int",
+      "operation": "Update"
+    },
+    "updatePasswordHash": {
+      "sql": "UPDATE admin_users SET password_hash = #{passwordHash}, updated_at = NOW(3) WHERE id = #{id}",
+      "params": [
+        "id",
+        "passwordHash"
+      ],
+      "return": "int",
+      "operation": "Update"
+    },
+    "softDelete": {
+      "sql": "UPDATE admin_users SET deleted_at = NOW(3), updated_at = NOW(3) WHERE id = #{id}",
+      "params": [
+        "id"
+      ],
+      "return": "int",
+      "operation": "Update"
+    }
+  },
+  "NotificationOutboxMapper": {
+    "enqueue": {
+      "sql": "INSERT INTO notification_outbox(id,event_key,channel,kind,reference_id,payload_encrypted,expires_at)\n            VALUES (#{id},#{eventKey},#{channel},#{kind},#{referenceId},#{payloadEncrypted},#{expiresAt})\n            ON DUPLICATE KEY UPDATE `event_key`=`event_key`",
+      "params": [
+        "id",
+        "eventKey",
+        "channel",
+        "kind",
+        "referenceId",
+        "payloadEncrypted",
+        "expiresAt"
+      ],
+      "return": "int",
+      "operation": "Insert"
+    },
+    "findIdByEventKey": {
+      "sql": "SELECT id FROM notification_outbox WHERE event_key=#{eventKey}",
+      "params": [
+        "eventKey"
+      ],
+      "return": "String",
+      "operation": "Select"
+    },
+    "count": {
+      "sql": "<script>\n            SELECT COUNT(*) FROM notification_outbox\n            <if test=\"status != null and status != ''\">WHERE status = #{status}</if>\n            <if test=\"cancelled == true\">AND last_error_code = 'ADMIN_CANCELLED'</if>\n            </script>",
+      "params": [
+        "status",
+        "cancelled"
+      ],
+      "return": "long",
+      "operation": "Select"
+    },
+    "page": {
+      "sql": "<script>\n            SELECT id,channel,kind,status,attempts,last_error_code AS lastErrorCode,\n                   created_at AS createdAt,updated_at AS updatedAt\n            FROM notification_outbox\n            <if test=\"status != null and status != ''\">WHERE status = #{status}</if>\n            <if test=\"cancelled == true\">AND last_error_code = 'ADMIN_CANCELLED'</if>\n            ORDER BY created_at DESC,id\n            LIMIT #{limit} OFFSET #{offset}\n            </script>",
+      "params": [
+        "status",
+        "cancelled",
+        "limit",
+        "offset"
+      ],
+      "return": "List<Map<String, Object>>",
+      "operation": "Select"
+    },
+    "findById": {
+      "sql": "SELECT id,event_key AS eventKey,channel,kind,reference_id AS referenceId,status,attempts,\n                   last_error_code AS lastErrorCode,remote_id AS remoteId,lease_token AS leaseToken,\n                   locked_until AS lockedUntil,expires_at AS expiresAt,created_at AS createdAt,\n                   updated_at AS updatedAt,payload_encrypted AS payloadEncrypted\n            FROM notification_outbox WHERE id=#{id}",
+      "params": [
+        "id"
+      ],
+      "return": "Map<String, Object>",
+      "operation": "Select"
+    },
+    "findForUpdate": {
+      "sql": "SELECT status, last_error_code AS lastErrorCode, expires_at AS expiresAt FROM notification_outbox WHERE id=#{id} FOR UPDATE",
+      "params": [
+        "id"
+      ],
+      "return": "Map<String, Object>",
+      "operation": "Select"
+    },
+    "resetToPending": {
+      "sql": "UPDATE notification_outbox\n            SET status='PENDING',lease_token=NULL,locked_until=NULL,last_error_code=NULL,updated_at=NOW(3)\n            WHERE id=#{id}",
+      "params": [
+        "id"
+      ],
+      "return": "int",
+      "operation": "Update"
+    },
+    "cancelUnsent": {
+      "sql": "UPDATE notification_outbox\n            SET status='SKIPPED',lease_token=NULL,locked_until=NULL,last_error_code='ADMIN_CANCELLED',updated_at=NOW(3)\n            WHERE id=#{id} AND status IN ('PENDING','FAILED','SKIPPED')",
+      "params": [
+        "id"
+      ],
+      "return": "int",
+      "operation": "Update"
+    }
+  },
+  "NotificationChannelsMapper": {
+    "findEncrypted": {
+      "sql": "SELECT value_encrypted FROM notification_channel_settings WHERE `key`=#{key}",
+      "params": [
+        "key"
+      ],
+      "return": "List<String>",
+      "operation": "Select"
+    },
+    "findLegacyValueJson": {
+      "sql": "SELECT CAST(value_json AS CHAR) FROM settings WHERE `key`=#{key}",
+      "params": [
+        "key"
+      ],
+      "return": "List<String>",
+      "operation": "Select"
+    },
+    "legacyExists": {
+      "sql": "SELECT EXISTS(SELECT 1 FROM settings WHERE `key`=#{key})",
+      "params": [
+        "key"
+      ],
+      "return": "Boolean",
+      "operation": "Select"
+    },
+    "insertIgnore": {
+      "sql": "INSERT INTO notification_channel_settings(`key`,value_encrypted,updated_by)\n            VALUES (#{key},#{encrypted},#{updatedBy})\n            ON DUPLICATE KEY UPDATE `key`=`key`",
+      "params": [
+        "key",
+        "encrypted",
+        "updatedBy"
+      ],
+      "return": "int",
+      "operation": "Insert"
+    },
+    "upsert": {
+      "sql": "INSERT INTO notification_channel_settings(`key`,value_encrypted,updated_by)\n            VALUES (#{key},#{encrypted},#{updatedBy})\n            ON DUPLICATE KEY UPDATE\n              value_encrypted=VALUES(value_encrypted),\n              updated_by=VALUES(updated_by),\n              updated_at=NOW(3)",
+      "params": [
+        "key",
+        "encrypted",
+        "updatedBy"
+      ],
+      "return": "int",
+      "operation": "Insert"
+    },
+    "deleteLegacy": {
+      "sql": "DELETE FROM settings WHERE `key`=#{key}",
+      "params": [
+        "key"
+      ],
+      "return": "int",
+      "operation": "Delete"
+    }
+  },
+  "NotificationWorkerMapper": {
+    "markExpiredSendingUncertain": {
+      "sql": "UPDATE notification_outbox\n            SET status='UNCERTAIN',last_error_code='SEND_LEASE_EXPIRED',\n                lease_token=NULL,locked_until=NULL,updated_at=NOW(3)\n            WHERE status='SENDING' AND locked_until<=NOW(3)",
+      "params": [],
+      "return": "int",
+      "operation": "Update"
+    },
+    "markExpiredPendingSkipped": {
+      "sql": "UPDATE notification_outbox\n            SET status='SKIPPED',last_error_code='MESSAGE_EXPIRED',updated_at=NOW(3)\n            WHERE status='PENDING' AND expires_at<=NOW(3)",
+      "params": [],
+      "return": "int",
+      "operation": "Update"
+    },
+    "selectPendingIdForUpdate": {
+      "sql": "SELECT id FROM notification_outbox\n            WHERE status='PENDING'\n            ORDER BY created_at, id\n            LIMIT 1\n            FOR UPDATE SKIP LOCKED",
+      "params": [],
+      "return": "String",
+      "operation": "Select"
+    },
+    "markSending": {
+      "sql": "UPDATE notification_outbox\n            SET status='SENDING', attempts=attempts+1, lease_token=#{lease},\n                locked_until=DATE_ADD(NOW(3), INTERVAL 5 MINUTE), updated_at=NOW(3)\n            WHERE id=#{id}",
+      "params": [
+        "id",
+        "lease"
+      ],
+      "return": "int",
+      "operation": "Update"
+    },
+    "findById": {
+      "sql": "SELECT id, event_key AS eventKey, channel, kind, reference_id AS referenceId,\n                   payload_encrypted AS payloadEncrypted, status, attempts,\n                   lease_token AS leaseToken, locked_until AS lockedUntil, expires_at AS expiresAt,\n                   last_error_code AS lastErrorCode, remote_id AS remoteId,\n                   created_at AS createdAt, updated_at AS updatedAt\n            FROM notification_outbox WHERE id=#{id}",
+      "params": [
+        "id"
+      ],
+      "return": "Map<String, Object>",
+      "operation": "Select"
+    },
+    "finish": {
+      "sql": "UPDATE notification_outbox\n            SET status=#{status},last_error_code=#{error},remote_id=#{remote},\n                lease_token=NULL,locked_until=NULL,updated_at=NOW(3)\n            WHERE id=#{id} AND lease_token=#{leaseToken} AND status='SENDING' AND locked_until>NOW(3)",
+      "params": [
+        "id",
+        "leaseToken",
+        "status",
+        "error",
+        "remote"
+      ],
+      "return": "int",
+      "operation": "Update"
+    },
+    "updatePayload": {
+      "sql": "UPDATE notification_outbox\n            SET payload_encrypted=#{payload}, updated_at=NOW(3)\n            WHERE id=#{id} AND lease_token=#{leaseToken} AND status='SENDING'",
+      "params": [
+        "id",
+        "leaseToken",
+        "payload"
+      ],
+      "return": "int",
+      "operation": "Update"
+    },
+    "sendLeaseValid": {
+      "sql": "SELECT EXISTS(SELECT 1 FROM notification_outbox\n              WHERE id=#{id} AND lease_token=#{leaseToken} AND status='SENDING'\n                AND locked_until>NOW(3) AND (expires_at IS NULL OR expires_at>NOW(3)))",
+      "params": [
+        "id",
+        "leaseToken"
+      ],
+      "return": "Boolean",
+      "operation": "Select"
+    }
+  },
+  "JobsWorkerMapper": {
+    "upsertHeartbeat": {
+      "sql": "INSERT INTO worker_heartbeats(worker_id,last_seen_at) VALUES (#{workerId},NOW(3))\n            ON DUPLICATE KEY UPDATE last_seen_at=NOW(3)",
+      "params": [
+        "workerId"
+      ],
+      "return": "int",
+      "operation": "Insert"
+    },
+    "deleteStaleHeartbeats": {
+      "sql": "DELETE FROM worker_heartbeats WHERE last_seen_at<DATE_SUB(NOW(3), INTERVAL 2 MINUTE)",
+      "params": [],
+      "return": "int",
+      "operation": "Delete"
+    },
+    "listHeartbeats": {
+      "sql": "SELECT worker_id AS workerId, last_seen_at AS lastSeenAt\n            FROM worker_heartbeats\n            WHERE last_seen_at >= DATE_SUB(NOW(3), INTERVAL 2 MINUTE)\n            ORDER BY last_seen_at DESC\n            LIMIT 10",
+      "params": [],
+      "return": "List<Map<String, Object>>",
+      "operation": "Select"
+    },
+    "deleteExpiredRateLimits": {
+      "sql": "DELETE FROM auth_rate_limits WHERE resets_at<DATE_SUB(NOW(3), INTERVAL 1 DAY)",
+      "params": [],
+      "return": "int",
+      "operation": "Delete"
+    },
+    "deleteExpiredChallenges": {
+      "sql": "DELETE FROM auth_challenges WHERE expires_at<DATE_SUB(NOW(3), INTERVAL 1 DAY)",
+      "params": [],
+      "return": "int",
+      "operation": "Delete"
+    },
+    "deleteExpiredAdminIpBans": {
+      "sql": "DELETE FROM admin_ip_bans\n            WHERE last_failure_at < DATE_SUB(NOW(3), INTERVAL 1 DAY)\n              AND (banned_until IS NULL OR banned_until <= NOW(3))",
+      "params": [],
+      "return": "int",
+      "operation": "Delete"
+    }
+  },
+  "DurableJobMapper": {
+    "count": {
+      "sql": "<script>\n            SELECT COUNT(*) FROM durable_jobs\n            WHERE 1=1\n            <if test=\"status != null and status != ''\">AND status = #{status}</if>\n            <if test=\"cancelled == true\">AND last_error_code = 'ADMIN_CANCELLED'</if>\n            </script>",
+      "params": [
+        "status",
+        "cancelled"
+      ],
+      "return": "long",
+      "operation": "Select"
+    },
+    "page": {
+      "sql": "<script>\n            SELECT id, kind, status, attempts, max_attempts AS maxAttempts, last_error_code AS lastErrorCode,\n                   available_at AS availableAt, updated_at AS updatedAt\n            FROM durable_jobs\n            WHERE 1=1\n            <if test=\"status != null and status != ''\">AND status = #{status}</if>\n            <if test=\"cancelled == true\">AND last_error_code = 'ADMIN_CANCELLED'</if>\n            ORDER BY created_at DESC, id\n            LIMIT #{limit} OFFSET #{offset}\n            </script>",
+      "params": [
+        "status",
+        "cancelled",
+        "limit",
+        "offset"
+      ],
+      "return": "List<Map<String, Object>>",
+      "operation": "Select"
+    },
+    "retryFailed": {
+      "sql": "UPDATE durable_jobs SET status='PENDING', attempts=0, available_at=NOW(3),\n              last_error_code=NULL, updated_at=NOW(3)\n            WHERE id=#{id} AND status='FAILED'\n              AND 1=1",
+      "params": [
+        "id"
+      ],
+      "return": "int",
+      "operation": "Update"
+    },
+    "findForUpdate": {
+      "sql": "SELECT id,status,kind,last_error_code AS lastErrorCode,CAST(payload AS CHAR) AS payload FROM durable_jobs WHERE id=#{id} FOR UPDATE",
+      "params": [
+        "id"
+      ],
+      "return": "Map<String, Object>",
+      "operation": "Select"
+    },
+    "cancelActive": {
+      "sql": "UPDATE durable_jobs SET status='FAILED', last_error_code=#{error}, lease_token=NULL, locked_until=NULL,\n              available_at=NOW(3), updated_at=NOW(3)\n            WHERE id=#{id} AND status IN ('PENDING','RUNNING')",
+      "params": [
+        "id",
+        "error"
+      ],
+      "return": "int",
+      "operation": "Update"
+    },
+    "enqueue": {
+      "sql": "INSERT INTO durable_jobs(id,kind,deduplication_key,payload,available_at,request_id)\n            VALUES (#{id},#{kind},#{key},CAST(#{payload} AS JSON),#{availableAt},#{requestId})\n            ON DUPLICATE KEY UPDATE deduplication_key=deduplication_key",
+      "params": [
+        "id",
+        "kind",
+        "key",
+        "payload",
+        "availableAt",
+        "requestId"
+      ],
+      "return": "int",
+      "operation": "Insert"
+    },
+    "selectClaimIds": {
+      "sql": "SELECT id FROM durable_jobs\n            WHERE status='PENDING' AND available_at <= NOW(3)\n            ORDER BY available_at, created_at\n            LIMIT #{size}\n            FOR UPDATE SKIP LOCKED",
+      "params": [
+        "size"
+      ],
+      "return": "List<String>",
+      "operation": "Select"
+    },
+    "markClaimed": {
+      "sql": "<script>\n            UPDATE durable_jobs\n            SET status='RUNNING', attempts=attempts+1,\n                lease_token=#{token},\n                locked_until=DATE_ADD(NOW(3), INTERVAL #{seconds} SECOND),\n                updated_at=NOW(3)\n            WHERE id IN\n            <foreach collection=\"ids\" item=\"id\" open=\"(\" separator=\",\" close=\")\">#{id}</foreach>\n            </script>",
+      "params": [
+        "ids",
+        "token",
+        "seconds"
+      ],
+      "return": "int",
+      "operation": "Update"
+    },
+    "findClaimed": {
+      "sql": "<script>\n            SELECT id, kind, CAST(payload AS CHAR) AS payload, attempts,\n                   lease_token AS leaseToken, request_id AS requestId\n            FROM durable_jobs WHERE id IN\n            <foreach collection=\"ids\" item=\"id\" open=\"(\" separator=\",\" close=\")\">#{id}</foreach>\n            </script>",
+      "params": [
+        "ids"
+      ],
+      "return": "List<Map<String, Object>>",
+      "operation": "Select"
+    },
+    "complete": {
+      "sql": "UPDATE durable_jobs SET status='SUCCEEDED',lease_token=NULL,locked_until=NULL,updated_at=NOW(3)\n            WHERE id=#{id} AND lease_token=#{token} AND status='RUNNING' AND locked_until>NOW(3)",
+      "params": [
+        "id",
+        "token"
+      ],
+      "return": "int",
+      "operation": "Update"
+    },
+    "fail": {
+      "sql": "UPDATE durable_jobs SET status=CASE WHEN attempts>=max_attempts THEN 'FAILED' ELSE 'PENDING' END,\n              available_at=DATE_ADD(NOW(3), INTERVAL LEAST(3600, POW(2, LEAST(attempts,12))) SECOND),\n              last_error_code=#{error},lease_token=NULL,locked_until=NULL,updated_at=NOW(3)\n            WHERE id=#{id} AND lease_token=#{token} AND status='RUNNING' AND locked_until>NOW(3)",
+      "params": [
+        "id",
+        "token",
+        "error"
+      ],
+      "return": "int",
+      "operation": "Update"
+    },
+    "recoverExpired": {
+      "sql": "UPDATE durable_jobs SET status=CASE WHEN attempts>=max_attempts THEN 'FAILED' ELSE 'PENDING' END,\n              lease_token=NULL,locked_until=NULL,available_at=NOW(3),last_error_code='LEASE_EXPIRED',updated_at=NOW(3)\n            WHERE status='RUNNING' AND locked_until<=NOW(3)",
+      "params": [],
+      "return": "int",
+      "operation": "Update"
+    }
+  },
+  "OpsStatsMapper": {
+    "invitationRunCountsByStatus": {
+      "sql": "SELECT status,COUNT(*) AS cnt FROM invitation_runs GROUP BY status",
+      "params": [],
+      "return": "List<Map<String,Object>>",
+      "operation": "Select"
+    },
+    "invitationConfirmedBetween": {
+      "sql": "SELECT COUNT(*) FROM invitation_runs WHERE invitation_status='confirmed' AND verified_at>=#{start} AND verified_at<#{end}",
+      "params": [
+        "start",
+        "end"
+      ],
+      "return": "long",
+      "operation": "Select"
+    },
+    "smsKeyCountsByStatus": {
+      "sql": "SELECT status, count(*) AS cnt FROM sms_redeem_keys GROUP BY status",
+      "params": [],
+      "return": "List<Map<String, Object>>",
+      "operation": "Select"
+    },
+    "smsUsedBetween": {
+      "sql": "SELECT count(*) FROM sms_redeem_keys\n            WHERE status='USED' AND used_at >= #{start} AND used_at < #{end}",
+      "params": [
+        "start",
+        "end"
+      ],
+      "return": "long",
+      "operation": "Select"
+    },
+    "smsFailedBetween": {
+      "sql": "SELECT count(*) FROM sms_redeem_keys\n            WHERE status='FAILED' AND failed_at >= #{start} AND failed_at < #{end}",
+      "params": [
+        "start",
+        "end"
+      ],
+      "return": "long",
+      "operation": "Select"
+    },
+    "smsSupplierCostBetween": {
+      "sql": "SELECT COALESCE(SUM(s.activation_cost), 0)\n            FROM sms_sessions s\n            WHERE s.status = 'SUCCESS'\n              AND s.completed_at >= #{start} AND s.completed_at < #{end}",
+      "params": [
+        "start",
+        "end"
+      ],
+      "return": "Object",
+      "operation": "Select"
+    },
+    "smsStickySessions": {
+      "sql": "SELECT COUNT(*) FROM sms_sessions\n            WHERE status IN ('ACQUIRE_UNKNOWN', 'CANCEL_PENDING')",
+      "params": [],
+      "return": "long",
+      "operation": "Select"
+    },
+    "generatedTotal": {
+      "sql": "SELECT COUNT(*) FROM inventory_items",
+      "params": [],
+      "return": "long",
+      "operation": "Select"
+    },
+    "generatedBetween": {
+      "sql": "SELECT COUNT(*) FROM inventory_items WHERE created_at >= #{start} AND created_at < #{end}",
+      "params": [
+        "start",
+        "end"
+      ],
+      "return": "long",
+      "operation": "Select"
+    },
+    "jobCountsByStatus": {
+      "sql": "SELECT status, count(*) AS cnt FROM durable_jobs GROUP BY status",
+      "params": [],
+      "return": "List<Map<String, Object>>",
+      "operation": "Select"
+    }
+  },
+  "SettingsMapper": {
+    "listAll": {
+      "sql": "SELECT id, `key`, category, CAST(value_json AS CHAR) AS valueJson,\n                   visibility, is_secret AS isSecret,\n                   created_at AS createdAt, updated_at AS updatedAt\n            FROM settings ORDER BY category, `key`",
+      "params": [],
+      "return": "List<Map<String, Object>>",
+      "operation": "Select"
+    },
+    "existsSecret": {
+      "sql": "SELECT EXISTS(SELECT 1 FROM settings WHERE `key`=#{key} AND is_secret=true)",
+      "params": [
+        "key"
+      ],
+      "return": "Boolean",
+      "operation": "Select"
+    },
+    "upsert": {
+      "sql": "INSERT INTO settings(id,`key`,category,value_json,visibility,is_secret,updated_by,updated_at)\n            VALUES (#{id},#{key},#{category},#{valueJson},#{visibility},false,#{updatedBy},NOW(3))\n            ON DUPLICATE KEY UPDATE\n              category=VALUES(category),value_json=VALUES(value_json),visibility=VALUES(visibility),\n              updated_by=VALUES(updated_by),updated_at=NOW(3)",
+      "params": [
+        "id",
+        "key",
+        "category",
+        "valueJson",
+        "visibility",
+        "updatedBy"
+      ],
+      "return": "int",
+      "operation": "Insert"
+    },
+    "upsertRuntime": {
+      "sql": "INSERT INTO settings(id,`key`,category,value_json,visibility,is_secret,updated_by,updated_at)\n            VALUES (#{id},#{key},#{category},#{valueJson},'PRIVATE',false,#{updatedBy},NOW(3))\n            ON DUPLICATE KEY UPDATE\n              category=VALUES(category),value_json=VALUES(value_json),visibility=VALUES(visibility),\n              updated_by=VALUES(updated_by),updated_at=NOW(3)",
+      "params": [
+        "id",
+        "key",
+        "category",
+        "valueJson",
+        "updatedBy"
+      ],
+      "return": "int",
+      "operation": "Insert"
+    },
+    "upsertSecret": {
+      "sql": "INSERT INTO settings(id,`key`,category,value_json,visibility,is_secret,updated_by,updated_at)\n            VALUES (#{id},#{key},#{category},#{valueJson},'PRIVATE',true,#{updatedBy},NOW(3))\n            ON DUPLICATE KEY UPDATE\n              value_json=VALUES(value_json),is_secret=true,visibility='PRIVATE',\n              updated_by=VALUES(updated_by),updated_at=NOW(3)",
+      "params": [
+        "id",
+        "key",
+        "category",
+        "valueJson",
+        "updatedBy"
+      ],
+      "return": "int",
+      "operation": "Insert"
+    },
+    "findByIdForUpdate": {
+      "sql": "SELECT `key`, is_secret AS isSecret FROM settings WHERE id=#{id} FOR UPDATE",
+      "params": [
+        "id"
+      ],
+      "return": "Map<String, Object>",
+      "operation": "Select"
+    },
+    "deleteByIdExact": {
+      "sql": "DELETE FROM settings WHERE id=#{id}",
+      "params": [
+        "id"
+      ],
+      "return": "int",
+      "operation": "Delete"
+    },
+    "findValueJson": {
+      "sql": "SELECT CAST(value_json AS CHAR) AS valueJson FROM settings WHERE `key`=#{key}",
+      "params": [
+        "key"
+      ],
+      "return": "String",
+      "operation": "Select"
+    },
+    "findValueAndSecret": {
+      "sql": "SELECT CAST(value_json AS CHAR) AS valueJson, is_secret AS isSecret\n            FROM settings WHERE `key`=#{key}",
+      "params": [
+        "key"
+      ],
+      "return": "Map<String, Object>",
+      "operation": "Select"
+    },
+    "findSiteName": {
+      "sql": "SELECT JSON_UNQUOTE(JSON_EXTRACT(value_json, '$.name')) AS name\n            FROM settings WHERE `key`='site.name' AND is_secret=false",
+      "params": [],
+      "return": "String",
+      "operation": "Select"
+    },
+    "updateSecretJson": {
+      "sql": "UPDATE settings SET value_json=#{valueJson}, visibility='PRIVATE', is_secret=true, updated_at=NOW(3)\n            WHERE `key`=#{key}",
+      "params": [
+        "key",
+        "valueJson"
+      ],
+      "return": "int",
+      "operation": "Update"
+    },
+    "insertSecretRow": {
+      "sql": "INSERT INTO settings(id,`key`,category,value_json,visibility,is_secret,updated_at)\n            VALUES (#{id},#{key},#{category},#{valueJson},'PRIVATE',true,NOW(3))",
+      "params": [
+        "id",
+        "key",
+        "category",
+        "valueJson"
+      ],
+      "return": "int",
+      "operation": "Insert"
+    },
+    "findRowByKey": {
+      "sql": "SELECT id, `key`, category, CAST(value_json AS CHAR) AS valueJson,\n                   visibility, is_secret AS isSecret\n            FROM settings WHERE `key`=#{key}",
+      "params": [
+        "key"
+      ],
+      "return": "Map<String, Object>",
+      "operation": "Select"
+    },
+    "findS3SecretCiphertext": {
+      "sql": "SELECT JSON_UNQUOTE(JSON_EXTRACT(value_json, '$.value'))\n            FROM settings WHERE `key`='runtime.s3_secret_access_key' AND is_secret=true",
+      "params": [],
+      "return": "String",
+      "operation": "Select"
+    }
+  },
+  "InventoryMapper": {
+    "lockPlan": {
+      "sql": "SELECT status,CAST(attributes_json AS CHAR) AS attributesJson FROM skus WHERE id=#{id} AND deleted_at IS NULL FOR UPDATE",
+      "params": [
+        "id"
+      ],
+      "return": "Map<String,Object>",
+      "operation": "Select"
+    },
+    "reserveCdk": {
+      "sql": "INSERT INTO redeem_cdk_registry(business_kind, code_fingerprint, owner_inventory_id)\n            VALUES (#{kind}, #{fingerprint}, #{inventoryId})\n            ON DUPLICATE KEY UPDATE code_fingerprint = code_fingerprint",
+      "params": [
+        "kind",
+        "fingerprint",
+        "inventoryId"
+      ],
+      "return": "int",
+      "operation": "Insert"
+    },
+    "lockCdkReservation": {
+      "sql": "SELECT owner_inventory_id AS ownerInventoryId FROM redeem_cdk_registry\n            WHERE business_kind = #{kind} AND code_fingerprint = #{fingerprint} FOR UPDATE",
+      "params": [
+        "kind",
+        "fingerprint"
+      ],
+      "return": "Map<String, Object>",
+      "operation": "Select"
+    },
+    "findCdkInventoryIds": {
+      "sql": "SELECT DISTINCT i.id FROM inventory_items i JOIN skus s ON s.id = i.sku_id\n            WHERE i.secret_fingerprint = #{fingerprint} AND (\n              (#{kind} = 'SMS_REDEEM' AND (\n                UPPER(JSON_UNQUOTE(JSON_EXTRACT(s.attributes_json, '$.productKind'))) = 'SMS_REDEEM'\n                OR (JSON_EXTRACT(s.attributes_json, '$.productKind') IS NULL\n                    AND JSON_EXTRACT(s.attributes_json, '$.smsService') IS NOT NULL\n                    AND JSON_EXTRACT(s.attributes_json, '$.smsCountry') IS NOT NULL)\n                OR EXISTS(SELECT 1 FROM sms_redeem_keys k WHERE k.inventory_item_id = i.id)))\n              OR (#{kind} = 'CODEX_INVITE_REDEEM' AND (\n                UPPER(JSON_UNQUOTE(JSON_EXTRACT(s.attributes_json, '$.productKind'))) = 'CODEX_INVITE_REDEEM'\n                OR EXISTS(SELECT 1 FROM invitation_redeem_keys k WHERE k.inventory_item_id = i.id)))\n            )",
+      "params": [
+        "kind",
+        "fingerprint"
+      ],
+      "return": "List<String>",
+      "operation": "Select"
+    },
+    "recordExistingCdk": {
+      "sql": "UPDATE redeem_cdk_registry SET owner_inventory_id = #{inventoryId}, inventory_count = #{count}\n            WHERE business_kind = #{kind} AND code_fingerprint = #{fingerprint}",
+      "params": [
+        "kind",
+        "fingerprint",
+        "inventoryId",
+        "count"
+      ],
+      "return": "int",
+      "operation": "Update"
+    },
+    "releaseCdkReservation": {
+      "sql": "DELETE FROM redeem_cdk_registry WHERE business_kind = #{kind} AND code_fingerprint = #{fingerprint}\n              AND owner_inventory_id = #{inventoryId}",
+      "params": [
+        "kind",
+        "fingerprint",
+        "inventoryId"
+      ],
+      "return": "int",
+      "operation": "Update"
+    },
+    "findItemIdByFingerprint": {
+      "sql": "SELECT id FROM inventory_items WHERE sku_id=#{skuId} AND secret_fingerprint=#{fingerprint}",
+      "params": [
+        "skuId",
+        "fingerprint"
+      ],
+      "return": "String",
+      "operation": "Select"
+    },
+    "insertItem": {
+      "sql": "INSERT INTO inventory_items(id, sku_id, secret_ciphertext, secret_fingerprint, import_batch_id, status, issued_at, updated_at)\n            VALUES (#{id}, #{skuId}, #{ciphertext}, #{fingerprint}, #{batchId}, 'ISSUED', NOW(3), NOW(3))\n            ON DUPLICATE KEY UPDATE `sku_id` = `sku_id`",
+      "params": [
+        "id",
+        "skuId",
+        "ciphertext",
+        "fingerprint",
+        "batchId"
+      ],
+      "return": "int",
+      "operation": "Insert"
+    },
+    "insertEvent": {
+      "sql": "INSERT INTO inventory_events(id, inventory_item_id, event_type, actor_type, actor_id)\n            VALUES (#{id}, #{itemId}, #{eventType}, 'admin', #{actorId})",
+      "params": [
+        "id",
+        "itemId",
+        "eventType",
+        "actorId"
+      ],
+      "return": "int",
+      "operation": "Insert"
+    },
+    "insertBatch": {
+      "sql": "INSERT INTO inventory_import_batches(id,sku_id,source,requested_count,params_json,attributes_snapshot_json,actor_id)\n            VALUES (#{id},#{skuId},'GENERATE',#{requested},CAST(#{paramsJson} AS JSON),CAST(#{attrsJson} AS JSON),#{actorId})",
+      "params": [
+        "id",
+        "skuId",
+        "requested",
+        "paramsJson",
+        "attrsJson",
+        "actorId"
+      ],
+      "return": "int",
+      "operation": "Insert"
+    },
+    "finishBatch": {
+      "sql": "UPDATE inventory_import_batches\n            SET success_count = #{success}, duplicate_count = #{duplicate}, invalid_count = #{invalid}\n            WHERE id = #{id}",
+      "params": [
+        "id",
+        "success",
+        "duplicate",
+        "invalid"
+      ],
+      "return": "int",
+      "operation": "Update"
+    },
+    "listFingerprints": {
+      "sql": "SELECT secret_fingerprint FROM inventory_items WHERE sku_id = #{skuId}",
+      "params": [
+        "skuId"
+      ],
+      "return": "List<String>",
+      "operation": "Select"
+    },
+    "countBatches": {
+      "sql": "SELECT COUNT(*) FROM inventory_import_batches WHERE sku_id = #{skuId}",
+      "params": [
+        "skuId"
+      ],
+      "return": "long",
+      "operation": "Select"
+    },
+    "listBatches": {
+      "sql": "SELECT b.id, b.sku_id AS skuId, b.source, b.requested_count AS requestedCount,\n                   b.success_count AS successCount, b.duplicate_count AS duplicateCount,\n                   b.invalid_count AS invalidCount, CAST(b.params_json AS CHAR) AS paramsJson,\n                   CAST(b.attributes_snapshot_json AS CHAR) AS attributesSnapshotJson,\n                   b.note, b.actor_id AS actorId, b.created_at AS createdAt,\n                   u.email AS actorEmail\n            FROM inventory_import_batches b\n            LEFT JOIN admin_users u ON u.id = b.actor_id\n            WHERE b.sku_id = #{skuId}\n            ORDER BY b.created_at DESC, b.id\n            LIMIT #{limit} OFFSET #{offset}",
+      "params": [
+        "skuId",
+        "limit",
+        "offset"
+      ],
+      "return": "List<Map<String, Object>>",
+      "operation": "Select"
+    },
+    "countItems": {
+      "sql": "SELECT COUNT(*) FROM inventory_items\n            WHERE sku_id = #{skuId} AND (#{status} = '' OR status = #{status})",
+      "params": [
+        "skuId",
+        "status"
+      ],
+      "return": "long",
+      "operation": "Select"
+    },
+    "listItems": {
+      "sql": "SELECT i.id, i.sku_id AS skuId, i.status, i.secret_fingerprint AS secretFingerprint,\n                   i.issued_at AS issuedAt, i.import_batch_id AS importBatchId,\n                   i.created_at AS createdAt, i.updated_at AS updatedAt\n            FROM inventory_items i\n            WHERE i.sku_id = #{skuId} AND (#{status} = '' OR i.status = #{status})\n            ORDER BY i.created_at DESC, i.id\n            LIMIT #{limit} OFFSET #{offset}",
+      "params": [
+        "skuId",
+        "status",
+        "limit",
+        "offset"
+      ],
+      "return": "List<Map<String, Object>>",
+      "operation": "Select"
+    },
+    "countByStatus": {
+      "sql": "SELECT status, COUNT(*) AS total\n            FROM inventory_items WHERE sku_id = #{skuId}\n            GROUP BY status",
+      "params": [
+        "skuId"
+      ],
+      "return": "List<Map<String, Object>>",
+      "operation": "Select"
+    },
+    "findItemForReveal": {
+      "sql": "SELECT id, sku_id AS skuId, status, secret_ciphertext AS secretCiphertext\n            FROM inventory_items WHERE id = #{id}",
+      "params": [
+        "id"
+      ],
+      "return": "Map<String, Object>",
+      "operation": "Select"
+    },
+    "batchExists": {
+      "sql": "SELECT EXISTS(SELECT 1 FROM inventory_import_batches WHERE id=#{id})",
+      "params": [
+        "id"
+      ],
+      "return": "boolean",
+      "operation": "Select"
+    },
+    "listForBatchExport": {
+      "sql": "SELECT id,secret_ciphertext AS secretCiphertext FROM inventory_items\n            WHERE import_batch_id=#{batchId} ORDER BY created_at,id LIMIT 10001",
+      "params": [
+        "batchId"
+      ],
+      "return": "List<Map<String,Object>>",
+      "operation": "Select"
+    },
+    "findBatch": {
+      "sql": "SELECT id,created_at AS createdAt,note,source,requested_count AS requestedCount,success_count AS successCount,duplicate_count AS duplicateCount,invalid_count AS invalidCount FROM inventory_import_batches WHERE id=#{id}",
+      "params": [
+        "id"
+      ],
+      "return": "Map<String, Object>",
+      "operation": "Select"
+    },
+    "countBatchCards": {
+      "sql": "SELECT COUNT(*) FROM inventory_items WHERE import_batch_id=#{batchId}",
+      "params": [
+        "batchId"
+      ],
+      "return": "long",
+      "operation": "Select"
+    },
+    "listBatchCards": {
+      "sql": "SELECT id,status,issued_at AS issuedAt,secret_fingerprint AS secretFingerprint,secret_ciphertext AS secretCiphertext FROM inventory_items WHERE import_batch_id=#{batchId} ORDER BY created_at DESC,id LIMIT #{limit} OFFSET #{offset}",
+      "params": [
+        "batchId",
+        "limit",
+        "offset"
+      ],
+      "return": "List<Map<String, Object>>",
+      "operation": "Select"
+    },
+    "countCardsByBatch": {
+      "sql": "SELECT import_batch_id AS batchId, COUNT(*) AS total\n            FROM inventory_items WHERE sku_id = #{skuId} AND import_batch_id IS NOT NULL\n            GROUP BY import_batch_id",
+      "params": [
+        "skuId"
+      ],
+      "return": "List<Map<String, Object>>",
+      "operation": "Select"
+    },
+    "countUnassignedCards": {
+      "sql": "SELECT COUNT(*) FROM inventory_items\n            WHERE sku_id = #{skuId} AND import_batch_id IS NULL",
+      "params": [
+        "skuId"
+      ],
+      "return": "long",
+      "operation": "Select"
+    },
+    "listUnassignedCards": {
+      "sql": "SELECT id,status,issued_at AS issuedAt,secret_fingerprint AS secretFingerprint,secret_ciphertext AS secretCiphertext FROM inventory_items WHERE sku_id = #{skuId} AND import_batch_id IS NULL ORDER BY created_at DESC,id LIMIT #{limit} OFFSET #{offset}",
+      "params": [
+        "skuId",
+        "limit",
+        "offset"
+      ],
+      "return": "List<Map<String, Object>>",
+      "operation": "Select"
+    },
+    "findItemForInvalidation": {
+      "sql": "SELECT status FROM inventory_items WHERE id=#{id}",
+      "params": [
+        "id"
+      ],
+      "return": "Map<String,Object>",
+      "operation": "Select"
+    },
+    "lockSmsKeyForInventory": {
+      "sql": "SELECT id FROM sms_redeem_keys WHERE inventory_item_id = #{id} FOR UPDATE",
+      "params": [
+        "id"
+      ],
+      "return": "String",
+      "operation": "Select"
+    },
+    "lockInvitationKeyForInventory": {
+      "sql": "SELECT id FROM invitation_redeem_keys WHERE inventory_item_id = #{id} FOR UPDATE",
+      "params": [
+        "id"
+      ],
+      "return": "String",
+      "operation": "Select"
+    },
+    "disableInvitationKey": {
+      "sql": "UPDATE invitation_redeem_keys SET status='DISABLED',updated_at=NOW(3) WHERE id=#{id}",
+      "params": [
+        "id"
+      ],
+      "return": "int",
+      "operation": "Update"
+    },
+    "stopQueuedInvitations": {
+      "sql": "UPDATE invitation_runs SET status='FAILED',progress_percent=95,status_detail='邀请券已作废。',finished_at=NOW(3),updated_at=NOW(3) WHERE redeem_key_id=#{id} AND status IN ('PREVIEWED','QUEUED')",
+      "params": [
+        "id"
+      ],
+      "return": "int",
+      "operation": "Update"
+    },
+    "invalidateItemInStatus": {
+      "sql": "UPDATE inventory_items SET status = 'INVALID', updated_at = NOW(3)\n            WHERE id = #{id} AND status = #{expectedStatus}",
+      "params": [
+        "id",
+        "expectedStatus"
+      ],
+      "return": "int",
+      "operation": "Update"
+    },
+    "disableSmsKey": {
+      "sql": "UPDATE sms_redeem_keys SET status='DISABLED', updated_at=NOW(3) WHERE id=#{id}",
+      "params": [
+        "id"
+      ],
+      "return": "int",
+      "operation": "Update"
+    }
+  },
+  "AuditLogMapper": {
+    "count": {
+      "sql": "<script>\n            SELECT COUNT(*) FROM audit_logs a WHERE true\n            <if test=\"action != null and action != ''\">AND a.action LIKE #{action}</if>\n            <if test=\"resourceType != null and resourceType != ''\">AND a.resource_type = #{resourceType}</if>\n            <if test=\"actorUserId != null and actorUserId != ''\">AND a.actor_user_id = #{actorUserId}</if>\n            <if test=\"resourceId != null and resourceId != ''\">AND a.resource_id = #{resourceId}</if>\n            </script>",
+      "params": [
+        "action",
+        "resourceType",
+        "actorUserId",
+        "resourceId"
+      ],
+      "return": "long",
+      "operation": "Select"
+    },
+    "page": {
+      "sql": "<script>\n            SELECT a.id, a.action, a.resource_type AS resourceType, a.resource_id AS resourceId,\n                   a.actor_user_id AS actorUserId, a.before_json AS beforeJson, a.after_json AS afterJson,\n                   a.ip_address AS ipAddress, a.request_id AS requestId, a.created_at AS createdAt,\n                   CASE WHEN u.id IS NULL THEN NULL\n                        ELSE JSON_OBJECT('id', u.id, 'username', u.username,\n                             'displayName', u.display_name, 'email', u.email) END AS actor\n            FROM audit_logs a\n            LEFT JOIN admin_users u ON u.id = a.actor_user_id\n            WHERE true\n            <if test=\"action != null and action != ''\">AND a.action LIKE #{action}</if>\n            <if test=\"resourceType != null and resourceType != ''\">AND a.resource_type = #{resourceType}</if>\n            <if test=\"actorUserId != null and actorUserId != ''\">AND a.actor_user_id = #{actorUserId}</if>\n            <if test=\"resourceId != null and resourceId != ''\">AND a.resource_id = #{resourceId}</if>\n            ORDER BY a.created_at DESC, a.id\n            LIMIT #{limit} OFFSET #{offset}\n            </script>",
+      "params": [
+        "action",
+        "resourceType",
+        "actorUserId",
+        "resourceId",
+        "limit",
+        "offset"
+      ],
+      "return": "List<Map<String, Object>>",
+      "operation": "Select"
+    },
+    "insert": {
+      "sql": "INSERT INTO audit_logs(id, actor_user_id, action, resource_type, resource_id, after_json, request_id)\n            VALUES (#{id}, #{actorUserId}, #{action}, #{resourceType}, #{resourceId}, #{afterJson}, #{requestId})",
+      "params": [
+        "id",
+        "actorUserId",
+        "action",
+        "resourceType",
+        "resourceId",
+        "afterJson",
+        "requestId"
+      ],
+      "return": "int",
+      "operation": "Insert"
+    }
+  },
+  "PlanMapper": {
+    "count": {
+      "sql": "SELECT COUNT(*) FROM skus WHERE deleted_at IS NULL AND (#{search}='' OR name LIKE #{search} OR code LIKE #{search})",
+      "params": [
+        "search"
+      ],
+      "return": "long",
+      "operation": "Select"
+    },
+    "insert": {
+      "sql": "INSERT INTO skus(id,code,name,attributes_json,status,updated_at) VALUES (#{id},#{code},#{name},CAST(#{attrs} AS JSON),'ACTIVE',NOW(3))",
+      "params": [
+        "id",
+        "code",
+        "name",
+        "attrs"
+      ],
+      "return": "int",
+      "operation": "Insert"
+    },
+    "update": {
+      "sql": "UPDATE skus SET name=#{name},attributes_json=CAST(#{attrs} AS JSON),updated_at=NOW(3) WHERE id=#{id} AND deleted_at IS NULL",
+      "params": [
+        "id",
+        "name",
+        "attrs"
+      ],
+      "return": "int",
+      "operation": "Update"
+    },
+    "status": {
+      "sql": "UPDATE skus SET status=#{status},updated_at=NOW(3) WHERE id=#{id} AND deleted_at IS NULL",
+      "params": [
+        "id",
+        "status"
+      ],
+      "return": "int",
+      "operation": "Update"
+    },
+    "delete": {
+      "sql": "UPDATE skus SET status='INACTIVE',deleted_at=NOW(3),updated_at=NOW(3) WHERE id=#{id} AND deleted_at IS NULL",
+      "params": [
+        "id"
+      ],
+      "return": "int",
+      "operation": "Update"
+    },
+    "list": {
+      "sql": "SELECT id, code, name, status, CAST(attributes_json AS CHAR) AS attributesJson, created_at AS createdAt, updated_at AS updatedAt FROM skus WHERE deleted_at IS NULL AND (#{search}='' OR name LIKE #{search} OR code LIKE #{search}) ORDER BY created_at DESC,id LIMIT #{limit} OFFSET #{offset}",
+      "params": [
+        "search",
+        "limit",
+        "offset"
+      ],
+      "operation": "Select",
+      "return": "List<Map<String,Object>>"
+    },
+    "countFiltered": {
+      "sql": "SELECT COUNT(*) FROM skus WHERE deleted_at IS NULL AND (#{search}='' OR name LIKE #{search} OR code LIKE #{search}) AND (UPPER(JSON_UNQUOTE(JSON_EXTRACT(attributes_json, '$.productKind'))) = #{kind} OR (#{kind}='SMS_REDEEM' AND JSON_EXTRACT(attributes_json, '$.productKind') IS NULL AND JSON_EXTRACT(attributes_json, '$.smsService') IS NOT NULL AND JSON_EXTRACT(attributes_json, '$.smsCountry') IS NOT NULL))",
+      "params": [
+        "search",
+        "kind"
+      ],
+      "operation": "Select",
+      "return": "long"
+    },
+    "listFiltered": {
+      "sql": "SELECT id, code, name, status, CAST(attributes_json AS CHAR) AS attributesJson, created_at AS createdAt, updated_at AS updatedAt FROM skus WHERE deleted_at IS NULL AND (#{search}='' OR name LIKE #{search} OR code LIKE #{search}) AND (UPPER(JSON_UNQUOTE(JSON_EXTRACT(attributes_json, '$.productKind'))) = #{kind} OR (#{kind}='SMS_REDEEM' AND JSON_EXTRACT(attributes_json, '$.productKind') IS NULL AND JSON_EXTRACT(attributes_json, '$.smsService') IS NOT NULL AND JSON_EXTRACT(attributes_json, '$.smsCountry') IS NOT NULL)) ORDER BY created_at DESC,id LIMIT #{limit} OFFSET #{offset}",
+      "params": [
+        "search",
+        "kind",
+        "limit",
+        "offset"
+      ],
+      "operation": "Select",
+      "return": "List<Map<String,Object>>"
+    },
+    "find": {
+      "sql": "SELECT id, code, name, status, CAST(attributes_json AS CHAR) AS attributesJson, created_at AS createdAt, updated_at AS updatedAt FROM skus WHERE id=#{id} AND deleted_at IS NULL",
+      "params": [
+        "id"
+      ],
+      "operation": "Select",
+      "return": "Map<String,Object>"
+    },
+    "lock": {
+      "sql": "SELECT id, code, name, status, CAST(attributes_json AS CHAR) AS attributesJson, created_at AS createdAt, updated_at AS updatedAt FROM skus WHERE id=#{id} AND deleted_at IS NULL FOR UPDATE",
+      "params": [
+        "id"
+      ],
+      "operation": "Select",
+      "return": "Map<String,Object>"
+    }
+  },
+  "RateLimitMapper": {
+    "bump": {
+      "sql": "INSERT INTO api_rate_limits(key_hash, attempts, resets_at)\n            VALUES (#{hash}, 1, DATE_ADD(NOW(3), INTERVAL #{windowSeconds} SECOND))\n            ON DUPLICATE KEY UPDATE\n              attempts = IF(resets_at <= NOW(3), 1, attempts + 1),\n              resets_at = IF(resets_at <= NOW(3), DATE_ADD(NOW(3), INTERVAL #{windowSeconds} SECOND), resets_at)",
+      "params": [
+        "hash",
+        "windowSeconds"
+      ],
+      "return": "int",
+      "operation": "Insert"
+    },
+    "attempts": {
+      "sql": "SELECT attempts FROM api_rate_limits WHERE key_hash = #{hash}",
+      "params": [
+        "hash"
+      ],
+      "return": "Integer",
+      "operation": "Select"
+    },
+    "bumpAuth": {
+      "sql": "INSERT INTO auth_rate_limits(key_hash, attempts, resets_at)\n            VALUES (#{hash}, 1, DATE_ADD(NOW(3), INTERVAL 15 MINUTE))\n            ON DUPLICATE KEY UPDATE\n              attempts=IF(resets_at<=NOW(3), 1, attempts+1),\n              resets_at=IF(resets_at<=NOW(3), DATE_ADD(NOW(3), INTERVAL 15 MINUTE), resets_at)",
+      "params": [
+        "hash"
+      ],
+      "return": "int",
+      "operation": "Insert"
+    },
+    "authAttempts": {
+      "sql": "SELECT attempts FROM auth_rate_limits WHERE key_hash=#{hash}",
+      "params": [
+        "hash"
+      ],
+      "return": "Integer",
+      "operation": "Select"
+    },
+    "window": {
+      "sql": "SELECT TIMESTAMPDIFF(SECOND, NOW(3), resets_at) AS remainingSeconds FROM api_rate_limits WHERE key_hash = #{hash}",
+      "params": [
+        "hash"
+      ],
+      "operation": "Select",
+      "return": "Map<String,Object>"
+    }
+  },
+  "PermissionMapper": {
+    "listGrants": {
+      "sql": "SELECT aur.admin_user_id AS user_id, NULL AS user_scope, NULL AS scope_id,\n                   rp.scope_type AS permission_scope\n            FROM admin_user_roles aur\n            JOIN role_permissions rp ON rp.role_id = aur.role_id\n            JOIN permissions p ON p.id = rp.permission_id\n            WHERE aur.admin_user_id = #{adminUserId} AND p.code = #{code}",
+      "params": [
+        "adminUserId",
+        "code"
+      ],
+      "return": "List<Map<String, Object>>",
+      "operation": "Select"
+    }
+  },
+  "AdminAuthMapper": {
+    "findRoleCodes": {
+      "sql": "SELECT DISTINCT r.code FROM admin_user_roles aur\n            JOIN roles r ON r.id = aur.role_id WHERE aur.admin_user_id = #{id}",
+      "params": [
+        "id"
+      ],
+      "return": "List<String>",
+      "operation": "Select"
+    },
+    "findById": {
+      "sql": "SELECT id, username, email, password_hash AS passwordHash, display_name AS displayName,\n                   status, totp_enabled_at AS totpEnabledAt,\n                   totp_secret_encrypted AS totpSecretEncrypted,\n                   CAST(totp_backup_codes_hash AS CHAR) AS totpBackupCodesHash,\n                   created_at AS createdAt\n            FROM admin_users WHERE id = #{id} AND deleted_at IS NULL",
+      "params": [
+        "id"
+      ],
+      "return": "Map<String, Object>",
+      "operation": "Select"
+    },
+    "findByIdForUpdate": {
+      "sql": "SELECT id, username, email, password_hash AS passwordHash, display_name AS displayName,\n                   status, totp_enabled_at AS totpEnabledAt,\n                   totp_secret_encrypted AS totpSecretEncrypted,\n                   CAST(totp_backup_codes_hash AS CHAR) AS totpBackupCodesHash,\n                   created_at AS createdAt\n            FROM admin_users WHERE id = #{id} AND deleted_at IS NULL FOR UPDATE",
+      "params": [
+        "id"
+      ],
+      "return": "Map<String, Object>",
+      "operation": "Select"
+    },
+    "findByUsernameOrEmailForUpdate": {
+      "sql": "SELECT id, username, email, password_hash AS passwordHash, display_name AS displayName,\n                   status, totp_enabled_at AS totpEnabledAt,\n                   totp_secret_encrypted AS totpSecretEncrypted,\n                   CAST(totp_backup_codes_hash AS CHAR) AS totpBackupCodesHash,\n                   created_at AS createdAt\n            FROM admin_users\n            WHERE (username = #{identifier} OR email = #{identifier}) AND deleted_at IS NULL\n            FOR UPDATE",
+      "params": [
+        "identifier"
+      ],
+      "return": "Map<String, Object>",
+      "operation": "Select"
+    },
+    "sessionExists": {
+      "sql": "SELECT EXISTS(\n              SELECT 1 FROM admin_sessions\n              WHERE id = #{sessionId} AND admin_user_id = #{adminUserId}\n                AND revoked_at IS NULL AND expires_at > NOW(3)\n            )",
+      "params": [
+        "sessionId",
+        "adminUserId"
+      ],
+      "return": "boolean",
+      "operation": "Select"
+    },
+    "insertSession": {
+      "sql": "INSERT INTO admin_sessions(id, admin_user_id, refresh_token_hash, expires_at, ip_address, user_agent)\n            VALUES (#{id}, #{adminUserId}, #{refreshHash}, DATE_ADD(NOW(3), INTERVAL 30 DAY), #{ip}, #{agent})",
+      "params": [
+        "id",
+        "adminUserId",
+        "refreshHash",
+        "ip",
+        "agent"
+      ],
+      "return": "int",
+      "operation": "Insert"
+    },
+    "updateLastLoginAt": {
+      "sql": "UPDATE admin_users SET last_login_at = NOW(3) WHERE id = #{id}",
+      "params": [
+        "id"
+      ],
+      "return": "int",
+      "operation": "Update"
+    },
+    "findAdminUserIdsByRefreshHash": {
+      "sql": "SELECT admin_user_id FROM admin_sessions\n            WHERE refresh_token_hash = #{refreshHash} AND revoked_at IS NULL AND expires_at > NOW(3)",
+      "params": [
+        "refreshHash"
+      ],
+      "return": "List<String>",
+      "operation": "Select"
+    },
+    "findSessionByRefreshHashForUpdate": {
+      "sql": "SELECT id, admin_user_id AS adminUserId, refresh_token_hash AS refreshTokenHash\n            FROM admin_sessions\n            WHERE refresh_token_hash = #{refreshHash} AND revoked_at IS NULL AND expires_at > NOW(3)\n            FOR UPDATE",
+      "params": [
+        "refreshHash"
+      ],
+      "return": "Map<String, Object>",
+      "operation": "Select"
+    },
+    "revokeSession": {
+      "sql": "UPDATE admin_sessions SET revoked_at = NOW(3) WHERE id = #{id}",
+      "params": [
+        "id"
+      ],
+      "return": "int",
+      "operation": "Update"
+    },
+    "revokeSessionForAdmin": {
+      "sql": "UPDATE admin_sessions SET revoked_at = NOW(3)\n            WHERE id = #{sessionId} AND admin_user_id = #{adminUserId}",
+      "params": [
+        "sessionId",
+        "adminUserId"
+      ],
+      "return": "int",
+      "operation": "Update"
+    },
+    "revokeAllSessions": {
+      "sql": "UPDATE admin_sessions SET revoked_at = NOW(3) WHERE admin_user_id = #{adminUserId}",
+      "params": [
+        "adminUserId"
+      ],
+      "return": "int",
+      "operation": "Update"
+    },
+    "revokeActiveSessions": {
+      "sql": "UPDATE admin_sessions SET revoked_at = NOW(3)\n            WHERE admin_user_id = #{adminUserId} AND revoked_at IS NULL",
+      "params": [
+        "adminUserId"
+      ],
+      "return": "int",
+      "operation": "Update"
+    },
+    "revokeOtherSessions": {
+      "sql": "UPDATE admin_sessions SET revoked_at = NOW(3)\n            WHERE admin_user_id = #{adminUserId} AND id <> #{keepSessionId} AND revoked_at IS NULL",
+      "params": [
+        "adminUserId",
+        "keepSessionId"
+      ],
+      "return": "int",
+      "operation": "Update"
+    },
+    "insertTotpLoginChallenge": {
+      "sql": "INSERT INTO auth_challenges(token_hash, admin_user_id, purpose, expires_at)\n            VALUES (#{tokenHash}, #{adminUserId}, 'TOTP_LOGIN', DATE_ADD(NOW(3), INTERVAL 5 MINUTE))",
+      "params": [
+        "tokenHash",
+        "adminUserId"
+      ],
+      "return": "int",
+      "operation": "Insert"
+    },
+    "findTotpLoginChallenges": {
+      "sql": "SELECT admin_user_id AS adminUserId FROM auth_challenges\n            WHERE token_hash = #{tokenHash} AND purpose = 'TOTP_LOGIN'\n              AND consumed_at IS NULL AND expires_at > NOW(3)\n              AND admin_user_id IS NOT NULL",
+      "params": [
+        "tokenHash"
+      ],
+      "return": "List<Map<String, Object>>",
+      "operation": "Select"
+    },
+    "consumeTotpLoginChallenge": {
+      "sql": "UPDATE auth_challenges SET consumed_at = NOW(3)\n            WHERE token_hash = #{tokenHash} AND purpose = 'TOTP_LOGIN'\n              AND consumed_at IS NULL AND expires_at > NOW(3)",
+      "params": [
+        "tokenHash"
+      ],
+      "return": "int",
+      "operation": "Update"
+    },
+    "updateTotpBackupCodes": {
+      "sql": "UPDATE admin_users SET totp_backup_codes_hash = #{hashes}, updated_at = NOW(3) WHERE id = #{id}",
+      "params": [
+        "id",
+        "hashes"
+      ],
+      "return": "int",
+      "operation": "Update"
+    },
+    "upsertTotpSetupChallenge": {
+      "sql": "INSERT INTO auth_challenges(token_hash, admin_user_id, purpose, payload_encrypted, expires_at)\n            VALUES (#{tokenHash}, #{adminUserId}, 'TOTP_SETUP', #{payload}, DATE_ADD(NOW(3), INTERVAL 10 MINUTE))\n            ON DUPLICATE KEY UPDATE payload_encrypted = VALUES(payload_encrypted),\n              expires_at = VALUES(expires_at),\n              consumed_at = NULL,\n              admin_user_id = VALUES(admin_user_id)",
+      "params": [
+        "tokenHash",
+        "adminUserId",
+        "payload"
+      ],
+      "return": "int",
+      "operation": "Insert"
+    },
+    "findChallengePayloadForUpdate": {
+      "sql": "SELECT payload_encrypted AS payloadEncrypted FROM auth_challenges\n            WHERE token_hash = #{tokenHash} AND expires_at > NOW(3) AND consumed_at IS NULL\n            FOR UPDATE",
+      "params": [
+        "tokenHash"
+      ],
+      "return": "List<Map<String, Object>>",
+      "operation": "Select"
+    },
+    "enableTotp": {
+      "sql": "UPDATE admin_users SET totp_enabled_at = NOW(3), totp_secret_encrypted = #{secret},\n            totp_backup_codes_hash = #{hashes}, updated_at = NOW(3) WHERE id = #{id}",
+      "params": [
+        "id",
+        "secret",
+        "hashes"
+      ],
+      "return": "int",
+      "operation": "Update"
+    },
+    "consumeChallengeByHash": {
+      "sql": "UPDATE auth_challenges SET consumed_at = NOW(3) WHERE token_hash = #{tokenHash}",
+      "params": [
+        "tokenHash"
+      ],
+      "return": "int",
+      "operation": "Update"
+    },
+    "disableTotp": {
+      "sql": "UPDATE admin_users SET totp_enabled_at = NULL, totp_secret_encrypted = NULL,\n            totp_backup_codes_hash = NULL, updated_at = NOW(3) WHERE id = #{id}",
+      "params": [
+        "id"
+      ],
+      "return": "int",
+      "operation": "Update"
+    },
+    "updatePasswordHash": {
+      "sql": "UPDATE admin_users SET password_hash = #{passwordHash}, updated_at = NOW(3) WHERE id = #{id}",
+      "params": [
+        "id",
+        "passwordHash"
+      ],
+      "return": "int",
+      "operation": "Update"
+    },
+    "insertCaptchaChallenge": {
+      "sql": "INSERT INTO auth_challenges(token_hash,purpose,expires_at) VALUES (#{tokenHash},'CAPTCHA_LOGIN',DATE_ADD(NOW(3),INTERVAL 5 MINUTE))",
+      "params": [
+        "tokenHash"
+      ],
+      "return": "int",
+      "operation": "Insert"
+    },
+    "consumeCaptchaChallenge": {
+      "sql": "UPDATE auth_challenges SET consumed_at=NOW(3) WHERE token_hash=#{tokenHash} AND purpose='CAPTCHA_LOGIN' AND consumed_at IS NULL AND expires_at>NOW(3)",
+      "params": [
+        "tokenHash"
+      ],
+      "return": "int",
+      "operation": "Update"
+    },
+    "deleteExpiredCaptchaChallenges": {
+      "sql": "DELETE FROM auth_challenges WHERE purpose='CAPTCHA_LOGIN' AND expires_at<NOW(3) LIMIT 100",
+      "params": [],
+      "return": "int",
+      "operation": "Delete"
+    }
+  },
+  "SuperAdminMapper": {
+    "existsAnySuperAdmin": {
+      "sql": "SELECT EXISTS(SELECT 1 FROM admin_user_roles aur\n            JOIN roles r ON r.id=aur.role_id WHERE r.code='SUPER_ADMIN')",
+      "params": [],
+      "return": "Boolean",
+      "operation": "Select"
+    },
+    "findRoleIdByCode": {
+      "sql": "SELECT id FROM roles WHERE code=#{code}",
+      "params": [
+        "code"
+      ],
+      "return": "String",
+      "operation": "Select"
+    },
+    "listActiveUserIdsByRole": {
+      "sql": "SELECT au.id FROM admin_users au\n            JOIN admin_user_roles aur ON aur.admin_user_id=au.id\n            WHERE aur.role_id=#{roleId} AND au.deleted_at IS NULL\n            ORDER BY au.created_at, au.id",
+      "params": [
+        "roleId"
+      ],
+      "return": "List<String>",
+      "operation": "Select"
+    },
+    "insertAdmin": {
+      "sql": "INSERT INTO admin_users(id,username,email,password_hash,display_name,updated_at)\n            VALUES (#{id},#{username},#{email},#{passwordHash},#{displayName},NOW(3))",
+      "params": [
+        "id",
+        "username",
+        "email",
+        "passwordHash",
+        "displayName"
+      ],
+      "return": "int",
+      "operation": "Insert"
+    },
+    "insertSuperAdminRole": {
+      "sql": "INSERT INTO admin_user_roles(id,admin_user_id,role_id)\n            SELECT #{id},#{adminUserId},id FROM roles WHERE code='SUPER_ADMIN'",
+      "params": [
+        "id",
+        "adminUserId"
+      ],
+      "return": "int",
+      "operation": "Insert"
+    },
+    "insertRole": {
+      "sql": "INSERT INTO admin_user_roles(id,admin_user_id,role_id) VALUES (#{id},#{adminUserId},#{roleId})",
+      "params": [
+        "id",
+        "adminUserId",
+        "roleId"
+      ],
+      "return": "int",
+      "operation": "Insert"
+    },
+    "deleteRole": {
+      "sql": "DELETE FROM admin_user_roles WHERE admin_user_id=#{adminUserId} AND role_id=#{roleId}",
+      "params": [
+        "adminUserId",
+        "roleId"
+      ],
+      "return": "int",
+      "operation": "Delete"
+    },
+    "insertRoleIgnoreDuplicate": {
+      "sql": "INSERT INTO admin_user_roles(id,admin_user_id,role_id)\n            VALUES (#{id},#{adminUserId},#{roleId}) ON DUPLICATE KEY UPDATE `admin_user_id`=`admin_user_id`",
+      "params": [
+        "id",
+        "adminUserId",
+        "roleId"
+      ],
+      "return": "int",
+      "operation": "Insert"
+    },
+    "updateCredentials": {
+      "sql": "UPDATE admin_users SET username=#{username},email=#{email},password_hash=#{passwordHash},\n            display_name=#{displayName}, updated_at=NOW(3) WHERE id=#{id}",
+      "params": [
+        "id",
+        "username",
+        "email",
+        "passwordHash",
+        "displayName"
+      ],
+      "return": "int",
+      "operation": "Update"
+    }
+  },
+  "StatsMapper": {
+    "smsGeneratedTotal": {
+      "sql": "SELECT COUNT(*) FROM sms_redeem_keys",
+      "params": [],
+      "return": "long",
+      "operation": "Select"
+    },
+    "smsGeneratedToday": {
+      "sql": "SELECT COUNT(*) FROM sms_redeem_keys\n            WHERE created_at >= #{start} AND created_at < #{end}",
+      "params": [
+        "start",
+        "end"
+      ],
+      "return": "long",
+      "operation": "Select"
+    },
+    "smsRedeemedTotal": {
+      "sql": "SELECT COUNT(*) FROM sms_redeem_keys\n            WHERE status='USED'",
+      "params": [],
+      "return": "long",
+      "operation": "Select"
+    },
+    "smsRedeemedToday": {
+      "sql": "SELECT COUNT(*) FROM sms_redeem_keys\n            WHERE status='USED' AND used_at >= #{start} AND used_at < #{end}",
+      "params": [
+        "start",
+        "end"
+      ],
+      "return": "long",
+      "operation": "Select"
+    },
+    "smsExpired": {
+      "sql": "SELECT COUNT(*) FROM sms_redeem_keys\n            WHERE status<>'USED' AND expires_at < NOW(3)",
+      "params": [],
+      "return": "long",
+      "operation": "Select"
+    },
+    "cdkGeneratedTotal": {
+      "sql": "SELECT COUNT(*) FROM invitation_v2_cdk_codes",
+      "params": [],
+      "return": "long",
+      "operation": "Select"
+    },
+    "cdkGeneratedToday": {
+      "sql": "SELECT COUNT(*) FROM invitation_v2_cdk_codes\n            WHERE created_at >= #{startEpoch} AND created_at < #{endEpoch}",
+      "params": [
+        "startEpoch",
+        "endEpoch"
+      ],
+      "return": "long",
+      "operation": "Select"
+    },
+    "cdkRedeemedTotal": {
+      "sql": "SELECT COUNT(*) FROM invitation_v2_cdk_codes\n            WHERE redeemed_at IS NOT NULL",
+      "params": [],
+      "return": "long",
+      "operation": "Select"
+    },
+    "cdkRedeemedToday": {
+      "sql": "SELECT COUNT(*) FROM invitation_v2_cdk_codes\n            WHERE redeemed_at >= #{startEpoch} AND redeemed_at < #{endEpoch}",
+      "params": [
+        "startEpoch",
+        "endEpoch"
+      ],
+      "return": "long",
+      "operation": "Select"
+    },
+    "smsCostByCurrency": {
+      "sql": "SELECT 'USD' AS currency,\n                   CAST(ROUND(COALESCE(SUM(activation_cost), 0) * 100) AS SIGNED) AS totalMinor,\n                   CAST(ROUND(COALESCE(SUM(CASE WHEN completed_at >= #{start} AND completed_at < #{end} THEN activation_cost END), 0) * 100) AS SIGNED) AS todayMinor,\n                   COALESCE(SUM(CASE WHEN activation_cost IS NULL THEN 1 ELSE 0 END), 0) AS unpricedCount\n            FROM sms_sessions\n            WHERE status = 'SUCCESS'",
+      "params": [
+        "start",
+        "end"
+      ],
+      "return": "List<Map<String, Object>>",
+      "operation": "Select"
+    },
+    "codexPhoneCostByCurrency": {
+      "sql": "SELECT COALESCE(currency, 'USD') AS currency,\n                   CAST(ROUND(COALESCE(SUM(activation_cost), 0) * 100) AS SIGNED) AS totalMinor,\n                   CAST(ROUND(COALESCE(SUM(CASE WHEN created_at >= #{startEpoch} AND created_at < #{endEpoch} THEN activation_cost END), 0) * 100) AS SIGNED) AS todayMinor,\n                   COALESCE(SUM(CASE WHEN activation_cost IS NULL THEN 1 ELSE 0 END), 0) AS unpricedCount\n            FROM invitation_v2_sms_orders\n            WHERE status IN ('finish_pending','finish_processing','completed','finish_review')\n            GROUP BY COALESCE(currency, 'USD')\n            ORDER BY currency",
+      "params": [
+        "startEpoch",
+        "endEpoch"
+      ],
+      "return": "List<Map<String, Object>>",
+      "operation": "Select"
+    },
+    "smsUncertainSessions": {
+      "sql": "SELECT COUNT(*) FROM sms_sessions\n            WHERE status IN ('ACQUIRE_UNKNOWN', 'CANCEL_PENDING')",
+      "params": [],
+      "return": "long",
+      "operation": "Select"
+    },
+    "codexSettlementReview": {
+      "sql": "SELECT COUNT(*) FROM invitation_v2_sms_orders\n            WHERE status = 'finish_review'",
+      "params": [],
+      "return": "long",
+      "operation": "Select"
+    }
+  },
+  "AdminIpBanMapper": {
+    "find": {
+      "sql": "SELECT ip_hash AS ipHash, ip_address AS ipAddress, failure_count AS failureCount, first_failure_at AS firstFailureAt, last_failure_at AS lastFailureAt, last_identifier AS lastIdentifier, banned_until AS bannedUntil, ban_reason AS banReason FROM admin_ip_bans WHERE ip_hash = #{hash}",
+      "params": [
+        "hash"
+      ],
+      "return": "Map<String, Object>",
+      "operation": "Select"
+    },
+    "bumpFailure": {
+      "sql": "INSERT INTO admin_ip_bans(ip_hash, ip_address, failure_count, first_failure_at, last_failure_at, last_identifier, updated_at)\n            VALUES (#{hash}, #{ip}, 1, NOW(3), NOW(3), #{identifier}, NOW(3))\n            ON DUPLICATE KEY UPDATE\n              failure_count = IF(last_failure_at <= DATE_SUB(NOW(3), INTERVAL #{windowSeconds} SECOND), 1, failure_count + 1),\n              first_failure_at = IF(last_failure_at <= DATE_SUB(NOW(3), INTERVAL #{windowSeconds} SECOND), NOW(3), first_failure_at),\n              last_failure_at = NOW(3),\n              ip_address = #{ip},\n              last_identifier = #{identifier},\n              banned_until = IF(banned_until <= NOW(3), NULL, banned_until),\n              updated_at = NOW(3)",
+      "params": [
+        "hash",
+        "ip",
+        "identifier",
+        "windowSeconds"
+      ],
+      "return": "int",
+      "operation": "Insert"
+    },
+    "ban": {
+      "sql": "UPDATE admin_ip_bans\n            SET banned_until = DATE_ADD(NOW(3), INTERVAL #{hours} HOUR), ban_reason = #{reason}, updated_at = NOW(3)\n            WHERE ip_hash = #{hash}",
+      "params": [
+        "hash",
+        "hours",
+        "reason"
+      ],
+      "return": "int",
+      "operation": "Update"
+    },
+    "clear": {
+      "sql": "DELETE FROM admin_ip_bans WHERE ip_hash = #{hash}",
+      "params": [
+        "hash"
+      ],
+      "return": "int",
+      "operation": "Delete"
+    },
+    "list": {
+      "sql": "SELECT ip_hash AS ipHash, ip_address AS ipAddress, failure_count AS failureCount, last_failure_at AS lastFailureAt, last_identifier AS lastIdentifier, banned_until AS bannedUntil, ban_reason AS banReason FROM admin_ip_bans ORDER BY last_failure_at DESC LIMIT #{limit}",
+      "params": [
+        "limit"
+      ],
+      "return": "List<Map<String, Object>>",
+      "operation": "Select"
+    },
+    "deleteExpired": {
+      "sql": "DELETE FROM admin_ip_bans\n            WHERE last_failure_at < DATE_SUB(NOW(3), INTERVAL 1 DAY)\n              AND (banned_until IS NULL OR banned_until <= NOW(3))",
+      "params": [],
+      "return": "int",
+      "operation": "Delete"
+    }
+  }
+}

@@ -1,0 +1,8 @@
+# Optional operator-approved PEM CA bundle; never mount the CA signing key.
+services:
+  api:
+    environment:
+      SMSINVIT_INVITATION_CA_BUNDLE: /run/secrets/outbound-ca.pem
+      SMSINVIT_CA_BUNDLE: /run/secrets/outbound-ca.pem
+    volumes:
+      - ./private/outbound-ca.pem:/run/secrets/outbound-ca.pem:ro

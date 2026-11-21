@@ -1,0 +1,15 @@
+# Public metadata only. Never place database passwords or account tokens here.
+SMSINVIT_IMAGE=smsinvit-python:v1.0.0-python-amd64-local
+MYSQL_IMAGE=smsinvit-mysql:v1.0.0-python-amd64-local
+CADDY_IMAGE=smsinvit-caddy:v1.0.0-python-amd64-local
+SMSINVIT_DOMAIN=redeem.example.com
+ACME_EMAIL=operator@example.com
+# Restart/recreate the API after changing this entry; no image rebuild needed.
+# The previous entry returns 404. This path does not replace authentication.
+SMSINVIT_ADMIN_PATH=/admin/
+MYSQL_MAINTENANCE_PORT=3306
+
+# Exact public host:port entries only; no URLs, wildcards, credentials, or test bypasses.
+SMSINVIT_INVITATION_ALLOWED_HOSTS=
+SMSINVIT_INVITATION_PROXY_HOSTS=
+SMSINVIT_SUPPLIER_ALLOWED_HOSTS=

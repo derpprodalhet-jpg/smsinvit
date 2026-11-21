@@ -1,0 +1,110 @@
+name: smsinvit-desktop
+services:
+  mysql:
+    image: smsinvit-mysql:v1.0.0-python-arm64-local
+    restart: unless-stopped
+    user: "999:999"
+    read_only: true
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: [ALL]
+    environment:
+      MYSQL_DATABASE: smsinvit
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql-root-password
+    command:
+      - --require-secure-transport=ON
+      - --ssl-ca=/run/mysql-tls/ca.pem
+      - --ssl-cert=/run/mysql-tls/server.pem
+      - --ssl-key=/run/mysql-tls/server-key.pem
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ../../private/local-runtime/mysql-root-password:/run/secrets/mysql-root-password:ro
+      - ../../private/local-runtime/mysql-tls:/run/mysql-tls:ro
+      - ../../private/local-runtime/init:/docker-entrypoint-initdb.d:ro
+    tmpfs:
+      - /tmp:rw,nosuid,nodev,size=256m,mode=1777
+      - /var/run/mysqld:rw,nosuid,nodev,size=16m,mode=0755,uid=999,gid=999
+    healthcheck:
+      test: ["CMD", "mysqladmin", "--protocol=TCP", "--host=127.0.0.1", "--ssl-mode=VERIFY_IDENTITY", "--ssl-ca=/run/mysql-tls/ca.pem", "ping", "--silent"]
+      interval: 5s
+      timeout: 5s
+      start_period: 60s
+      retries: 20
+    networks: [backend]
+    logging: &logging
+      driver: json-file
+      options: {max-size: "10m", max-file: "3"}
+  maintenance:
+    profiles: [maintenance]
+    image: smsinvit-python:local-admin-native-arm64
+    user: "10001:10001"
+    entrypoint: [python]
+    command: [scripts/migrate.py, --credentials-file, /run/secrets/migration.json]
+    read_only: true
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: [ALL]
+    volumes:
+      - ../../private/local-runtime/migration.json:/run/secrets/migration.json:ro
+      - ../../private/local-runtime/mysql-tls/ca.pem:/run/secrets/mysql-ca.pem:ro
+      - ../../private/local-source:/migration-source:ro
+      - ../../private/local-runtime:/local-runtime
+      - ../../scripts:/app/scripts:ro
+      - ../../migrations:/app/migrations:ro
+      - ../../apps/api/smsinvit:/app/apps/api/smsinvit:ro
+    tmpfs: [/tmp]
+    networks: [backend]
+  api:
+    image: smsinvit-python:local-admin-native-arm64
+    dns: ["1.1.1.1"]
+    restart: unless-stopped
+    init: true
+    user: "10001:10001"
+    read_only: true
+    pids_limit: 512
+    mem_limit: 1g
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: [ALL]
+    env_file:
+      - ../../private/local-runtime/invitation-outbound.env
+    environment:
+      SMSINVIT_CONFIG_FILE: /run/secrets/runtime.yaml
+      SMSINVIT_BIND_HOST: 0.0.0.0
+      PORT: "3005"
+    ports: ["127.0.0.1:3010:3005"]
+    volumes:
+      - ../../private/local-runtime/runtime.yaml:/run/secrets/runtime.yaml:ro
+      - ../../private/local-runtime/mysql-tls/ca.pem:/run/secrets/mysql-ca.pem:ro
+      - ../../apps/api/smsinvit:/app/apps/api/smsinvit:ro
+      - ../../vendor/codex_invit:/app/vendor/codex_invit:ro
+      - ../../scripts:/app/scripts:ro
+      # 前端与后端一样走挂载：镜像里烤的是构建当时的 apps/admin/dist 与 apps/web/dist，
+      # 本机改完前端必须 pnpm build 后重启 api 才会生效（否则页面一直是旧包）。
+      # 用户前台按文件逐个挂，而不是把整个目录盖到 /app/static —— 那样会连
+      # /app/static/admin 这个挂载点一起遮掉。
+      #
+      # 注意 `up -d api` 在容器"看起来健康"时**不会真正重建**，而且下面这种单文件挂载
+      # 在 Docker Desktop 上绑的是构建时的 inode：pnpm build 会写新文件（新 inode），
+      # 容器继续读旧文件。实测表现为「后端新代码生效了（目录挂载），但前端还是旧包」。
+      # 前端重新构建后请用：
+      #   docker compose -f deploy/local/compose.yml up -d --force-recreate api
+      - ../../apps/web/dist/index.html:/app/static/index.html:ro
+      - ../../apps/web/dist/assets:/app/static/assets:ro
+      - ../../apps/web/dist/brand-mark.svg:/app/static/brand-mark.svg:ro
+      - ../../apps/web/dist/favicon.svg:/app/static/favicon.svg:ro
+      - ../../apps/admin/dist:/app/static/admin:ro
+      - invitation_runtime:/app/runtime
+    tmpfs:
+      - /tmp:rw,nosuid,nodev,size=256m,mode=1777
+      - /app/runtime/invitation/codex-homes:rw,nosuid,nodev,size=96m,mode=0700,uid=10001,gid=10001
+    depends_on:
+      mysql: {condition: service_healthy}
+    stop_grace_period: 120s
+    networks: [backend, outbound]
+    logging: *logging
+networks:
+  backend: {internal: true}
+  outbound: {}
+volumes:
+  mysql_data:
+  invitation_runtime:

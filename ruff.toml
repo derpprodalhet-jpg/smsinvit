@@ -1,0 +1,36 @@
+# Python 静态检查：只开低噪音、高价值的最小规则集。
+#
+# 背景：`Settings.save()` 曾在运行时分支里读取一个只存在于 `Settings.list()` 的局部变量
+# `secret`，于是任何运行时配置保存都会 NameError。前端 lint、类型检查和 1700+ 条后端用例
+# 都没能发现它——因为那条分支只在保存时才走到。F821 一次就能定位。
+#
+# 规则取舍（基线在 2026-10-11 用 ruff 0.17.0 实测，apps/api/smsinvit）：
+#   F821 undefined-name        3 处，全部就是上面那个缺陷 → 修复后归零，保持开启。
+#   F841 unused-variable       8 处，可自动修复 → 开启，防止"改了变量忘了用"。
+#   F811 redefined-while-unused 64 处，多为静态分析无法识别的动态用法（例如
+#                              common/inventory.py 的 BATCH_ZONE 在模块内按区重定义），
+#                              开启只会制造噪音并让人绕过检查 → 显式关闭。
+#   F401 unused-import         93 处，同上 → 显式关闭。
+#
+# 不使用 ruff 的格式化功能：本仓库的 Python 代码是紧凑风格，格式化会产生与本次修复
+# 无关的大面积 diff。
+target-version = "py312"
+line-length = 200
+
+[lint]
+select = ["F821", "F841"]
+ignore = ["F811", "F401"]
+
+[lint.per-file-ignores]
+# 测试替身与脚本里允许为"记录调用"而存在的临时变量。
+"apps/api/tests/*" = ["F841"]
+# 运维脚本里 4 处 F841 是良性的，暂不改动以免混淆发布流程的 diff：
+#   scripts/migrate.py:39           冗余的 depth 初值（split_sql 不做括号配对）
+#   scripts/sqlite_snapshot.py:61   except ... as exc 只用于重试计数，不用 exc 本身
+#   scripts/build_support_images.py:76  run() 失败会抛错，返回值本就不需要
+#   scripts/tests/support_mysql_probe.py:76  backup() 的返回值不需要
+# 应用代码（apps/api/smsinvit）不享受任何豁免，F821/F841 一律必须干净。
+"scripts/migrate.py" = ["F841"]
+"scripts/sqlite_snapshot.py" = ["F841"]
+"scripts/build_support_images.py" = ["F841"]
+"scripts/tests/support_mysql_probe.py" = ["F841"]

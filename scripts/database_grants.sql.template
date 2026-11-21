@@ -1,0 +1,14 @@
+-- Review and replace database name, private passwords, and exact application host.
+-- Run once using the database administrator. Never give the runtime account DDL.
+CREATE USER 'smsinvit_runtime'@'APPLICATION_PRIVATE_IP' IDENTIFIED BY 'REPLACE_RUNTIME_PASSWORD' REQUIRE SSL;
+GRANT SELECT, INSERT, UPDATE, DELETE ON `smsinvit`.* TO 'smsinvit_runtime'@'APPLICATION_PRIVATE_IP';
+
+CREATE USER 'smsinvit_migration'@'MIGRATION_PRIVATE_IP' IDENTIFIED BY 'REPLACE_MIGRATION_PASSWORD' REQUIRE SSL;
+GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, ALTER, DROP, INDEX, REFERENCES,
+      CREATE VIEW, SHOW VIEW, TRIGGER, EVENT ON `smsinvit`.* TO 'smsinvit_migration'@'MIGRATION_PRIVATE_IP';
+
+CREATE USER 'smsinvit_backup'@'BACKUP_PRIVATE_IP' IDENTIFIED BY 'REPLACE_BACKUP_PASSWORD' REQUIRE SSL;
+GRANT SELECT, SHOW VIEW, TRIGGER, EVENT ON `smsinvit`.* TO 'smsinvit_backup'@'BACKUP_PRIVATE_IP';
+-- The shipped schema has no routines. Grant SHOW_ROUTINE globally only if
+-- administrators have added routines that must be included by mysqldump.
+-- GRANT SHOW_ROUTINE ON *.* TO 'smsinvit_backup'@'BACKUP_PRIVATE_IP';

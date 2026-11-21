@@ -1,0 +1,38 @@
+{
+  "format": "smsinvit-signed-alpine-package-lock-v1",
+  "packages": [
+    {
+      "apkArchitecture": "x86_64",
+      "architecture": "amd64",
+      "bytes": 1830965,
+      "filename": "libcrypto3-3.3.7-r2.apk",
+      "sha256": "3c6fb1c90a974ef0fc83687868712340ca3df3ef5206cfc79fd81ff16f22596a",
+      "source": "https://dl-4.alpinelinux.org/alpine/v3.21/main/x86_64/libcrypto3-3.3.7-r2.apk"
+    },
+    {
+      "apkArchitecture": "x86_64",
+      "architecture": "amd64",
+      "bytes": 358256,
+      "filename": "libssl3-3.3.7-r2.apk",
+      "sha256": "00e674d00a80c9808580546dd388093c1c67f21628a9d70e27628bddc86a31e8",
+      "source": "https://dl-4.alpinelinux.org/alpine/v3.21/main/x86_64/libssl3-3.3.7-r2.apk"
+    },
+    {
+      "apkArchitecture": "aarch64",
+      "architecture": "arm64",
+      "bytes": 2149751,
+      "filename": "libcrypto3-3.3.7-r2.apk",
+      "sha256": "2303cca13dc8bba5798744a68abd07530abb35ab339d9cc4640fc53276049af0",
+      "source": "https://dl-4.alpinelinux.org/alpine/v3.21/main/aarch64/libcrypto3-3.3.7-r2.apk"
+    },
+    {
+      "apkArchitecture": "aarch64",
+      "architecture": "arm64",
+      "bytes": 349337,
+      "filename": "libssl3-3.3.7-r2.apk",
+      "sha256": "d494a0a211dd78a8055c24885fc06375eabb79c82ae797f7f694cefbf3653b79",
+      "source": "https://dl-4.alpinelinux.org/alpine/v3.21/main/aarch64/libssl3-3.3.7-r2.apk"
+    }
+  ],
+  "version": "3.3.7-r2"
+}

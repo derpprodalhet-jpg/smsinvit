@@ -1,0 +1,54 @@
+:root {
+  --brand: #2563eb;
+  --page-bg: #f5f7fb;
+  --card-bg: #ffffff;
+  --text: #1f2329;
+  --muted: #8a9099;
+  --border: #e5e7eb;
+}
+html.dark {
+  --page-bg: #14161a;
+  --card-bg: #1d2026;
+  --text: #e6e8eb;
+  --muted: #9aa0a6;
+  --border: #2c313a;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--page-bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif;
+}
+.wrap { max-width: 860px; margin: 0 auto; padding: 24px 16px 64px; }
+.brand {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 20px; font-weight: 700; margin-bottom: 4px;
+}
+.brand .dot {
+  width: 30px; height: 30px; border-radius: 8px; background: var(--brand);
+  color: #fff; display: flex; align-items: center; justify-content: center; font-size: 16px;
+}
+.sub { color: var(--muted); font-size: 13px; margin-bottom: 20px; }
+.card {
+  background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px;
+  padding: 20px; margin-bottom: 16px;
+}
+.card h2 { margin: 0 0 4px; font-size: 16px; }
+.card .tip { color: var(--muted); font-size: 13px; margin-bottom: 14px; }
+.pool {
+  display: flex; align-items: baseline; gap: 10px; margin-bottom: 14px;
+}
+.pool .num { font-size: 34px; font-weight: 700; color: var(--brand); line-height: 1; }
+.pool .lbl { color: var(--muted); font-size: 13px; }
+.mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+.mailrow {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  padding: 14px; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 12px;
+  background: var(--card-bg);
+}
+.mailrow .mail { font-size: 15px; font-weight: 600; }
+.mailrow .grow { flex: 1 1 auto; }
+.stage { color: var(--muted); font-size: 13px; margin-top: 6px; }
+.busy { color: #e6a23c; font-size: 13px; }
+.foot { color: var(--muted); font-size: 12px; text-align: center; margin-top: 24px; }

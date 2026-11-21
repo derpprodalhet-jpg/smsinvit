@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools==84.0.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "smsinvit-redeem-api"
+version = "1.0.0"
+description = "SmsInvit two-business Python backend (SMS redeem + Codex invite)"
+requires-python = ">=3.12"
+dependencies = [
+  "fastapi==0.142.2", "uvicorn[standard]==0.54.0", "SQLAlchemy==2.1.3",
+  "PyMySQL==1.2.3", "cryptography==50.0.2", "argon2-cffi==25.1.0",
+  "PyJWT==2.15.1", "httpx==0.28.1", "Pillow==12.3.0", "PyYAML==6.0.3",
+  "croniter==6.2.4", "bleach==6.4.0",
+  "greenlet==3.5.6",
+  "requests[socks]==2.34.2", "curl_cffi==0.16.3", "python-multipart==0.0.32", "pyotp==2.10.0",
+]
+
+[project.optional-dependencies]
+test = ["pytest==9.1.1", "pytest-asyncio==1.4.0", "pip-audit==2.10.1"]
+# 静态检查：F821 能在提交前发现「读取了未定义的局部变量」这类缺陷（规则取舍见仓库根 ruff.toml）。
+lint = ["ruff==0.17.0"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["smsinvit*"]
+
+[tool.setuptools.package-data]
+"smsinvit.common" = ["mapper_sql.json", "runtime_catalog.json"]
+"smsinvit.sms" = ["queries.json", "defaults.json", "dto_fields.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
