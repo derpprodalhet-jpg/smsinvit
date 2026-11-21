@@ -158,5 +158,7 @@ ruff check apps/api/smsinvit apps/api/tests scripts         # 只开 F821/F841
 
 ## 许可与第三方
 
-第三方组件与来源说明见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。本仓库尚未附带开源
-许可证文件——在公开发布前请自行选择并添加 `LICENSE`（例如 MIT / Apache-2.0），或声明为私有源码。
+本项目以 [MIT 许可证](LICENSE) 发布，可自由使用、修改、分发与商用，保留版权与许可声明即可。
+
+第三方组件与来源说明见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)；vendored 的
+`vendor/codex_invit` 与 `patches/` 下的补丁按各自原始许可使用。
