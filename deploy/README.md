@@ -38,7 +38,7 @@ docker compose --env-file environment -f compose.yml run --rm maintenance
 docker compose --env-file environment -f compose.yml up -d api
 ```
 
-在 `deploy/smsinvit/` 执行上述操作。应用启动不会创建或修改表结构。迁移工具只在显式运行时安装新库 V1–V26（已随业务下线的 V4/V5/V15/V16/V18/V21/V23/V24 不再发布，版本号保留空档），或验证 Flyway 已有连续历史、脚本校验与表结构后追加缺失版本。校验冲突、失败历史和未经确认的无历史旧库会拒绝执行，禁止强行覆盖。无历史但完整且匹配的库只有显式 `--adopt-existing-schema` 才可登记。V8 的邀请执行占用记录在数据库重启后仍保留；崩溃占用不会被自动抢占，避免旧进程还在运行时重复执行。V10 持久保存领取请求及卡密集合的 HMAC 关联，响应丢失后凭独立恢复密钥查询原结果；结果不明的请求保留待复核，不自动重新分配邮箱。
+在 `deploy/smsinvit/` 执行上述操作。应用启动不会创建或修改表结构。迁移工具只在显式运行时安装新库，或验证已有历史、脚本校验与表结构后追加缺失版本。校验冲突、失败历史和未经确认的无历史旧库会拒绝执行，禁止强行覆盖。无历史但完整且匹配的库只有显式 `--adopt-existing-schema` 才可登记。V8 的邀请执行占用记录在数据库重启后仍保留；崩溃占用不会被自动抢占，避免旧进程还在运行时重复执行。V10 持久保存领取请求及卡密集合的 HMAC 关联，响应丢失后凭独立恢复密钥查询原结果；结果不明的请求保留待复核，不自动重新分配邮箱。
 
 上述阶段只启动数据库、维护和没有宿主机端口的私网 API。`worker-enabled=false` 只关闭后台 worker；接码同步兑换接口仍可能付款，因此在所有数据恢复、冲突选择、域名、两项业务配置与进程隔离检查完成前，不启动公开 proxy，不切换生产 DNS。检查完成后显式执行 `docker compose --env-file environment -f compose.yml up -d proxy`，最后才切换 DNS 和恢复用户流量；需要后台任务时另将私有配置的 `smsinvit.worker-enabled` 改为 `true` 并重建 API。
 
@@ -46,16 +46,16 @@ Codex 邀请拆成「账号工厂（预先注册到 2FA、停住）」和「CDK 
 
 邀请执行要求 Linux Landlock ABI 至少 6、seccomp 和项目的网络隔离助手；版本与执行边界自检失败会拒绝启动邀请 worker。不增加容器特权、关闭默认安全策略或绕过助手。镜像构建检查与内核隔离检查分别记录，仿真架构的构建成功不证明其内核隔离已通过。
 
-后台接码、直充、X、邀请分别保留自己的配置，开放相应业务前核对各自供应商和代理。
+后台接码与邀请分别保留自己的配置，开放相应业务前核对各自的供应商与代理。
 
-部署出站授权须在 `environment` 配置准确的 `host:port`，例如 `SMSINVIT_INVITATION_ALLOWED_HOSTS=mail.example.com:443`（自定义邀请邮箱/API域）、`SMSINVIT_INVITATION_PROXY_HOSTS=proxy.example.com:8443`（运营方明确批准的代理）、`SMSINVIT_SUPPLIER_ALLOWED_HOSTS=supplier.example.com:443`（接码或直充自定义供应商）。列表以逗号分隔，无协议、路径、通配符或密钥。邀请两个授权变量由 `os.environ` 读取，写进 runtime YAML 不会替代这些环境变量；本模板已显式传给 API。自定义业务目标仍须 HTTPS、公开 IP、完整证书与主机名校验；私网代理仅显式授权精确代理端点。
+部署出站授权须在 `environment` 配置准确的 `host:port`，例如 `SMSINVIT_INVITATION_ALLOWED_HOSTS=mail.example.com:443`（自定义邀请邮箱/API域）、`SMSINVIT_INVITATION_PROXY_HOSTS=proxy.example.com:8443`（运营方明确批准的代理）、`SMSINVIT_SUPPLIER_ALLOWED_HOSTS=supplier.example.com:443`（接码自定义供应商）。列表以逗号分隔，无协议、路径、通配符或密钥。邀请两个授权变量由 `os.environ` 读取，写进 runtime YAML 不会替代这些环境变量；本模板已显式传给 API。自定义业务目标仍须 HTTPS、公开 IP、完整证书与主机名校验；私网代理仅显式授权精确代理端点。
 
-四服务后台地址字段分别为：接码 `baseUrl`；直充 `origin`、`openApiBase`、`publicCdkBase`（后二项为空时从 origin 派生）；X 的 `x.com`、`api.stripe.com` 与 sandbox/production ZovoCard 地址沿用协议固定值，代理在 X 自己的 `proxy` 配置；邀请邮箱/目标 URL 在迁入邀请配置中，出站域名必须与上面邀请授权对应。每个服务的密钥和业务设置仍单独保存在数据库，不把密钥写进上述公开环境文件。
+后台地址字段分别是：接码的上游 `baseUrl`；邀请的邮箱/目标 URL 在邀请配置中，出站域名必须与上面的邀请授权对应。每个服务的密钥和业务设置仍单独保存在数据库，不把密钥写进上述公开环境文件。
 
 若确有运营方批准的私有 CA，将**仅证书的 PEM** 信任 bundle 保存为 `private/outbound-ca.pem`，UID10001 可读，最多 1MiB；不含私钥，且需包含全部实际目标所需的受信根。显式加 `-f compose.ca.yml` 到 API 的 compose 命令，才挂载只读叶文件并设置 `SMSINVIT_INVITATION_CA_BUNDLE` / `SMSINVIT_CA_BUNDLE`。默认不加载该覆盖文件，使用系统信任库。没有关闭 TLS 或主机名验证的部署选项。变更环境或信任 bundle 后重建 API，在公开 proxy 开放前完成验证。
-X 处于结果不明的支付只查询原单，不自动创建新单；邀请成功沿用实际非空 `agent_message` 判据，不表示奖励已到账。
+结果不明的支付只查询原单，不自动创建新单；邀请成功沿用实际非空 `agent_message` 判据，不表示奖励已到账。
 
-源数据库的后台运行时配置优先于私有 YAML。换域名时，在 API 停止状态下显式执行 `scripts/configure_site.py --web-origin https://redeem.example.com`，先预览，再加 `--apply`；传入维护账号私有凭据和 CA。该工具只更新公网 API 基址和 CORS 两项公开元数据并写审计，不更新四个业务配置。API 基址填域名，不添加 `/api`；业务自行追加回调路径。完成后启动或重启 API。
+源数据库的后台运行时配置优先于私有 YAML。换域名时，在 API 停止状态下显式执行 `scripts/configure_site.py --web-origin https://redeem.example.com`，先预览，再加 `--apply`；传入维护账号私有凭据和 CA。该工具只更新公网 API 基址和 CORS 两项公开元数据并写审计，不更新业务配置。API 基址填域名，不添加 `/api`；业务自行追加回调路径。完成后启动或重启 API。
 
 API 无宿主机端口，MySQL 的维护端口只绑定服务器回环地址，业务流量走私有内网，只有 HTTPS 代理公开。MySQL 还单独加入维护 bridge，API/代理不会加入该网络；其唯一宿主机发布仍为 `127.0.0.1`。初始化临时 mysqld 只开启 socket，健康检查使用 TCP+VERIFY_IDENTITY，待账号初始化及最终 TCP 服务可用才就绪。可信代理只绑定代理容器地址；生产 Cookie 使用 Secure，CORS 使用本站具体域名，数据库证书和主机名均校验。运行账号只有增删改查，迁移和备份使用不同账号。
 

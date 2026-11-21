@@ -91,7 +91,7 @@ headless Chrome（本机 `C:\Program Files\Google\Chrome\Application\chrome.exe`
 | --- | --- |
 | `/`、`/supprot_sim`、`/supprot_codex`、`/invitation` | 200（SPA，静态资源 `/assets/index-*.js` 200，215 KB） |
 | `/admin/` | 200，响应内注入 `<base href="/admin/" data-admin-base>` |
-| `/supprot_direct`、`/api/v1/gpt-direct/page-content`、`/api/v1/x-api/preflight` | 404（已下线） |
+| 未定义的路径（例如 `/api/v1/nope`） | 404 |
 | `/api/v1/health` | 200 |
 | 接码兑换链路 | `POST /api/v1/sms/redeem {PREVIEW-SMS-004}` → 号码 `+12025550123` → `fetch-code` → 轮询 12 秒拿到模拟验证码 `123456`；同一 CDK 重提返回同一会话（`SUCCESS`） |
 | 管理端登录 | `GET /api/v1/admin/auth/captcha`（算术题）→ `POST /api/v1/admin/auth/login {identifier,captchaToken,captchaAnswer}` → 200 发 access token；账号 `admin / 123456`，`roles=['SUPER_ADMIN']`，`needTotp=False` |
